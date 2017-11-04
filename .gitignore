@@ -20,8 +20,11 @@
 *.sdf
 *.pyc
 *.xml
+*.ide-wal
+*.ide-shm
 ipch/
 obj/
 [Bb]in
 [Dd]ebug*/
 [Rr]elease*/
+
