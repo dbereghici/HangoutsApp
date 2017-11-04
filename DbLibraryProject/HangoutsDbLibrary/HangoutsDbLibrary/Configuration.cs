@@ -10,7 +10,6 @@ namespace HangoutsDbLibrary
         {
             get
             {
-
                 return "Data Source=.;Initial Catalog=Hangouts;Integrated Security=True;";
             }
         }
