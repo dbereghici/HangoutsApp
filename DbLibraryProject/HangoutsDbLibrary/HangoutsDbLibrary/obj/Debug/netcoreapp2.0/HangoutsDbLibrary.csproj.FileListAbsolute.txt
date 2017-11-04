@@ -1,9 +1,0 @@
-D:\accesa start\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.csproj.CoreCompileInputs.cache
-D:\accesa start\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.AssemblyInfoInputs.cache
-D:\accesa start\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.AssemblyInfo.cs
-D:\accesa start\HangoutsDbLibrary\HangoutsDbLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.deps.json
-D:\accesa start\HangoutsDbLibrary\HangoutsDbLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
-D:\accesa start\HangoutsDbLibrary\HangoutsDbLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb
-D:\accesa start\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
-D:\accesa start\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb
-D:\accesa start\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.csprojResolveAssemblyReference.cache
