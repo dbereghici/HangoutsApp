@@ -1,0 +1,18 @@
+C:\Users\dbere\source\repos\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.csprojResolveAssemblyReference.cache
+C:\Users\dbere\source\repos\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.csproj.CoreCompileInputs.cache
+C:\Users\dbere\source\repos\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.AssemblyInfoInputs.cache
+C:\Users\dbere\source\repos\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.AssemblyInfo.cs
+C:\Users\dbere\source\repos\HangoutsDbLibrary\HangoutsDbLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.deps.json
+C:\Users\dbere\source\repos\HangoutsDbLibrary\HangoutsDbLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
+C:\Users\dbere\source\repos\HangoutsDbLibrary\HangoutsDbLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb
+C:\Users\dbere\source\repos\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
+C:\Users\dbere\source\repos\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb
+C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.deps.json
+C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
+C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb
+C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.csprojResolveAssemblyReference.cache
+C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.csproj.CoreCompileInputs.cache
+C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.AssemblyInfoInputs.cache
+C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.AssemblyInfo.cs
+C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
+C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb

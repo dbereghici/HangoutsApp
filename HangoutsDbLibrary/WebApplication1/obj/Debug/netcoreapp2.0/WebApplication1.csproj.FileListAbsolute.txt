@@ -1,0 +1,11 @@
+C:\DIMA PC\Accesa\HangoutsDbLibrary\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.deps.json
+C:\DIMA PC\Accesa\HangoutsDbLibrary\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.runtimeconfig.json
+C:\DIMA PC\Accesa\HangoutsDbLibrary\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.runtimeconfig.dev.json
+C:\DIMA PC\Accesa\HangoutsDbLibrary\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.dll
+C:\DIMA PC\Accesa\HangoutsDbLibrary\WebApplication1\bin\Debug\netcoreapp2.0\WebApplication1.pdb
+C:\DIMA PC\Accesa\HangoutsDbLibrary\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.csprojResolveAssemblyReference.cache
+C:\DIMA PC\Accesa\HangoutsDbLibrary\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.csproj.CoreCompileInputs.cache
+C:\DIMA PC\Accesa\HangoutsDbLibrary\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.AssemblyInfoInputs.cache
+C:\DIMA PC\Accesa\HangoutsDbLibrary\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.AssemblyInfo.cs
+C:\DIMA PC\Accesa\HangoutsDbLibrary\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.dll
+C:\DIMA PC\Accesa\HangoutsDbLibrary\WebApplication1\obj\Debug\netcoreapp2.0\WebApplication1.pdb

@@ -1,0 +1,24 @@
+C:\Users\dbere\source\repos\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.deps.json
+C:\Users\dbere\source\repos\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.runtimeconfig.json
+C:\Users\dbere\source\repos\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.runtimeconfig.dev.json
+C:\Users\dbere\source\repos\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.dll
+C:\Users\dbere\source\repos\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.pdb
+C:\Users\dbere\source\repos\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.csprojResolveAssemblyReference.cache
+C:\Users\dbere\source\repos\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.csproj.CoreCompileInputs.cache
+C:\Users\dbere\source\repos\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.AssemblyInfoInputs.cache
+C:\Users\dbere\source\repos\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.AssemblyInfo.cs
+C:\Users\dbere\source\repos\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.dll
+C:\Users\dbere\source\repos\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.pdb
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.deps.json
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.runtimeconfig.json
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.runtimeconfig.dev.json
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.dll
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.pdb
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.csprojResolveAssemblyReference.cache
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.csproj.CoreCompileInputs.cache
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.AssemblyInfoInputs.cache
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.AssemblyInfo.cs
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.dll
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.pdb
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
+C:\DIMA PC\Accesa\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb
