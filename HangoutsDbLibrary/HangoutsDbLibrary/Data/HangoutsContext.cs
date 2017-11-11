@@ -13,7 +13,6 @@ namespace HangoutsDbLibrary.Data
         }
         public HangoutsContext()
         {
-
         }
 
         public DbSet<User> Users { get; set; }
@@ -35,7 +34,24 @@ namespace HangoutsDbLibrary.Data
             modelBuilder.Entity<Chat>().ToTable("Chat");
             modelBuilder.Entity<Message>().ToTable("Message");
 
-         
+            //Required properties for User
+            modelBuilder.Entity<User>()
+                .Property(u => u.Username)
+                .IsRequired()
+                .HasMaxLength(15);
+            modelBuilder.Entity<User>()
+                .Property(u => u.Password)
+                .IsRequired()
+                .HasMaxLength(15);
+            modelBuilder.Entity<User>()
+                .Property(u => u.Email)
+                .IsRequired()
+                .HasMaxLength(25);
+
+            //Ignored User -> Friends property
+            modelBuilder.Entity<User>()
+                .Ignore(u => u.Friends);
+            
             //One to one Group -> User (group admin)
             modelBuilder.Entity<User>()
                 .HasOne(u => u.GroupAdministrated)
@@ -66,7 +82,7 @@ namespace HangoutsDbLibrary.Data
                 .HasOne(f => f.User1)
                 .WithMany(u => u.Friends2)
                 .HasForeignKey(f => f.UserID1)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Friendship>()
                 .HasOne(f => f.User2)

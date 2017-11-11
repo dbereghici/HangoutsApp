@@ -11,9 +11,10 @@ using System;
 namespace HangoutsDbLibrary.Migrations
 {
     [DbContext(typeof(HangoutsContext))]
-    partial class HangoutsContextModelSnapshot : ModelSnapshot
+    [Migration("20171111153926_IgnoredUserFriendsProperty")]
+    partial class IgnoredUserFriendsProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,7 +187,7 @@ namespace HangoutsDbLibrary.Migrations
                     b.HasOne("HangoutsDbLibrary.Model.User", "User1")
                         .WithMany("Friends2")
                         .HasForeignKey("UserID1")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HangoutsDbLibrary.Model.User", "User2")
                         .WithMany("Friends1")

@@ -16,3 +16,12 @@ C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\Ha
 C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.AssemblyInfo.cs
 C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
 C:\DIMA PC\Accesa\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsDbLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.deps.json
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsDbLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsDbLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.csprojResolveAssemblyReference.cache
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.csproj.CoreCompileInputs.cache
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.AssemblyInfoInputs.cache
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.AssemblyInfo.cs
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsDbLibrary\obj\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb

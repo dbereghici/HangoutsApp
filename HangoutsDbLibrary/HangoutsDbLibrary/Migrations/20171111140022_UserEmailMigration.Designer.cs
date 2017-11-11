@@ -11,9 +11,10 @@ using System;
 namespace HangoutsDbLibrary.Migrations
 {
     [DbContext(typeof(HangoutsContext))]
-    partial class HangoutsContextModelSnapshot : ModelSnapshot
+    [Migration("20171111140022_UserEmailMigration")]
+    partial class UserEmailMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,11 +152,15 @@ namespace HangoutsDbLibrary.Migrations
                         .IsRequired()
                         .HasMaxLength(15);
 
+                    b.Property<int?>("UserID");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(15);
 
                     b.HasKey("ID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("User");
                 });
@@ -186,7 +191,7 @@ namespace HangoutsDbLibrary.Migrations
                     b.HasOne("HangoutsDbLibrary.Model.User", "User1")
                         .WithMany("Friends2")
                         .HasForeignKey("UserID1")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HangoutsDbLibrary.Model.User", "User2")
                         .WithMany("Friends1")
@@ -239,6 +244,13 @@ namespace HangoutsDbLibrary.Migrations
                         .WithMany("PlanUsers")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("HangoutsDbLibrary.Model.User", b =>
+                {
+                    b.HasOne("HangoutsDbLibrary.Model.User")
+                        .WithMany("Friends")
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("HangoutsDbLibrary.Model.UserGroup", b =>

@@ -11,9 +11,10 @@ using System;
 namespace HangoutsDbLibrary.Migrations
 {
     [DbContext(typeof(HangoutsContext))]
-    partial class HangoutsContextModelSnapshot : ModelSnapshot
+    [Migration("20171111094209_UserFriends")]
+    partial class UserFriends
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,25 +138,21 @@ namespace HangoutsDbLibrary.Migrations
 
                     b.Property<int>("Age");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(25);
-
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
 
                     b.Property<string>("Location");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(15);
+                    b.Property<string>("Password");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(15);
+                    b.Property<int?>("UserID");
+
+                    b.Property<string>("Username");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("User");
                 });
@@ -186,7 +183,7 @@ namespace HangoutsDbLibrary.Migrations
                     b.HasOne("HangoutsDbLibrary.Model.User", "User1")
                         .WithMany("Friends2")
                         .HasForeignKey("UserID1")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HangoutsDbLibrary.Model.User", "User2")
                         .WithMany("Friends1")
@@ -239,6 +236,13 @@ namespace HangoutsDbLibrary.Migrations
                         .WithMany("PlanUsers")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("HangoutsDbLibrary.Model.User", b =>
+                {
+                    b.HasOne("HangoutsDbLibrary.Model.User")
+                        .WithMany("Friends")
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("HangoutsDbLibrary.Model.UserGroup", b =>
