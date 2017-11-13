@@ -7,6 +7,7 @@ namespace HangoutsDbLibrary.Model
     public class Group
     {
         public int ID { get; set; }
+        public string Name { get; set; }
         public User Admin { get; set; }
         public int AdminID { get; set; }
         public List<UserGroup> UserGroups { get; set; }

@@ -38,15 +38,20 @@ namespace HangoutsDbLibrary.Data
             modelBuilder.Entity<User>()
                 .Property(u => u.Username)
                 .IsRequired()
-                .HasMaxLength(15);
+                .HasMaxLength(25);
             modelBuilder.Entity<User>()
                 .Property(u => u.Password)
                 .IsRequired()
-                .HasMaxLength(15);
+                .HasMaxLength(25);
             modelBuilder.Entity<User>()
                 .Property(u => u.Email)
                 .IsRequired()
                 .HasMaxLength(25);
+
+            //Required properties for Group
+            modelBuilder.Entity<Group>()
+                .Property(g => g.Name)
+                .IsRequired();
 
             //Ignored User -> Friends property
             modelBuilder.Entity<User>()

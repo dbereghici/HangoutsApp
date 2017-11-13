@@ -22,9 +22,9 @@ namespace HangoutsDbLibrary.Repository
             return dbset;
         }
 
-        public T GetByID(int id)
+        public T GetByID(params object[] keyValues)
         {
-            return dbset.Find(id);
+            return dbset.Find(keyValues);
         }
 
         public void Edit(T entity)

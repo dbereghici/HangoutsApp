@@ -8,7 +8,7 @@ namespace HangoutsDbLibrary.Repository
     public interface IGenericRepository<T> where T : class
     {
         IQueryable<T> GetAll();
-        T GetByID(int id);
+        T GetByID(params object[] keyValues);
         void Edit(T entity);
         void Insert(T entity);
         void Delete(T entity);

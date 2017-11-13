@@ -84,6 +84,7 @@ namespace ConsoleApp
                         Console.WriteLine("0 - Exit");
                         Console.WriteLine("1 - User Management");
                         Console.WriteLine("2 - Group Management");
+                        Console.WriteLine("3 - Friendship Management");
                         input = Console.ReadKey();
                         Console.WriteLine();
                         switch (input.Key)
@@ -92,9 +93,11 @@ namespace ConsoleApp
                                 UserManagement();                               
                                 break;
                             case ConsoleKey.D2:
-
+                                GroupManagement();
                                 break;
-
+                            case ConsoleKey.D3:
+                                FriendshipManagement();
+                                break;
                         }
 
                     }
@@ -220,7 +223,6 @@ namespace ConsoleApp
                                     Console.WriteLine("There is no User with such ID!");
                                 }
                                 break;
-                                break;
                             case ConsoleKey.D4:
                                 users = userRepository.GetAll().ToList();
                                 foreach(var u in users)
@@ -236,12 +238,10 @@ namespace ConsoleApp
                                     Console.WriteLine();
                                 }
                                 break;
-
                         }
                     } while (input.Key != ConsoleKey.D0);
                 }
             }
-
         }
 
         public static User AddNewUser()
@@ -306,6 +306,413 @@ namespace ConsoleApp
                 Age = age
             };
             return user;
+        }
+        
+        public static void GroupManagement()
+        {
+            using (var db = new HangoutsContext(new Microsoft.EntityFrameworkCore.DbContextOptions<HangoutsContext>()))
+            {
+                DbInitializer.Initialize(db);
+
+                using (var uow = new UnitOfWork())
+                {
+                    var groupRepository = uow.GetRepository<Group>();
+                    var userRepository = uow.GetRepository<User>();
+                    ConsoleKeyInfo input;
+                    List<Group> groups;
+                    do
+                    {
+                        Console.WriteLine("     Menu group management:");
+                        Console.WriteLine("     0 - Exit");
+                        Console.WriteLine("     1 - Add new group");
+                        Console.WriteLine("     2 - Delete an existent group");
+                        Console.WriteLine("     3 - Edit an existent group");
+                        Console.WriteLine("     4 - View all groups");
+
+                        input = Console.ReadKey();
+                        Console.WriteLine();
+
+                        switch (input.Key)
+                        {
+                            case ConsoleKey.D1:
+                                var users = userRepository.GetAll().ToList();
+                                if (users.Count() == 0)
+                                {
+                                    Console.WriteLine("         A group is created by an Admin. There aren't any users in the database " +
+                                        "to create the Group.");
+                                    break;
+                                }
+                                Console.WriteLine("         Please introduce group data");
+                                Console.Write("         (required) name = ");
+                                string name = Console.ReadLine();
+                                while (name.Length == 0)
+                                {
+                                    Console.WriteLine("         Group name is required!");
+                                    Console.Write("         (required) name = ");
+                                    name = Console.ReadLine();
+                                }
+                                Console.WriteLine();
+                                Console.WriteLine("         Please select the Admin for the group Created");
+                                foreach (var user in users)
+                                {
+                                    Console.WriteLine("         " + user.ID + " " + user.Username);
+                                }
+                                int id;
+                                string idString = Console.ReadLine();
+                                bool validId = false;
+
+                                while (!int.TryParse(idString, out id))
+                                {
+                                    Console.WriteLine("         Bad input for ID (choose a valid ID from above!");
+                                    Console.Write("         id = ");
+                                    idString = Console.ReadLine();
+                                }
+                                foreach (var user in users)
+                                {
+                                    if (user.ID == id)
+                                    {
+                                        validId = true;
+                                        break;
+                                    }
+                                }
+                                if (!validId)
+                                {
+                                    Console.WriteLine("         There is not such ID!");
+                                }
+                                else
+                                {
+                                    Group group = new Group();
+                                    group.Name = name;
+                                    group.AdminID = id;
+                                    groupRepository.Insert(group);
+                                    uow.SaveChanges();
+                                }
+                                break;
+                            case ConsoleKey.D2:
+                                groups = groupRepository.GetAll().ToList();
+                                foreach (var g in groups)
+                                {
+                                    Console.WriteLine("      ID: " + g.ID + "   name:" + g.Name);
+                                }
+                                Console.WriteLine("      Please choose an ID:");
+                                idString = Console.ReadLine();
+                                while (!int.TryParse(idString, out id))
+                                {
+                                    Console.WriteLine("      Incorrect input. Please try again : ");
+                                    idString = Console.ReadLine();
+                                }
+                                bool isIdValid = false;
+                                foreach (var g in groups)
+                                {
+                                    if (g.ID == id)
+                                    {
+                                        isIdValid = true;
+                                        break;
+                                    }
+                                }
+                                if (isIdValid)
+                                {
+                                    Group groupToBeDeleted = groupRepository.GetByID(id);
+                                    groupRepository.Delete(groupToBeDeleted);
+                                    uow.SaveChanges();
+                                    Console.WriteLine("The selected group was deleted successfully!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("There is no Group with such ID!");
+                                }
+                                break;
+                            case ConsoleKey.D3:
+                                groups = groupRepository.GetAll().ToList();
+                                foreach (var g in groups)
+                                {
+                                    Console.WriteLine("      ID: " + g.ID + "   name:" + g.Name + "    admin : " + g.AdminID);
+                                }
+                                Console.WriteLine("      Please choose an ID:");
+                                idString = Console.ReadLine();
+                                while (!int.TryParse(idString, out id))
+                                {
+                                    Console.WriteLine("      Incorrect input. Please try again : ");
+                                    idString = Console.ReadLine();
+                                }
+                                isIdValid = false;
+                                foreach (var g in groups)
+                                {
+                                    if (g.ID == id)
+                                    {
+                                        isIdValid = true;
+                                        break;
+                                    }
+                                }
+                                if (isIdValid)
+                                {
+                                    Group groupToBeEdited = groupRepository.GetByID(id);
+
+                                    Console.WriteLine("      Please introduce the new name of the group:");
+                                    var newName = Console.ReadLine();
+
+                                    Console.WriteLine("      Please introduce the new admin of the group (choose from below) :");
+                                    users = userRepository.GetAll().ToList();
+                                    foreach (var user in users)
+                                    {
+                                        Console.WriteLine("      " + user.ID + " " + user.Username);
+                                    }
+                                    idString = Console.ReadLine();
+                                    validId = false;
+
+                                    while (!int.TryParse(idString, out id))
+                                    {
+                                        Console.WriteLine("         Bad input for ID (choose a valid ID from above!");
+                                        Console.Write("         id = ");
+                                        idString = Console.ReadLine();
+                                    }
+                                    
+                                    foreach (var user in users)
+                                    {
+                                        if (user.ID == id)
+                                        {
+                                            validId = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!validId)
+                                    {
+                                        Console.WriteLine("         There is not such ID!");
+                                    }
+                                    else
+                                    {
+                                        var newAdmin = id;
+                                        groupToBeEdited.AdminID = id;
+                                        groupRepository.Edit(groupToBeEdited);
+                                        uow.SaveChanges();
+                                        Console.WriteLine("The selected group was edited successfully!");
+                                    }
+
+                                }
+                                else
+                                {
+                                    Console.WriteLine("There is no group with such ID!");
+                                }
+                                break;
+                            case ConsoleKey.D4:
+                                groups = groupRepository.GetAll().ToList();
+                                foreach (var g in groups)
+                                {
+                                    Console.WriteLine("      ID -> " + g.ID);
+                                    Console.WriteLine("         Name -> " + g.Name);
+                                    Console.WriteLine("         Admin ID -> " + g.AdminID + "\n         Admin username -> " + userRepository.GetByID(g.AdminID).Username);
+                                    
+                                }
+                                break;
+                        }
+                    } while (input.Key != ConsoleKey.D0);
+                }
+            }
+        }
+        public static void FriendshipManagement()
+        {
+            using (var db = new HangoutsContext(new Microsoft.EntityFrameworkCore.DbContextOptions<HangoutsContext>()))
+            {
+                DbInitializer.Initialize(db);
+
+                using (var uow = new UnitOfWork())
+                {
+                    var friendshipRepository = uow.GetRepository<Friendship>();
+                    var userRepository = uow.GetRepository<User>();
+                    ConsoleKeyInfo input;
+                    List<Friendship> friendships = friendshipRepository.GetAll().ToList();
+                    List<User> users = userRepository.GetAll().ToList() ;
+                    do
+                    {
+                        Console.WriteLine("     Menu friendship management:");
+                        Console.WriteLine("     0 - Exit");
+                        Console.WriteLine("     1 - Create a new friendship");
+                        Console.WriteLine("     2 - Delete an existent friendship");
+                        Console.WriteLine("     3 - View all friendships");
+                        Console.WriteLine("     4 - View all friends for a specific user");
+
+                        input = Console.ReadKey();
+                        Console.WriteLine();
+
+                        switch (input.Key)
+                        {
+                            case ConsoleKey.D1:
+                                if(users.Count < 2)
+                                {
+                                    Console.WriteLine("          There must be minimum two users in the database to create a friendship relation");
+                                    break;
+                                }
+                                Console.WriteLine("          Choose the IDs of two users to create a friendship relation between them:");
+                                foreach(var user in users)
+                                {
+                                    Console.WriteLine("          ID: " + user.ID + " Username : " + user.Username);
+                                }
+                                int id1, id2;
+                                string idString1, idString2;
+                                bool validId1 = false, validId2 = false;
+                                Console.WriteLine("         Please select ID1 : ");
+                                idString1 = Console.ReadLine();
+                                while (!int.TryParse(idString1, out id1))
+                                {
+                                    Console.WriteLine("         Bad input for ID1 (choose a valid ID from above!");
+                                    Console.Write("         id1 = ");
+                                    idString1 = Console.ReadLine();
+                                }
+                                Console.WriteLine("         Please select ID2 : ");
+                                idString2 = Console.ReadLine();
+                                while (!int.TryParse(idString2, out id2))
+                                {
+                                    Console.WriteLine("         Bad input for ID2 (choose a valid ID from above!");
+                                    Console.Write("         id2 = ");
+                                    idString2 = Console.ReadLine();
+                                }
+                                foreach (var user in users)
+                                {
+                                    if (user.ID == id1)
+                                    {
+                                        validId1 = true;
+                                    }
+                                    if(user.ID == id2)
+                                    {
+                                        validId2 = true;
+                                    }
+                                }
+                                if (!validId1 || !validId2)
+                                {
+                                    if(!validId1)
+                                        Console.WriteLine("         There is not user with ID1!");
+                                    else 
+                                        Console.WriteLine("         There is not user with ID2!");
+                                    break;
+                                }
+                                else
+                                {
+                                    if (id1 == id2)
+                                    {
+                                        Console.WriteLine("It is not possible to create a friendship relation between two identical IDs");
+                                        break;
+                                    }
+                                    var pk1 = new object[] { (object)id1, (object)id2 };
+                                    var pk2 = new object[] { (object)id2, (object)id1 };
+                                    Friendship f1 = friendshipRepository.GetByID(pk1);
+                                    Friendship f2 = friendshipRepository.GetByID(pk2);
+                                    if(f2 == null && f1 == null)
+                                    {
+                                        Friendship friendship = new Friendship { UserID1 = id1, UserID2 = id2 };
+                                        uow.SaveChanges();
+                                        friendshipRepository.Insert(friendship);
+                                        Console.WriteLine("A friendship relation between ID " + id1 +" and ID " + id2 +" was successfully created!");
+                                        uow.SaveChanges();
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("There is already a friendship relation between ID " + id1 + " and ID " + id2 + "!");
+                                    }
+                                    break;
+                                }
+                            case ConsoleKey.D2:
+                                friendships = friendshipRepository.GetAll().ToList();
+                                foreach (var friendship in friendships)
+                                {
+                                    Console.WriteLine("         ID1: " + friendship.UserID1 + " username1 :" + friendship.User1.Username +
+                                        " is friend with " + " ID2 : " + friendship.UserID2 + " username2 :" + friendship.User2.Username);
+                                }
+                                Console.WriteLine("          Choose the IDs of the two users you want to delete the relationship:");
+
+                                validId1 = false;
+                                validId2 = false;
+                                Console.WriteLine("         Please select ID1 : ");
+                                idString1 = Console.ReadLine();
+                                while (!int.TryParse(idString1, out id1))
+                                {
+                                    Console.WriteLine("         Bad input for ID1 (choose a valid ID from above!");
+                                    Console.Write("         id1 = ");
+                                    idString1 = Console.ReadLine();
+                                }
+                                Console.WriteLine("         Please select ID2 : ");
+                                idString2 = Console.ReadLine();
+                                while (!int.TryParse(idString2, out id2))
+                                {
+                                    Console.WriteLine("         Bad input for ID2 (choose a valid ID from above!");
+                                    Console.Write("         id2 = ");
+                                    idString2 = Console.ReadLine();
+                                }
+
+                                var prk1 = new object[] { (object)id1, (object)id2 };
+                                var prk2 = new object[] { (object)id2, (object)id1 };
+                                Friendship fr1 = friendshipRepository.GetByID(prk1);
+                                Friendship fr2 = friendshipRepository.GetByID(prk2);
+                                if (fr2 == null && fr1 == null)
+                                {
+                                    Console.WriteLine("There is no friendship relation between ID " + id1 + " and ID " + id2 + "!");
+                                } else
+                                {
+                                    if(fr1 == null) { 
+                                        friendshipRepository.Delete(fr2);
+                                        uow.SaveChanges();
+                                    }
+                                    else
+                                    {
+                                        friendshipRepository.Delete(fr1);
+                                        uow.SaveChanges();
+                                    }
+                                    Console.WriteLine("The friendship relation between ID " + id1 + " and ID " + id2 + " was successfully deleted!");
+                                    uow.SaveChanges();
+                                }
+
+                                    break;
+                            case ConsoleKey.D3:
+                                friendships = friendshipRepository.GetAll().ToList();
+                                foreach (var friendship in friendships)
+                                {
+                                    Console.WriteLine("         ID1: " + friendship.UserID1 + " username1 :" + friendship.User1.Username + 
+                                        " is friend with " + " ID2 : " + friendship.UserID2 + " username2 :" + friendship.User2.Username);
+                                }
+                                break;
+                            case ConsoleKey.D4:
+                                users = userRepository.GetAll().ToList();
+                                foreach(var user in users)
+                                {
+                                    Console.WriteLine("         " + user.ID + " " + user.Username);
+                                }
+                                Console.WriteLine("         Please choose an ID from above");
+                                string idString = Console.ReadLine();
+                                bool validId = false;
+                                int id;
+                                while (!int.TryParse(idString, out id))
+                                {
+                                    Console.WriteLine("         Bad input for ID (choose a valid ID from above!");
+                                    Console.Write("         id = ");
+                                    idString = Console.ReadLine();
+                                }
+
+                                foreach (var user in users)
+                                {
+                                    if (user.ID == id)
+                                    {
+                                        validId = true;
+                                        break;
+                                    }
+                                }
+                                if (!validId)
+                                {
+                                    Console.WriteLine("         There is not such ID!");
+                                }
+                                else
+                                {
+                                    var user = userRepository.GetByID(id);
+                                    Console.WriteLine("         " + user.Username + " has the following friends: ");
+                                    foreach (var friend in user.Friends)
+                                    {
+                                        Console.WriteLine("         " + friend.Username);
+                                    }
+                                }
+                                break;
+                        }
+                    } while (input.Key != ConsoleKey.D0);
+                }
+            }
         }
     }
 }
