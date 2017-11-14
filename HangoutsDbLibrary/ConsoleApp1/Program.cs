@@ -13,6 +13,7 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         { 
+
             using (var db = new HangoutsContext(new Microsoft.EntityFrameworkCore.DbContextOptions<HangoutsContext>()))
             {
                 
@@ -22,60 +23,7 @@ namespace ConsoleApp
                 {
                     var userRepository = uow.GetRepository<User>();
                     var friendshipRepository = uow.GetRepository<Friendship>();
-                    //userRepository.Insert(new User { Username = "Bereghici Dumitru" });
-                    //User u1 = userRepository.GetByID(9);
-                    //u1.Username = "Vasiu Alin";
-                    //userRepository.Edit(u1);
-                    /*
-                    User u3 = userRepository.GetByID(3);
-                    User u4 = userRepository.GetByID(4);
-                    User u8 = userRepository.GetByID(8);
-                    User u9 = userRepository.GetByID(9);
-
-                    Friendship f1 = new Friendship { User1 = u3, User2 = u8 };
-                    Friendship f2 = new Friendship { User1 = u3, User2 = u9 };
-                    Friendship f3 = new Friendship { User1 = u8, User2 = u9 };
-                    Friendship f4 = new Friendship { User1 = u4, User2 = u9 };
-
-                   
-                    friendshipRepository.Insert(f1);
-                    friendshipRepository.Insert(f2);
-                    friendshipRepository.Insert(f3);
-                    friendshipRepository.Insert(f4);
-
-
-                    uow.SaveChanges();
-                    */
-                    /*
-                    User u3 = userRepository.GetByID(3);
-                    User u4 = userRepository.GetByID(4);
-                    User u8 = userRepository.GetByID(8);
-                    User u9 = userRepository.GetByID(9);
-
-                    List<User> users = new List<User>{ u3, u4, u8, u9 };
-
-                    List<Friendship> friendships = friendshipRepository.GetAll().ToList();
-                    
-                    foreach(var user in users)
-                    {
-                        Console.WriteLine(user.Username + " : ");
-                        Console.Write("         ");
-                        foreach(var friend in user.Friends)
-                        {
-                            Console.Write(friend.Username + " ");
-                        }
-                        Console.WriteLine();
-                    }
-                    */
-
-                    /*
-                    User u3 = userRepository.GetByID(12);
-                    User u4 = userRepository.GetByID(14);
-
-                    Friendship f1 = new Friendship { User1 = u3, User2=u4 };
-                    friendshipRepository.Insert(f1);
-                    uow.SaveChanges();
-                    */
+                    var usergroupRepository = uow.GetRepository<UserGroup>();
 
                     ConsoleKeyInfo input;
                     do
@@ -102,15 +50,7 @@ namespace ConsoleApp
 
                     }
                     while (input.Key != ConsoleKey.D0);
-                    /*
-                    uow.SaveChanges();
 
-                    var users = userRepository.GetAll().ToList();
-                    foreach (var user in users)
-                    {
-                        Console.WriteLine(user.Username);
-                    }
-                    */
                 }
             }
         }
@@ -318,6 +258,7 @@ namespace ConsoleApp
                 {
                     var groupRepository = uow.GetRepository<Group>();
                     var userRepository = uow.GetRepository<User>();
+                    var usergroupRepository = uow.GetRepository<UserGroup>();
                     ConsoleKeyInfo input;
                     List<Group> groups;
                     do
@@ -328,6 +269,8 @@ namespace ConsoleApp
                         Console.WriteLine("     2 - Delete an existent group");
                         Console.WriteLine("     3 - Edit an existent group");
                         Console.WriteLine("     4 - View all groups");
+                        Console.WriteLine("     5 - Add a user to a group");
+                        Console.WriteLine("     6 - View all users from a specific group");
 
                         input = Console.ReadKey();
                         Console.WriteLine();
@@ -483,6 +426,7 @@ namespace ConsoleApp
                                     {
                                         var newAdmin = id;
                                         groupToBeEdited.AdminID = id;
+                                        groupToBeEdited.Name = newName;
                                         groupRepository.Edit(groupToBeEdited);
                                         uow.SaveChanges();
                                         Console.WriteLine("The selected group was edited successfully!");
@@ -503,6 +447,130 @@ namespace ConsoleApp
                                     Console.WriteLine("         Admin ID -> " + g.AdminID + "\n         Admin username -> " + userRepository.GetByID(g.AdminID).Username);
                                     
                                 }
+                                break;
+                            case ConsoleKey.D5:
+                                groups = groupRepository.GetAll().ToList();
+                                if(groups.Count == 0)
+                                {
+                                    Console.WriteLine("      There are no groups in the database!");
+                                    break;
+                                }
+                                Console.WriteLine("      Please choose the ID of the group you want to add users to!");
+                                foreach(var g in groups)
+                                {
+                                    Console.WriteLine("          " + g.ID + " : " + g.Name);
+                                }
+                                idString = Console.ReadLine();
+                                int groupID;
+                                while(!int.TryParse(idString, out groupID))
+                                {
+                                    Console.WriteLine("      Wrong ID input. Please introduce the ID again!");
+                                    Console.Write("         id = ");
+                                    idString = Console.ReadLine();
+                                }
+                                bool validGroupID = false;
+                                foreach(var g in groups)
+                                {
+                                    if (g.ID == groupID)
+                                    {
+                                        validGroupID = true;
+                                        break;
+                                    }
+                                }
+                                if (!validGroupID)
+                                {
+                                    Console.WriteLine("      There is not such a group ID!");
+                                    break;
+                                }
+                                Console.WriteLine("      Please choose the ID of the user you want to add to the group!");
+                                users = userRepository.GetAll().ToList();
+                                foreach (var u in users)
+                                {
+                                    Console.WriteLine("          " + u.ID + " : " + u.Username);
+                                }
+                                idString = Console.ReadLine();
+                                int userID;
+                                while (!int.TryParse(idString, out userID))
+                                {
+                                    Console.WriteLine("      Wrong ID input. Please introduce the ID again!");
+                                    Console.Write("         id = ");
+                                    idString = Console.ReadLine();
+                                }
+                                bool validUserID = false;
+                                foreach (var u in users)
+                                {
+                                    if (u.ID == userID)
+                                    {
+                                        validUserID = true;
+                                        break;
+                                    }
+                                }
+                                if (!validUserID)
+                                {
+                                    Console.WriteLine("      There is not such a user ID!");
+                                    break;
+                                }
+                                User newUser = userRepository.GetByID(userID);
+                                Group newGroup = groupRepository.GetByID(groupID);
+
+                                var pk1 = new object[] { (object)userID, (object)groupID };
+                                UserGroup ug1 = usergroupRepository.GetByID(pk1);
+                                if (ug1 == null)
+                                {
+                                    UserGroup usergroup = new UserGroup { Group = newGroup, User = newUser };
+                                    usergroupRepository.Insert(usergroup);
+                                    uow.SaveChanges();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("      The selected user is already a member of the group!");
+                                }
+                                uow.SaveChanges();
+
+                                break;
+
+                            case ConsoleKey.D6:
+                                Console.WriteLine("      Please choose the ID of the group you want to see the users!");
+                                groups = groupRepository.GetAll().ToList();
+                                foreach (var g in groups)
+                                {
+                                    Console.WriteLine("          " + g.ID + " : " + g.Name);
+                                }
+                                idString = Console.ReadLine();
+                                while (!int.TryParse(idString, out groupID))
+                                {
+                                    Console.WriteLine("      Wrong ID input. Please introduce the ID again!");
+                                    Console.Write("         id = ");
+                                    idString = Console.ReadLine();
+                                }
+                                validGroupID = false;
+
+                                foreach (var g in groups)
+                                {
+                                    if (g.ID == groupID)
+                                    {
+                                        validGroupID = true;
+                                        break;
+                                    }
+                                }
+                                if (!validGroupID)
+                                {
+                                    Console.WriteLine("      There is not such a group ID!");
+                                    break;
+                                }
+                                List<UserGroup> ugs = usergroupRepository.GetAll().ToList();
+                                Group group1 = groupRepository.GetByID(groupID);
+
+                                if (group1.UserGroups == null)
+                                {
+                                    Console.WriteLine("      There aren't any users in this group!");
+                                    break;
+                                }
+                                foreach(UserGroup ug in group1.UserGroups)
+                                {
+                                    Console.WriteLine("      " + ug.User.Username);
+                                }
+                                
                                 break;
                         }
                     } while (input.Key != ConsoleKey.D0);
@@ -716,3 +784,4 @@ namespace ConsoleApp
         }
     }
 }
+

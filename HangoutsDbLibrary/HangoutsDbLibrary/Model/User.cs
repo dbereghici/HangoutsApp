@@ -21,7 +21,7 @@ namespace HangoutsDbLibrary.Model
         public string Location { get; set; }
         public string Email { get; set; }
 
-        public List<UserGroup> UserGroups { get; set; }
+        public virtual List<UserGroup> UserGroups { get; set; }
         public List<Friendship> Friends1 { get; set; }
         public List<Friendship> Friends2 { get; set; }
         public List<User> Friends {
@@ -38,12 +38,12 @@ namespace HangoutsDbLibrary.Model
                 return friends;
             }
             }
-
+        public List<Group> GroupsAdministrated { get; set; }
         public List<PlanUser> PlanUsers { get; set; }
         public List<Message> Messages { get; set; }
 
 
         //public int GroupAdministratedID { get; set; }
-        public Group GroupAdministrated { get; set; }
+        //public Group GroupAdministrated { get; set; }
     }
 }

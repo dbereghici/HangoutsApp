@@ -56,12 +56,12 @@ namespace HangoutsDbLibrary.Data
             //Ignored User -> Friends property
             modelBuilder.Entity<User>()
                 .Ignore(u => u.Friends);
-            
-            //One to one Group -> User (group admin)
+
+            //Many to one Group -> User (group admin)
             modelBuilder.Entity<User>()
-                .HasOne(u => u.GroupAdministrated)
+                .HasMany(u => u.GroupsAdministrated)
                 .WithOne(g => g.Admin)
-                .HasForeignKey<Group>(g => g.AdminID);
+                .HasForeignKey(g => g.AdminID);
 
             //Many to many User -> Group (via UserGroup)
             modelBuilder.Entity<UserGroup>()
