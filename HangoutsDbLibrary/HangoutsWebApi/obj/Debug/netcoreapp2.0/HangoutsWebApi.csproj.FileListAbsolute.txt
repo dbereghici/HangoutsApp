@@ -1,0 +1,13 @@
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsWebApi.deps.json
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsWebApi.runtimeconfig.json
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsWebApi.runtimeconfig.dev.json
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsWebApi.dll
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsWebApi.pdb
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\obj\Debug\netcoreapp2.0\HangoutsWebApi.csprojResolveAssemblyReference.cache
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\obj\Debug\netcoreapp2.0\HangoutsWebApi.csproj.CoreCompileInputs.cache
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\obj\Debug\netcoreapp2.0\HangoutsWebApi.AssemblyInfoInputs.cache
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\obj\Debug\netcoreapp2.0\HangoutsWebApi.AssemblyInfo.cs
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\obj\Debug\netcoreapp2.0\HangoutsWebApi.dll
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\obj\Debug\netcoreapp2.0\HangoutsWebApi.pdb
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
+C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb

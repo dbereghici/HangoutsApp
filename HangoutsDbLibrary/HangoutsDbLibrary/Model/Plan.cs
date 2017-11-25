@@ -13,8 +13,10 @@ namespace HangoutsDbLibrary.Model
         public Group Group { get; set; }
         public DateTime CreatedAt { get; set; }
         public int LifeTime { get; set; }
-        //public int createdByUserID { get; set; }
-        //public User createdByUser { get; set; }
         public List<PlanUser> PlanUsers { get; set; }
+        public Address Address { get; set; }
+        public int AddressID { get; set; }
+        public Activity Activity { get; set; }
+        //public int ActivityID { get; set; }
     }
 }

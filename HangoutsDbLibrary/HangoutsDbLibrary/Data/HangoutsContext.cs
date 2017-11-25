@@ -21,7 +21,10 @@ namespace HangoutsDbLibrary.Data
         public DbSet<Plan> Plans { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Message> Messages { get; set; }
-        
+        public DbSet<UserGroup> UserGroups { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Admin> Admin { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("User");
@@ -33,6 +36,8 @@ namespace HangoutsDbLibrary.Data
             modelBuilder.Entity<PlanUser>().ToTable("PlanUser");
             modelBuilder.Entity<Chat>().ToTable("Chat");
             modelBuilder.Entity<Message>().ToTable("Message");
+            modelBuilder.Entity<Address>().ToTable("Address");
+            modelBuilder.Entity<Admin>().ToTable("Admin");
 
             //Required properties for User
             modelBuilder.Entity<User>()
@@ -76,8 +81,7 @@ namespace HangoutsDbLibrary.Data
             modelBuilder.Entity<UserGroup>()
                 .HasOne(ug => ug.Group)
                 .WithMany(g => g.UserGroups)
-                .HasForeignKey(ug => ug.GroupID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(ug => ug.GroupID);
 
             //Many to many User -> User (via Relationship)
             modelBuilder.Entity<Friendship>()
@@ -85,13 +89,12 @@ namespace HangoutsDbLibrary.Data
 
             modelBuilder.Entity<Friendship>()
                 .HasOne(f => f.User1)
-                .WithMany(u => u.Friends2)
-                .HasForeignKey(f => f.UserID1)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithMany(u => u.FriendRequestsAccepted)
+                .HasForeignKey(f => f.UserID1);
 
             modelBuilder.Entity<Friendship>()
                 .HasOne(f => f.User2)
-                .WithMany(u => u.Friends1)
+                .WithMany(u => u.FriendRequestsMade)
                 .HasForeignKey(f => f.UserID2)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -108,8 +111,7 @@ namespace HangoutsDbLibrary.Data
             modelBuilder.Entity<PlanUser>()
                 .HasOne(pu => pu.Plan)
                 .WithMany(p => p.PlanUsers)
-                .HasForeignKey(pu => pu.PlanID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(pu => pu.PlanID);
 
             modelBuilder.Entity<PlanUser>()
                 .HasOne(pu => pu.User)
@@ -140,6 +142,24 @@ namespace HangoutsDbLibrary.Data
                 .HasOne(p => p.Group)
                 .WithMany(g => g.Plans)
                 .HasForeignKey(p => p.GroupID);
+
+            // One to Many User -> Address 
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Address)
+                .WithMany(a => a.Users)
+                .HasForeignKey(u => u.AddressID);
+
+            // One to Many Plan -> Address
+            modelBuilder.Entity<Plan>()
+                .HasOne(p => p.Address)
+                .WithMany(a => a.Plans)
+                .HasForeignKey(p => p.AddressID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // One to Many Plan -> Activities 
+            modelBuilder.Entity<Plan>()
+                .HasOne(p => p.Activity)
+                .WithMany(a => a.Plans);
         }
 
 

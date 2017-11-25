@@ -21,35 +21,81 @@ namespace ConsoleApp
 
                 using (var uow = new UnitOfWork())
                 {
-                    var userRepository = uow.GetRepository<User>();
-                    var friendshipRepository = uow.GetRepository<Friendship>();
-                    var usergroupRepository = uow.GetRepository<UserGroup>();
+                    var userRep = uow.GetRepository<User>();
+                    var groupRep = uow.GetRepository<Group>();
+                    var ugRep = uow.GetRepository<UserGroup>();
+                    User user = userRep.GetByID(30);
 
-                    ConsoleKeyInfo input;
-                    do
-                    {
-                        Console.WriteLine("Menu:");
-                        Console.WriteLine("0 - Exit");
-                        Console.WriteLine("1 - User Management");
-                        Console.WriteLine("2 - Group Management");
-                        Console.WriteLine("3 - Friendship Management");
-                        input = Console.ReadKey();
-                        Console.WriteLine();
-                        switch (input.Key)
-                        {
-                            case ConsoleKey.D1:
-                                UserManagement();                               
-                                break;
-                            case ConsoleKey.D2:
-                                GroupManagement();
-                                break;
-                            case ConsoleKey.D3:
-                                FriendshipManagement();
-                                break;
-                        }
+                    Group group1 = new Group { Admin = user, Name = "football" };
+                    Group group2 = new Group { Admin = user, Name = "cinema" };
 
-                    }
-                    while (input.Key != ConsoleKey.D0);
+                    UserGroup userGroup1 = new UserGroup { User = user, Group = group1 };
+                    UserGroup userGroup2 = new UserGroup { User = user, Group = group2 };
+
+                    groupRep.Insert(group1);
+                    groupRep.Insert(group2);
+                    ugRep.Insert(userGroup1);
+                    ugRep.Insert(userGroup2);
+
+                    uow.SaveChanges();
+                    //var users = userRepository
+                    //    .GetAll()
+                    //    .Include(u => u.Friends1)
+                    //    .Include(u => u.Friends2)
+                    //    .Include(u => u.UserGroups)
+                    //    .ThenInclude(u => u.Group)
+                    //    .ToList();
+
+                    ////foreach (var u in users)
+                    ////{
+                    ////    var userGroups = db.UserGroups.Where(ug => ug.UserID == u.ID);
+                    ////    var groups = db.Groups.Where(x => userGroups.Any(y => y.GroupID == x.ID));
+                    ////}
+
+                    ////var groups = db.Groups.ToList();
+
+                    //User user = userRepository.GetByID(16);
+
+                    //Console.WriteLine("Friends:");
+                    //foreach(var friend in user.Friends)
+                    //{
+                    //    Console.WriteLine(friend.FirstName);
+                    //}
+                    //Console.WriteLine("Groups:");
+                    //foreach(var usergroup in user.UserGroups)
+                    //{
+                    //    Console.WriteLine(usergroup.Group.Name);
+                    //}
+
+
+
+
+                    //ConsoleKeyInfo input;
+                    //do
+                    //{
+                    //    Console.WriteLine("Menu:");
+                    //    Console.WriteLine("0 - Exit");
+                    //    Console.WriteLine("1 - User Management");
+                    //    Console.WriteLine("2 - Group Management");
+                    //    Console.WriteLine("3 - Friendship Management");
+                    //    input = Console.ReadKey();
+                    //    Console.WriteLine();
+                    //    switch (input.Key)
+                    //    {
+                    //        case ConsoleKey.D1:
+                    //            UserManagement();                               
+                    //            break;
+                    //        case ConsoleKey.D2:
+                    //            GroupManagement();
+                    //            break;
+                    //        case ConsoleKey.D3:
+                    //            FriendshipManagement();
+                    //            break;
+                    //    }
+
+                    //}
+                    //while (input.Key != ConsoleKey.D0);
+
 
                 }
             }
@@ -150,7 +196,7 @@ namespace ConsoleApp
                                     userToBeEdited.Email = newUser.Email;
                                     userToBeEdited.FirstName = newUser.FirstName;
                                     userToBeEdited.LastName = newUser.LastName;
-                                    userToBeEdited.Location = newUser.Location;
+                                    //userToBeEdited.Location = newUser.Location;
                                     userToBeEdited.Age = newUser.Age;
 
 
@@ -173,7 +219,7 @@ namespace ConsoleApp
                                     Console.WriteLine("         Email -> " + u.Email);
                                     Console.WriteLine("         First name -> " + u.FirstName);
                                     Console.WriteLine("         Last name -> " + u.LastName);
-                                    Console.WriteLine("         Location -> " + u.Location);
+                                    //Console.WriteLine("         Location -> " + u.Location);
                                     Console.WriteLine("         Age -> " + u.Age);
                                     Console.WriteLine();
                                 }
@@ -242,7 +288,7 @@ namespace ConsoleApp
                 Email = email,
                 FirstName = firstName,
                 LastName = lastName,
-                Location = location,
+                //Location = location,
                 Age = age
             };
             return user;

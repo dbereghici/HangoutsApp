@@ -34,6 +34,36 @@ namespace HangoutsDbLibrary.Migrations
                     b.ToTable("Activity");
                 });
 
+            modelBuilder.Entity("HangoutsDbLibrary.Model.Address", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("Latitude");
+
+                    b.Property<string>("Location");
+
+                    b.Property<double>("Longitude");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Address");
+                });
+
+            modelBuilder.Entity("HangoutsDbLibrary.Model.Admin", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Password");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Admin");
+                });
+
             modelBuilder.Entity("HangoutsDbLibrary.Model.Chat", b =>
                 {
                     b.Property<int>("ID")
@@ -49,6 +79,8 @@ namespace HangoutsDbLibrary.Migrations
                     b.Property<int>("UserID1");
 
                     b.Property<int>("UserID2");
+
+                    b.Property<string>("Status");
 
                     b.HasKey("UserID1", "UserID2");
 
@@ -101,6 +133,10 @@ namespace HangoutsDbLibrary.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("ActivityID");
+
+                    b.Property<int>("AddressID");
+
                     b.Property<int>("ChatID");
 
                     b.Property<DateTime>("CreatedAt");
@@ -110,6 +146,10 @@ namespace HangoutsDbLibrary.Migrations
                     b.Property<int>("LifeTime");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ActivityID");
+
+                    b.HasIndex("AddressID");
 
                     b.HasIndex("ChatID")
                         .IsUnique();
@@ -137,6 +177,8 @@ namespace HangoutsDbLibrary.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AddressID");
+
                     b.Property<int>("Age");
 
                     b.Property<string>("Email")
@@ -146,8 +188,6 @@ namespace HangoutsDbLibrary.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
-
-                    b.Property<string>("Location");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -159,6 +199,8 @@ namespace HangoutsDbLibrary.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("AddressID");
+
                     b.ToTable("User");
                 });
 
@@ -167,6 +209,8 @@ namespace HangoutsDbLibrary.Migrations
                     b.Property<int>("UserID");
 
                     b.Property<int>("GroupID");
+
+                    b.Property<string>("Status");
 
                     b.HasKey("UserID", "GroupID");
 
@@ -186,12 +230,12 @@ namespace HangoutsDbLibrary.Migrations
             modelBuilder.Entity("HangoutsDbLibrary.Model.Friendship", b =>
                 {
                     b.HasOne("HangoutsDbLibrary.Model.User", "User1")
-                        .WithMany("Friends2")
+                        .WithMany("FriendRequestsAccepted")
                         .HasForeignKey("UserID1")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HangoutsDbLibrary.Model.User", "User2")
-                        .WithMany("Friends1")
+                        .WithMany("FriendRequestsMade")
                         .HasForeignKey("UserID2")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
@@ -219,6 +263,15 @@ namespace HangoutsDbLibrary.Migrations
 
             modelBuilder.Entity("HangoutsDbLibrary.Model.Plan", b =>
                 {
+                    b.HasOne("HangoutsDbLibrary.Model.Activity", "Activity")
+                        .WithMany("Plans")
+                        .HasForeignKey("ActivityID");
+
+                    b.HasOne("HangoutsDbLibrary.Model.Address", "Address")
+                        .WithMany("Plans")
+                        .HasForeignKey("AddressID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("HangoutsDbLibrary.Model.Chat", "Chat")
                         .WithOne("Plan")
                         .HasForeignKey("HangoutsDbLibrary.Model.Plan", "ChatID")
@@ -235,7 +288,7 @@ namespace HangoutsDbLibrary.Migrations
                     b.HasOne("HangoutsDbLibrary.Model.Plan", "Plan")
                         .WithMany("PlanUsers")
                         .HasForeignKey("PlanID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HangoutsDbLibrary.Model.User", "User")
                         .WithMany("PlanUsers")
@@ -243,12 +296,20 @@ namespace HangoutsDbLibrary.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("HangoutsDbLibrary.Model.User", b =>
+                {
+                    b.HasOne("HangoutsDbLibrary.Model.Address", "Address")
+                        .WithMany("Users")
+                        .HasForeignKey("AddressID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("HangoutsDbLibrary.Model.UserGroup", b =>
                 {
                     b.HasOne("HangoutsDbLibrary.Model.Group", "Group")
                         .WithMany("UserGroups")
                         .HasForeignKey("GroupID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HangoutsDbLibrary.Model.User", "User")
                         .WithMany("UserGroups")

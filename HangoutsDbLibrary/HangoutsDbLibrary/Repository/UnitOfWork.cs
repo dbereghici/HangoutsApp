@@ -21,7 +21,7 @@ namespace HangoutsDbLibrary.Repository
         public void Dispose()
         {
             context.Dispose();
-            GC.SuppressFinalize(this);
+            //GC.SuppressFinalize(this);
         }
         public void SaveChanges()
         {
