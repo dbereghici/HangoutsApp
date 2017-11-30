@@ -25,6 +25,9 @@ namespace HangoutsDbLibrary.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Description")
+                        .IsRequired();
+
                     b.Property<int>("GroupID");
 
                     b.HasKey("ID");
@@ -50,24 +53,12 @@ namespace HangoutsDbLibrary.Migrations
                     b.ToTable("Address");
                 });
 
-            modelBuilder.Entity("HangoutsDbLibrary.Model.Admin", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Password");
-
-                    b.Property<string>("Username");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Admin");
-                });
-
             modelBuilder.Entity("HangoutsDbLibrary.Model.Chat", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
 
                     b.HasKey("ID");
 
@@ -80,9 +71,14 @@ namespace HangoutsDbLibrary.Migrations
 
                     b.Property<int>("UserID2");
 
+                    b.Property<int>("ChatID");
+
                     b.Property<string>("Status");
 
                     b.HasKey("UserID1", "UserID2");
+
+                    b.HasIndex("ChatID")
+                        .IsUnique();
 
                     b.HasIndex("UserID2");
 
@@ -113,7 +109,8 @@ namespace HangoutsDbLibrary.Migrations
 
                     b.Property<int>("ChatID");
 
-                    b.Property<string>("Content");
+                    b.Property<string>("Content")
+                        .IsRequired();
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -179,23 +176,22 @@ namespace HangoutsDbLibrary.Migrations
 
                     b.Property<int>("AddressID");
 
-                    b.Property<int>("Age");
+                    b.Property<DateTime>("BirthDate");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(25);
+                        .IsRequired();
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .IsRequired();
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .IsRequired();
 
                     b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(25);
+                        .IsRequired();
 
                     b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(25);
+                        .IsRequired();
 
                     b.HasKey("ID");
 
@@ -229,6 +225,11 @@ namespace HangoutsDbLibrary.Migrations
 
             modelBuilder.Entity("HangoutsDbLibrary.Model.Friendship", b =>
                 {
+                    b.HasOne("HangoutsDbLibrary.Model.Chat", "Chat")
+                        .WithOne("Friendship")
+                        .HasForeignKey("HangoutsDbLibrary.Model.Friendship", "ChatID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HangoutsDbLibrary.Model.User", "User1")
                         .WithMany("FriendRequestsAccepted")
                         .HasForeignKey("UserID1")

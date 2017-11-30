@@ -17,7 +17,16 @@ namespace HangoutsDbLibrary.Model
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int Age { get; set; }
+        public DateTime BirthDate { get; set; }
+        public int Age
+        {
+            get
+            {
+                int age = DateTime.Today.Year - BirthDate.Year;
+                if (BirthDate > DateTime.Today.AddYears(-age)) age--;
+                return age;
+            }
+        }
         public string Email { get; set; }
         public Address Address { get; set; }
         public int AddressID { get; set; }

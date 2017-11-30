@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using HangoutsDbLibrary.Model;
-using HangoutsDbLibrary.Data;
-using HangoutsDbLibrary.Repository;
-using Microsoft.EntityFrameworkCore;
 using HangoutsWebApi.Services;
 using HangoutsWebApi.DTOModels;
 using AutoMapper;
+using HangoutsWebApi.Mappings;
+using System.ComponentModel.DataAnnotations;
 
 namespace HangoutsWebApi.Controllers
 {
@@ -22,18 +17,13 @@ namespace HangoutsWebApi.Controllers
         public IActionResult GetAllUsers()
         {
             UserService userService = new UserService();
-            List<User> users = userService.getAllUsers();
-            List<UserDTO> usersDTO = new List<UserDTO>();
-            var config = new MapperConfiguration(cfg =>
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            List<User> users = userService.GetAllUsers();
+            if (users == null || users.Count == 0)
             {
-                cfg.CreateMap<User, UserDTO>();
-            });
-            IMapper mapper = config.CreateMapper();
-            foreach (var user in users)
-            {
-                usersDTO.Add(mapper.Map<User, UserDTO>(user));
+                return NotFound("There are no users!");
             }
-            //List<UserDTO> usersDTO = userService.getAllUsers();
+            List<UserGeneralDTO> usersDTO = userGeneralMapper.Map(users);
             return Ok(usersDTO);
         }
 
@@ -41,18 +31,67 @@ namespace HangoutsWebApi.Controllers
         public IActionResult GetUserByID(int id)
         {
             UserService userService = new UserService();
-            User user = userService.getByID(id);
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<User, UserDTO>();
-            });
-            IMapper mapper = config.CreateMapper();
-            UserDTO userDTO = mapper.Map<User, UserDTO>(user);
-            if(user == null)
+            User user = userService.GetByID(id);
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            UserGeneralDTO userGeneralDTO = userGeneralMapper.Map(user);
+            if (user == null)
             {
                 return NotFound("User with this id does not exist!");
             }
-            return Ok(userDTO);
+            return Ok(userGeneralDTO);
+        }
+
+        public string ValidUserData(UserDTO userDTO)
+        {
+            if (userDTO.Address == null || userDTO.BirthDate == null || userDTO.Email == null || userDTO.FirstName == null || 
+                userDTO.LastName == null || userDTO.Username == null || userDTO.Password == null)
+                return "All fields must be completed!";
+            var emailAttr = new EmailAddressAttribute();
+            if (!new EmailAddressAttribute().IsValid(userDTO.Email))
+                return "The email input is not valid!";
+            if (userDTO.Email.Length > 40 || userDTO.FirstName.Length > 40 ||
+                 userDTO.LastName.Length > 40 || userDTO.Password.Length > 40 || userDTO.Username.Length > 40)
+                return "The maximum length for a field is 40 characters!";
+            return "OK";
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] UserDTO userDTO)
+        {
+            if (ModelState.IsValid && ValidUserData(userDTO).Equals("OK"))
+            {
+                UserService userService = new UserService();
+                UserMapper userMapper = new UserMapper();
+                User user = userMapper.Map(userDTO);
+                userService.AddUser(user);
+                return Ok();
+            }
+            else
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest("The model is not valid!");
+                else
+                    return BadRequest(ValidUserData(userDTO));
+            }
+
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] UserDTO userDTO)
+        {
+            UserService userService = new UserService();
+            UserMapper userMapper = new UserMapper();
+            User user = userMapper.Map(userDTO);
+            userService.UpdateUser(id, user);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            UserService userService = new UserService();
+            userService.DeleteUser(id);
+            return Ok();
         }
 
         [HttpGet()]
@@ -60,18 +99,10 @@ namespace HangoutsWebApi.Controllers
         public IActionResult GetAllUsersFromAGroup(int id)
         {
             UserService userService = new UserService();
-            List<UserDTO> usersDTO = new List<UserDTO>();
-            List<User> users = userService.getAllUsersFromAGroup(id);
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<User, UserDTO>();
-            });
-            foreach(var user in users)
-            {
-                IMapper mapper = config.CreateMapper();
-                usersDTO.Add(mapper.Map<User, UserDTO>(user));
-            }
-            return Ok(usersDTO);
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            List<User> users = userService.GetAllUsersFromAGroup(id);
+            List<UserGeneralDTO> usersGeneralDTO = userGeneralMapper.Map(users);
+            return Ok(usersGeneralDTO);
         }
     }
     

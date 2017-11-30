@@ -13,5 +13,7 @@ namespace HangoutsDbLibrary.Model
         public User User2 { get; set; }
 
         public string Status { get; set; }
+        public Chat Chat { get; set; }
+        public int ChatID { get; set; }
     }
 }

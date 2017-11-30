@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HangoutsDbLibrary\HangoutsDbLibrary.csproj" />
+    <ProjectReference Include="..\HangoutsServicesLibrary\HangoutsBusinessLibrary.csproj" />
   </ItemGroup>
 
 </Project>

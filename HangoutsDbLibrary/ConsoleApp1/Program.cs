@@ -22,21 +22,19 @@ namespace ConsoleApp
                 using (var uow = new UnitOfWork())
                 {
                     var userRep = uow.GetRepository<User>();
-                    var groupRep = uow.GetRepository<Group>();
-                    var ugRep = uow.GetRepository<UserGroup>();
-                    User user = userRep.GetByID(30);
+                    var addrRep = uow.GetRepository<Address>();
 
-                    Group group1 = new Group { Admin = user, Name = "football" };
-                    Group group2 = new Group { Admin = user, Name = "cinema" };
-
-                    UserGroup userGroup1 = new UserGroup { User = user, Group = group1 };
-                    UserGroup userGroup2 = new UserGroup { User = user, Group = group2 };
-
-                    groupRep.Insert(group1);
-                    groupRep.Insert(group2);
-                    ugRep.Insert(userGroup1);
-                    ugRep.Insert(userGroup2);
-
+                    User user = new User
+                    {
+                        Username = "cveronica",
+                        Password = "12345",
+                        Email = "cveronica@gmail.com",
+                        BirthDate = new DateTime(1997, 2, 17),
+                        Address = new Address {Location = "Iasi", Latitude=0, Longitude=1 },
+                        FirstName = "Veronica",
+                        LastName = "Cojocari"
+                    };
+                    userRep.Insert(user);
                     uow.SaveChanges();
                     //var users = userRepository
                     //    .GetAll()
@@ -197,7 +195,7 @@ namespace ConsoleApp
                                     userToBeEdited.FirstName = newUser.FirstName;
                                     userToBeEdited.LastName = newUser.LastName;
                                     //userToBeEdited.Location = newUser.Location;
-                                    userToBeEdited.Age = newUser.Age;
+                                    //userToBeEdited.Age = newUser.Age;
 
 
                                     userRepository.Edit(userToBeEdited);
@@ -220,7 +218,7 @@ namespace ConsoleApp
                                     Console.WriteLine("         First name -> " + u.FirstName);
                                     Console.WriteLine("         Last name -> " + u.LastName);
                                     //Console.WriteLine("         Location -> " + u.Location);
-                                    Console.WriteLine("         Age -> " + u.Age);
+                                    //Console.WriteLine("         Age -> " + u.Age);
                                     Console.WriteLine();
                                 }
                                 break;
@@ -287,9 +285,9 @@ namespace ConsoleApp
                 Password = password,
                 Email = email,
                 FirstName = firstName,
-                LastName = lastName,
+                LastName = lastName
                 //Location = location,
-                Age = age
+                //Age = age
             };
             return user;
         }

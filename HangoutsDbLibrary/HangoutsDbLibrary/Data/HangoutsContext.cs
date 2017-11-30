@@ -23,7 +23,6 @@ namespace HangoutsDbLibrary.Data
         public DbSet<Message> Messages { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<Admin> Admin { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,30 +36,44 @@ namespace HangoutsDbLibrary.Data
             modelBuilder.Entity<Chat>().ToTable("Chat");
             modelBuilder.Entity<Message>().ToTable("Message");
             modelBuilder.Entity<Address>().ToTable("Address");
-            modelBuilder.Entity<Admin>().ToTable("Admin");
 
             //Required properties for User
             modelBuilder.Entity<User>()
                 .Property(u => u.Username)
-                .IsRequired()
-                .HasMaxLength(25);
+                .IsRequired();
             modelBuilder.Entity<User>()
                 .Property(u => u.Password)
-                .IsRequired()
-                .HasMaxLength(25);
+                .IsRequired();
             modelBuilder.Entity<User>()
                 .Property(u => u.Email)
-                .IsRequired()
-                .HasMaxLength(25);
+                .IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(u => u.FirstName)
+                .IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(u => u.LastName)
+                .IsRequired();
 
             //Required properties for Group
             modelBuilder.Entity<Group>()
                 .Property(g => g.Name)
                 .IsRequired();
 
-            //Ignored User -> Friends property
+            //Required properties for Message
+            modelBuilder.Entity<Message>()
+                .Property(m => m.Content)
+                .IsRequired();
+
+            //Required properties for Activity
+            modelBuilder.Entity<Activity>()
+                .Property(a => a.Description)
+                .IsRequired();
+
+            //Ignored User properties
             modelBuilder.Entity<User>()
                 .Ignore(u => u.Friends);
+            modelBuilder.Entity<User>()
+                .Ignore(u => u.Age);
 
             //Many to one Group -> User (group admin)
             modelBuilder.Entity<User>()
@@ -160,6 +173,12 @@ namespace HangoutsDbLibrary.Data
             modelBuilder.Entity<Plan>()
                 .HasOne(p => p.Activity)
                 .WithMany(a => a.Plans);
+
+            // One to One Friendship -> Chat
+            modelBuilder.Entity<Friendship>()
+                .HasOne(f => f.Chat)
+                .WithOne(c => c.Friendship)
+                .HasForeignKey<Friendship>(f => f.ChatID);
         }
 
 

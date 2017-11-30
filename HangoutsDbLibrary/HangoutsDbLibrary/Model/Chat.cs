@@ -10,5 +10,6 @@ namespace HangoutsDbLibrary.Model
         public DateTime CreatedAt { get; set; }
         public Plan Plan { get; set; }
         public List<Message> Messages { get; set; }
+        public Friendship Friendship { get; set; }
     }
 }

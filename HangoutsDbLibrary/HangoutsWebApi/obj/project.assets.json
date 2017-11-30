@@ -5066,6 +5066,19 @@
           "lib/netstandard1.3/Microsoft.WindowsAzure.Storage.dll": {}
         }
       },
+      "HangoutsBusinessLibrary/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "HangoutsDbLibrary": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/HangoutsBusinessLibrary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HangoutsBusinessLibrary.dll": {}
+        }
+      },
       "HangoutsDbLibrary/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
@@ -13184,6 +13197,11 @@
         "windowsazure.storage.nuspec"
       ]
     },
+    "HangoutsBusinessLibrary/1.0.0": {
+      "type": "project",
+      "path": "../HangoutsServicesLibrary/HangoutsBusinessLibrary.csproj",
+      "msbuildProject": "../HangoutsServicesLibrary/HangoutsBusinessLibrary.csproj"
+    },
     "HangoutsDbLibrary/1.0.0": {
       "type": "project",
       "path": "../HangoutsDbLibrary/HangoutsDbLibrary.csproj",
@@ -13193,6 +13211,7 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "AutoMapper >= 6.2.1",
+      "HangoutsBusinessLibrary >= 1.0.0",
       "HangoutsDbLibrary >= 1.0.0",
       "Microsoft.AspNetCore.All >= 2.0.0",
       "Microsoft.NETCore.App >= 2.0.0",
@@ -13234,6 +13253,9 @@
           "projectReferences": {
             "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj": {
               "projectPath": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj"
+            },
+            "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsServicesLibrary\\HangoutsBusinessLibrary.csproj": {
+              "projectPath": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsServicesLibrary\\HangoutsBusinessLibrary.csproj"
             }
           }
         }
