@@ -33,13 +33,29 @@ namespace HangoutsWebApi.Services
             }
         }
 
-        public void AddUser(User user)
+        public User AddUser(User user)
         {
             using (var uow = new UnitOfWork())
             {
                 var userRepository = uow.GetRepository<User>();
-                userRepository.Insert(user);
-                uow.SaveChanges();
+                var addressRepository = uow.GetRepository<Address>();
+                // Check if there is already a user with username / email data
+                var existUser = userRepository.GetAll().Where(u => u.Email == user.Email || u.Username == user.Username).FirstOrDefault();
+                if (existUser == null)
+                {
+                    // Check if the user's location is already in DB
+                    Address existAddress = addressRepository.GetAll().Where(u => u.Latitude == user.Address.Latitude || u.Longitude == user.Address.Longitude).FirstOrDefault();
+                    if (existAddress != null)
+                        user.Address = existAddress;
+                    userRepository.Insert(user);
+                    uow.SaveChanges();
+                    return user; ;
+                }
+                else
+                {
+                    return null;
+                }
+
             }
         }
 
@@ -62,33 +78,60 @@ namespace HangoutsWebApi.Services
             }
         }
 
-        public void UpdateUser(int id, User user)
+        public User UpdateUser(int id, User user)
         {
             using (var uow = new UnitOfWork())
             {
                 var userRepository = uow.GetRepository<User>();
                 User userToUpdate = userRepository.GetByID(id);
-                userToUpdate.Address = user.Address;
-                userToUpdate.BirthDate = user.BirthDate;
-                userToUpdate.Email = user.Email;
-                userToUpdate.LastName = user.LastName;
-                userToUpdate.FirstName = user.FirstName;
-                userToUpdate.Username = user.Username;
-                userToUpdate.Password = user.Password;
 
-                userRepository.Edit(userToUpdate);
-                uow.SaveChanges();
+                if(userToUpdate == null)
+                {
+                    return null;
+                }
+
+                var addressRepository = uow.GetRepository<Address>();
+                // Check if there is already a user with email data
+                var existUser = userRepository.GetAll().Where(u => u.Email == user.Email).FirstOrDefault();
+                if (existUser == null || existUser.Username == user.Username)
+                {
+                    // Check if the user's location is already in DB
+                    Address existAddress = addressRepository.GetAll().Where(u => u.Latitude == user.Address.Latitude || u.Longitude == user.Address.Longitude).FirstOrDefault();
+                    if (existAddress != null)
+                        user.Address = existAddress;
+
+                    userToUpdate.Address = user.Address;
+                    userToUpdate.BirthDate = user.BirthDate;
+                    userToUpdate.Email = user.Email;
+                    userToUpdate.LastName = user.LastName;
+                    userToUpdate.FirstName = user.FirstName;
+                    userToUpdate.Username = user.Username;
+                    userToUpdate.Password = user.Password;
+
+                    userRepository.Edit(userToUpdate);
+                    uow.SaveChanges();
+                    return userToUpdate;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
-        public void DeleteUser(int id)
+        public User DeleteUser(int id)
         {
             using (var uow = new UnitOfWork())
             {
                 var userRepository = uow.GetRepository<User>();
                 User user = userRepository.GetByID(id);
+                if(user == null)
+                {
+                    return null;
+                }
                 userRepository.Delete(user);
                 uow.SaveChanges();
+                return user;
             }
         }
     }

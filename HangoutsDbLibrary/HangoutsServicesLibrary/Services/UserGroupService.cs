@@ -10,7 +10,7 @@ namespace HangoutsWebApi.Services
 {
     public class UserGroupService
     {
-        public UserGroup getByID(int groupId, int userId)
+        public UserGroup GetByID(int groupId, int userId)
         {
             using (var uow = new UnitOfWork())
             {
@@ -22,7 +22,7 @@ namespace HangoutsWebApi.Services
             }
         }
 
-        public List<UserGroup> getAllUserGroups()
+        public List<UserGroup> GetAllUserGroups()
         {
             using (var uow = new UnitOfWork())
             {

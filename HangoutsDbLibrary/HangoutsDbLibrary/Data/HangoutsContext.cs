@@ -172,7 +172,9 @@ namespace HangoutsDbLibrary.Data
             // One to Many Plan -> Activities 
             modelBuilder.Entity<Plan>()
                 .HasOne(p => p.Activity)
-                .WithMany(a => a.Plans);
+                .WithMany(a => a.Plans)
+                .HasForeignKey(p => p.ActivityID)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // One to One Friendship -> Chat
             modelBuilder.Entity<Friendship>()

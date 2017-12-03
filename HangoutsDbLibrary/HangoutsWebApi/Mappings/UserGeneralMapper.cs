@@ -14,7 +14,9 @@ namespace HangoutsWebApi.Mappings
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<User, UserGeneralDTO>();
+                cfg.CreateMap<User, UserGeneralDTO>()
+                .ForMember(dst => dst.Address,
+                    op => op.MapFrom(g => g.Address.Location));
             });
             IMapper mapper = config.CreateMapper();
             UserGeneralDTO userDTO = mapper.Map<User, UserGeneralDTO>(user);
@@ -36,20 +38,16 @@ namespace HangoutsWebApi.Mappings
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<UserGeneralDTO, User>()
-                .ForMember(dst => dst.Address, op => op.Ignore());
+                .ForMember(dst => dst.Address, op => op.Ignore())
+                .ForMember(dst => dst.Age, op => op.Ignore())
+                .ForMember(dst => dst.FirstName, op => op.Ignore())
+                .ForMember(dst => dst.LastName, op => op.Ignore())
+                .ForMember(dst => dst.BirthDate, op => op.Ignore())
+                .ForMember(dst => dst.Email, op => op.Ignore())
+                .ForMember(dst => dst.Password, op => op.Ignore());
             });
             IMapper mapper = config.CreateMapper();
             User user = mapper.Map<UserGeneralDTO, User>(userDTO);
-
-            config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AddressDTO, Address>()
-                .ForMember(dst => dst.Users, op => op.Ignore());
-            });
-            mapper = config.CreateMapper();
-            Address address = mapper.Map<AddressDTO, Address>(userDTO.Address);
-
-            user.Address = address;
             return user;
         }
 

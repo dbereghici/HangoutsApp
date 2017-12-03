@@ -9,11 +9,10 @@ namespace HangoutsWebApi.DTOModels
     {
         public int ID { get; set; }
         public int GroupID { get; set; }
-        public GroupDTO Group { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public int LifeTime { get; set; }
+        public int ActivityID { get; set; }
+        public int ChatID { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public AddressDTO Address { get; set; }
-        public int AddressID { get; set; }
-        public ActivityDTO Activity { get; set; }
     }
 }

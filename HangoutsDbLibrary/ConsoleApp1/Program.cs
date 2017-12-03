@@ -21,21 +21,20 @@ namespace ConsoleApp
 
                 using (var uow = new UnitOfWork())
                 {
-                    var userRep = uow.GetRepository<User>();
-                    var addrRep = uow.GetRepository<Address>();
+                    var planRep = uow.GetRepository<Plan>();
+                    var groupRep = uow.GetRepository<Group>();
+                    var actRep = uow.GetRepository<Activity>();
 
-                    User user = new User
-                    {
-                        Username = "cveronica",
-                        Password = "12345",
-                        Email = "cveronica@gmail.com",
-                        BirthDate = new DateTime(1997, 2, 17),
-                        Address = new Address {Location = "Iasi", Latitude=0, Longitude=1 },
-                        FirstName = "Veronica",
-                        LastName = "Cojocari"
-                    };
-                    userRep.Insert(user);
+
                     uow.SaveChanges();
+
+
+                    //var userRep = uow.GetRepository<User>();
+                    //User user = userRep.GetByID(46);
+                    //Group group = groupRep.GetByID(25);
+                    //groupRep.Delete(group);
+                    //uow.SaveChanges();
+
                     //var users = userRepository
                     //    .GetAll()
                     //    .Include(u => u.Friends1)

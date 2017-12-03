@@ -11,9 +11,10 @@ using System;
 namespace HangoutsDbLibrary.Migrations
 {
     [DbContext(typeof(HangoutsContext))]
-    partial class HangoutsContextModelSnapshot : ModelSnapshot
+    [Migration("20171202214238_ModifiedActivity")]
+    partial class ModifiedActivity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

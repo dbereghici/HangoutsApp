@@ -11,9 +11,10 @@ using System;
 namespace HangoutsDbLibrary.Migrations
 {
     [DbContext(typeof(HangoutsContext))]
-    partial class HangoutsContextModelSnapshot : ModelSnapshot
+    [Migration("20171202165330_ModifiedPlan1")]
+    partial class ModifiedPlan1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,17 +131,15 @@ namespace HangoutsDbLibrary.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ActivityID");
+                    b.Property<int?>("ActivityID");
 
                     b.Property<int>("AddressID");
 
                     b.Property<int>("ChatID");
 
-                    b.Property<DateTime>("EndTime");
+                    b.Property<DateTime>("DateTime");
 
                     b.Property<int>("GroupID");
-
-                    b.Property<DateTime>("StartTime");
 
                     b.HasKey("ID");
 
@@ -266,8 +265,7 @@ namespace HangoutsDbLibrary.Migrations
                 {
                     b.HasOne("HangoutsDbLibrary.Model.Activity", "Activity")
                         .WithMany("Plans")
-                        .HasForeignKey("ActivityID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ActivityID");
 
                     b.HasOne("HangoutsDbLibrary.Model.Address", "Address")
                         .WithMany("Plans")

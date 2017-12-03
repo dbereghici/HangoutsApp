@@ -36,7 +36,7 @@ namespace HangoutsWebApi.Controllers
             UserGeneralDTO userGeneralDTO = userGeneralMapper.Map(user);
             if (user == null)
             {
-                return NotFound("User with this id does not exist!");
+                return NotFound("There is not user with such an ID");
             }
             return Ok(userGeneralDTO);
         }
@@ -52,19 +52,24 @@ namespace HangoutsWebApi.Controllers
             if (userDTO.Email.Length > 40 || userDTO.FirstName.Length > 40 ||
                  userDTO.LastName.Length > 40 || userDTO.Password.Length > 40 || userDTO.Username.Length > 40)
                 return "The maximum length for a field is 40 characters!";
-            return "OK";
+            if (userDTO.Password.Length < 5 || userDTO.Username.Length < 5)
+                return "The username and password must contain at least 5 characters!";
+            return "Ok";
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] UserDTO userDTO)
         {
-            if (ModelState.IsValid && ValidUserData(userDTO).Equals("OK"))
+            if (ModelState.IsValid && ValidUserData(userDTO).Equals("Ok"))
             {
                 UserService userService = new UserService();
                 UserMapper userMapper = new UserMapper();
                 User user = userMapper.Map(userDTO);
-                userService.AddUser(user);
-                return Ok();
+                var res = userService.AddUser(user);
+                if (res != null)
+                    return Ok();
+                else
+                    return BadRequest(res);
             }
             else
             {
@@ -81,17 +86,41 @@ namespace HangoutsWebApi.Controllers
         {
             UserService userService = new UserService();
             UserMapper userMapper = new UserMapper();
-            User user = userMapper.Map(userDTO);
-            userService.UpdateUser(id, user);
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("The model is not valid!");
+            }
+            var validUserDataRes = ValidUserData(userDTO);
+            if (validUserDataRes.Equals("Ok"))
+            {
+                User user = userMapper.Map(userDTO);
+                var existUser = userService.GetByID(id);
+                User res;
+                if (existUser == null)
+                    res = userService.AddUser(user);
+                else 
+                    res = userService.UpdateUser(id, user); 
+                if (res == null)
+                    return Ok();
+                else
+                    return BadRequest(res);
+            }
+            else
+            {
+                return BadRequest(validUserDataRes);
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             UserService userService = new UserService();
-            userService.DeleteUser(id);
-            return Ok();
+            var res = userService.DeleteUser(id);
+
+            if (res == null)
+                return Ok();
+            else
+                return BadRequest(res);
         }
 
         [HttpGet()]
