@@ -21,12 +21,17 @@ namespace ConsoleApp
 
                 using (var uow = new UnitOfWork())
                 {
-                    var planRep = uow.GetRepository<Plan>();
-                    var groupRep = uow.GetRepository<Group>();
-                    var actRep = uow.GetRepository<Activity>();
 
-
-                    uow.SaveChanges();
+                    //var planRep = uow.GetRepository<Plan>();
+                    //var groupRep = uow.GetRepository<Group>();
+                    //var actRep = uow.GetRepository<Activity>();
+                    //var frRep = uow.GetRepository<Friendship>();
+                    //int id1 = 46, id2 = 48;
+                    //var pk = new object[] { (object)id1, (object)id2 };
+                    //Friendship f = frRep.GetByID(pk);
+                    //f.Status = "Blocked";
+                    //frRep.Edit(f);
+                    //uow.SaveChanges();
 
 
                     //var userRep = uow.GetRepository<User>();

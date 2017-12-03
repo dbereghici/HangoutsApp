@@ -7,8 +7,10 @@ namespace HangoutsWebApi.DTOModels
 {
     public class UserGroupDTO
     {
-        public UserDTO User { get; set; }
+        public UserGeneralDTO User { get; set; }
         public GroupDTO Group { get; set; }
+        public int UserId { get; set; }
+        public int GroupId { get; set; }
         public string Status { get; set; }
     }
 }

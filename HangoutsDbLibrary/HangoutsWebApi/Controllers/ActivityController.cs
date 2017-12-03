@@ -57,7 +57,7 @@ namespace HangoutsWebApi.Controllers
                 ActivityMapper activityMapper = new ActivityMapper();
                 Activity activity = activityMapper.Map(activityDTO);
                 var res = activityService.AddActivity(activity);
-                if (res != null)
+                if (res.Equals("Ok"))
                     return Ok();
                 else
                     return BadRequest(res);
@@ -83,12 +83,12 @@ namespace HangoutsWebApi.Controllers
             }
             Activity activity = activityMapper.Map(activityDTO);
             var existActivity = activityService.GetByID(id);
-            Activity res = null;
+            string res;
             if (existActivity == null)
                 res = activityService.AddActivity(activity);
             else
                 res = activityService.UpdateActivity(activity, id);
-            if (res != null)
+            if (res.Equals("Ok"))
                 return Ok();
             else
                 return BadRequest(res);
@@ -100,7 +100,7 @@ namespace HangoutsWebApi.Controllers
             ActivityService activityService = new ActivityService();
             var res = activityService.DeleteActivity(id);
 
-            if (res != null)
+            if (res.Equals("Ok"))
                 return Ok();
             else
                 return BadRequest(res);

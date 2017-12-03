@@ -11,5 +11,6 @@ namespace HangoutsDbLibrary.Model
         public Plan Plan { get; set; }
         public List<Message> Messages { get; set; }
         public Friendship Friendship { get; set; }
+        public List<UserChat> UserChats { get; set; }
     }
 }

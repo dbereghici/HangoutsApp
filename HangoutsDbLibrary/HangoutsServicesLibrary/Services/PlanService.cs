@@ -40,12 +40,12 @@ namespace HangoutsBusinessLibrary.Services
                 //    planRepository.Delete(p);
                 //    uow.SaveChanges();
                 //}
-                List<Plan> plans = planRepository.GetAll().Include(p => p.Address).ToList();
+                List<Plan> plans = planRepository.GetAll().Include(p => p.Activity).Include(p => p.Address).ToList();
                 return plans;
             }
         }
 
-        public Plan AddPlan(Plan plan)
+        public string AddPlan(Plan plan)
         {
             using (var uow = new UnitOfWork())
             {
@@ -59,7 +59,7 @@ namespace HangoutsBusinessLibrary.Services
                     p.Activity == plan.Activity).FirstOrDefault();
                 if (existPlan != null)
                 {
-                    return null;
+                    return "There already exist a similar plan";
                 }
                 Address existAddress = addressRepository.GetAll().Where(u => u.Latitude == plan.Address.Latitude || u.Longitude == plan.Address.Longitude).FirstOrDefault();
                 if (existAddress != null)
@@ -67,11 +67,11 @@ namespace HangoutsBusinessLibrary.Services
                 plan.Chat = new Chat();
                 planRepository.Insert(plan);
                 uow.SaveChanges();
-                return plan;
+                return "Ok";
             }
         }
 
-        public Plan DeletePlan(int id)
+        public string DeletePlan(int id)
         {
             using (var uow = new UnitOfWork())
             {
@@ -79,11 +79,11 @@ namespace HangoutsBusinessLibrary.Services
                 Plan plan = planRepository.GetByID(id);
                 if (plan == null)
                 {
-                    return null;
+                    return "Invalid ID";
                 }
                 planRepository.Delete(plan);
                 uow.SaveChanges();
-                return plan;
+                return "Ok";
             }
         }
 

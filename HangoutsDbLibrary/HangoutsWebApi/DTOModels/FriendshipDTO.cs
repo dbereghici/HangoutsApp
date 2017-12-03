@@ -7,7 +7,11 @@ namespace HangoutsWebApi.DTOModels
 {
     public class FriendshipDTO
     {
-        public UserDTO User1 { get; set; }
-        public UserDTO User2 { get; set; }
+        public UserGeneralDTO User1 { get; set; }
+        public UserGeneralDTO User2 { get; set; }
+        public int UserID1 { get; set; }
+        public int UserID2 { get; set; }
+        public string Status { get; set; }
+        public int ChatID { get; set; }
     }
 }

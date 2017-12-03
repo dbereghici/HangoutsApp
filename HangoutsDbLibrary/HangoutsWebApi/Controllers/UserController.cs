@@ -6,6 +6,7 @@ using HangoutsWebApi.DTOModels;
 using AutoMapper;
 using HangoutsWebApi.Mappings;
 using System.ComponentModel.DataAnnotations;
+using HangoutsBusinessLibrary.Services;
 
 namespace HangoutsWebApi.Controllers
 {
@@ -66,7 +67,7 @@ namespace HangoutsWebApi.Controllers
                 UserMapper userMapper = new UserMapper();
                 User user = userMapper.Map(userDTO);
                 var res = userService.AddUser(user);
-                if (res != null)
+                if (res.Equals("Ok"))
                     return Ok();
                 else
                     return BadRequest(res);
@@ -95,12 +96,12 @@ namespace HangoutsWebApi.Controllers
             {
                 User user = userMapper.Map(userDTO);
                 var existUser = userService.GetByID(id);
-                User res;
+                string res;
                 if (existUser == null)
                     res = userService.AddUser(user);
                 else 
                     res = userService.UpdateUser(id, user); 
-                if (res == null)
+                if (res.Equals("Ok"))
                     return Ok();
                 else
                     return BadRequest(res);
@@ -117,7 +118,32 @@ namespace HangoutsWebApi.Controllers
             UserService userService = new UserService();
             var res = userService.DeleteUser(id);
 
-            if (res == null)
+            if (res.Equals("Ok"))
+                return Ok();
+            else
+                return BadRequest(res);
+        }
+
+        [HttpPost("group")]
+        public IActionResult AddUserToGroup([FromBody] UserGroupDTO userGroupDTO)
+        {
+            UserGroupService userGroupService = new UserGroupService();
+            UserGroupMapper userGroupMapper = new UserGroupMapper();
+            UserGroup userGroup = userGroupMapper.Map(userGroupDTO);
+            string res = userGroupService.AddUserGroup(userGroup);
+            if (res.Equals("Ok"))
+                return Ok();
+            else
+                return BadRequest(res);
+        }
+
+        [HttpPost("plan")]
+        public IActionResult AddUserToPlan([FromBody] PlanUserDTO planUserDTO)
+        {
+            PlanUserService planUserService = new PlanUserService();
+            PlanUser planUser = new PlanUser { PlanID = planUserDTO.PlanID, UserID = planUserDTO.UserID };
+            string res = planUserService.AddPlanUser(planUser);
+            if (res.Equals("Ok"))
                 return Ok();
             else
                 return BadRequest(res);
@@ -127,11 +153,48 @@ namespace HangoutsWebApi.Controllers
         [Route("group/{id}")]
         public IActionResult GetAllUsersFromAGroup(int id)
         {
-            UserService userService = new UserService();
+            GroupService groupService = new GroupService();
+            if (groupService.GetByID(id) == null)
+                return NotFound("Invalid ID");
+            UserGroupService userGroupService = new UserGroupService();
             UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
-            List<User> users = userService.GetAllUsersFromAGroup(id);
+            List<User> users = userGroupService.GetAllUsersFromAGroup(id);
+            if (users == null || users.Count == 0)
+                return NotFound("This group has no members");
             List<UserGeneralDTO> usersGeneralDTO = userGeneralMapper.Map(users);
             return Ok(usersGeneralDTO);
+        }
+
+        [HttpGet()]
+        [Route("plan/{id}")]
+        public IActionResult GetAllUsersFromAPlans(int id)
+        {
+            PlanService planService = new PlanService();
+            if (planService.GetByID(id) == null)
+                return NotFound("Invalid ID");
+            PlanUserService planUserService = new PlanUserService();
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            List<User> users = planUserService.GetAllUsersFromAPlan(id);
+            if (users == null || users.Count == 0)
+                return NotFound("This plan has no members");
+            List<UserGeneralDTO> usersGeneralDTO = userGeneralMapper.Map(users);
+            return Ok(usersGeneralDTO);
+        }
+
+        [Route("~/api/friends/user/{id}")]
+        [HttpGet]
+        public IActionResult GetAllFriendsForUser(int id)
+        {
+            UserService userService = new UserService();
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            User existUser = userService.GetByID(id);
+            if (existUser == null)
+                return BadRequest("Invalid ID");
+            List<User> friends = userService.GetAllFriends(id);
+            if (friends == null || friends.Count == 0)
+                return NotFound("User" + id + " has no friends");
+            List<UserGeneralDTO> friendsDTO = userGeneralMapper.Map(friends);
+            return Ok(friendsDTO);
         }
     }
     

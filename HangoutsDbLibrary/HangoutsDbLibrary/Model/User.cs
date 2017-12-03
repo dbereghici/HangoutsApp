@@ -44,12 +44,12 @@ namespace HangoutsDbLibrary.Model
                 {
                     friends.Add(friend.User2);
                 }
-                return friends;
+                 return friends;
             }
             }
         public List<Group> GroupsAdministrated { get; set; }
         public List<PlanUser> PlanUsers { get; set; }
         public List<Message> Messages { get; set; }
-
+        public List<UserChat> UserChats { get; set; }
     }
 }

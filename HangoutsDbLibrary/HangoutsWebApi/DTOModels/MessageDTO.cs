@@ -12,5 +12,7 @@ namespace HangoutsWebApi.DTOModels
         public DateTime CreatedAt { get; set; }
         public ChatDTO Chat { get; set; }
         public UserDTO User { get; set; }
+        public int ChatID { get; set; }
+        public int UserID { get; set; }
     }
 }

@@ -33,14 +33,17 @@ namespace HangoutsWebApi.Services
             }
         }
 
-        public User AddUser(User user)
+        public string AddUser(User user)
         {
             using (var uow = new UnitOfWork())
             {
                 var userRepository = uow.GetRepository<User>();
                 var addressRepository = uow.GetRepository<Address>();
                 // Check if there is already a user with username / email data
-                var existUser = userRepository.GetAll().Where(u => u.Email == user.Email || u.Username == user.Username).FirstOrDefault();
+                var existUser = userRepository.GetAll().Where(u => u.Email == user.Email).FirstOrDefault();
+                if (existUser != null)
+                    return "This email is already used";
+                existUser = userRepository.GetAll().Where(u => u.Username == user.Username).FirstOrDefault();
                 if (existUser == null)
                 {
                     // Check if the user's location is already in DB
@@ -49,36 +52,17 @@ namespace HangoutsWebApi.Services
                         user.Address = existAddress;
                     userRepository.Insert(user);
                     uow.SaveChanges();
-                    return user; ;
+                    return "Ok"; ;
                 }
                 else
                 {
-                    return null;
+                    return "This username is already used";
                 }
 
             }
         }
 
-        public List<User> GetAllUsersFromAGroup(int groupId)
-        {
-            using (var uow = new UnitOfWork())
-            {
-                var userGroupRepository = uow.GetRepository<UserGroup>();
-                List<User> users = new List<User>();
-                List<UserGroup> userGroups = userGroupRepository.GetAll().Include(ug => ug.User).ToList();
-
-                foreach(var ug in userGroups)
-                {
-                    if(ug.GroupID == groupId)
-                    {
-                        users.Add(ug.User);
-                    }
-                }
-                return users;
-            }
-        }
-
-        public User UpdateUser(int id, User user)
+        public string UpdateUser(int id, User user)
         {
             using (var uow = new UnitOfWork())
             {
@@ -87,13 +71,15 @@ namespace HangoutsWebApi.Services
 
                 if(userToUpdate == null)
                 {
-                    return null;
+                    return "Invalid ID";
                 }
 
                 var addressRepository = uow.GetRepository<Address>();
                 // Check if there is already a user with email data
                 var existUser = userRepository.GetAll().Where(u => u.Email == user.Email).FirstOrDefault();
-                if (existUser == null || existUser.Username == user.Username)
+                if (existUser != null && existUser.ID != userToUpdate.ID)
+                    return "This email is already used";
+                else
                 {
                     // Check if the user's location is already in DB
                     Address existAddress = addressRepository.GetAll().Where(u => u.Latitude == user.Address.Latitude || u.Longitude == user.Address.Longitude).FirstOrDefault();
@@ -110,16 +96,35 @@ namespace HangoutsWebApi.Services
 
                     userRepository.Edit(userToUpdate);
                     uow.SaveChanges();
-                    return userToUpdate;
-                }
-                else
-                {
-                    return null;
+                    return "Ok";
                 }
             }
         }
 
-        public User DeleteUser(int id)
+        public List<User> GetAllFriends(int id)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                User user = userRepository
+                    .GetAll()
+                    .Include(u => u.FriendRequestsAccepted)
+                    .ThenInclude(f => f.User2)
+                    .ThenInclude(u => u.Address)
+                    .Include(u => u.FriendRequestsMade)
+                    .ThenInclude(f => f.User1)
+                    .ThenInclude(u => u.Address)
+                    .Where(u => u.ID == id)
+                    .FirstOrDefault();
+                List<User> friends = user.Friends;
+                if (user != null)
+                    return user.Friends;
+                else
+                    return null;
+            }
+        }
+
+        public string DeleteUser(int id)
         {
             using (var uow = new UnitOfWork())
             {
@@ -127,11 +132,11 @@ namespace HangoutsWebApi.Services
                 User user = userRepository.GetByID(id);
                 if(user == null)
                 {
-                    return null;
+                    return "invalid ID";
                 }
                 userRepository.Delete(user);
                 uow.SaveChanges();
-                return user;
+                return "Ok";
             }
         }
     }

@@ -23,6 +23,7 @@ namespace HangoutsDbLibrary.Data
         public DbSet<Message> Messages { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<UserChat> UserChats { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +37,7 @@ namespace HangoutsDbLibrary.Data
             modelBuilder.Entity<Chat>().ToTable("Chat");
             modelBuilder.Entity<Message>().ToTable("Message");
             modelBuilder.Entity<Address>().ToTable("Address");
+            modelBuilder.Entity<UserChat>().ToTable("UserChat");
 
             //Required properties for User
             modelBuilder.Entity<User>()
@@ -181,6 +183,22 @@ namespace HangoutsDbLibrary.Data
                 .HasOne(f => f.Chat)
                 .WithOne(c => c.Friendship)
                 .HasForeignKey<Friendship>(f => f.ChatID);
+
+            // Many to Many User -> Chat
+            modelBuilder.Entity<UserChat>()
+                .HasKey(uc => new { uc.ChatID, uc.UserID });
+
+            modelBuilder.Entity<UserChat>()
+                .HasOne(uc => uc.Chat)
+                .WithMany(c => c.UserChats)
+                .HasForeignKey(uc => uc.ChatID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserChat>()
+                .HasOne(uc => uc.User)
+                .WithMany(u => u.UserChats)
+                .HasForeignKey(uc => uc.UserID)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
 

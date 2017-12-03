@@ -53,7 +53,7 @@ namespace HangoutsWebApi.Controllers
                 PlanMapper planMapper = new PlanMapper();
                 Plan plan = planMapper.Map(planDTO);
                 var res = planService.AddPlan(plan);
-                if (res != null)
+                if (res.Equals("Ok"))
                 {
                     return Ok();
                 }
@@ -74,7 +74,7 @@ namespace HangoutsWebApi.Controllers
             PlanService planService = new PlanService();
             var res = planService.DeletePlan(id);
 
-            if (res != null)
+            if (res.Equals("Ok"))
                 return Ok();
             else
                 return BadRequest(res);
@@ -87,7 +87,7 @@ namespace HangoutsWebApi.Controllers
             PlanService planService = new PlanService();
             GroupService groupService = new GroupService();
             PlanMapper planMapper = new PlanMapper();
-            if (groupService.getByID(id) == null)
+            if (groupService.GetByID(id) == null)
             {
                 return NotFound("Invalid group ID");
             }
@@ -100,23 +100,34 @@ namespace HangoutsWebApi.Controllers
             return Ok(plansDTO);
         }
 
+        [HttpPost("user")]
+        public IActionResult AddUserToPlan([FromBody] PlanUserDTO planUserDTO)
+        {
+            PlanUserService planUserService = new PlanUserService();
+            PlanUser planUser = new PlanUser { PlanID = planUserDTO.PlanID, UserID = planUserDTO.UserID };
+            string res = planUserService.AddPlanUser(planUser);
+            if (res.Equals("Ok"))
+                return Ok();
+            else
+                return BadRequest(res);
+        }
+
         // Add a new plan to group
-        [HttpPost("group/{id}")]
-        public IActionResult PostToGroup(int id, [FromBody] PlanDTO planDTO)
+        [HttpPost("group")]
+        public IActionResult PostToGroup([FromBody] PlanDTO planDTO)
         {
             if (ModelState.IsValid)
             {
                 GroupService groupService = new GroupService();
                 PlanService planService = new PlanService();
                 PlanMapper planMapper = new PlanMapper();
-                if (groupService.getByID(id) == null)
+                if (groupService.GetByID(planDTO.ID) == null)
                 {
                     return BadRequest("Invalid group ID");
                 }
                 Plan plan = planMapper.Map(planDTO);
-                plan.GroupID = id;
                 var res = planService.AddPlan(plan);
-                if (res != null)
+                if (res.Equals("Ok"))
                 {
                     return Ok();
                 }
@@ -150,14 +161,5 @@ namespace HangoutsWebApi.Controllers
             List<PlanDTO> plansDTO = planMapper.Map(plans);
             return Ok(plansDTO);
         }
-
-        // Add a user to a plan
-        [HttpPost("{planID}/user/{userId}")]
-        public IActionResult AddUserToPlan()
-        {
-
-            return Ok();
-        }
-
     }
 }
