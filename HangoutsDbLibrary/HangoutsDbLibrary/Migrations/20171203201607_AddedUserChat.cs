@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HangoutsDbLibrary.Migrations
 {
-    public partial class UserChat : Migration
+    public partial class AddedUserChat : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

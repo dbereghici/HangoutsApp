@@ -134,6 +134,27 @@ namespace HangoutsWebApi.Services
                 {
                     return "invalid ID";
                 }
+                var userGroupRepository = uow.GetRepository<UserGroup>();
+                var planUserRepository = uow.GetRepository<PlanUser>();
+                var userChatRepository = uow.GetRepository<UserChat>();
+                var friendshipRepository = uow.GetRepository<Friendship>();
+                var userGroupReferences = userGroupRepository.GetAll().Where(ug => ug.UserID == id).ToList();
+                foreach (var r in userGroupReferences)
+                    userGroupRepository.Delete(r);
+                var planUserReferences = planUserRepository.GetAll().Where(pu => pu.UserID == id).ToList();
+                foreach (var r in planUserReferences)
+                    planUserRepository.Delete(r);
+                var userChatReferences = userChatRepository.GetAll().Where(uc => uc.UserID == id).ToList();
+                foreach (var r in userChatReferences)
+                    userChatRepository.Delete(r);
+                var friendshipReferences = friendshipRepository.GetAll().Where(f => f.UserID1 == id).ToList();
+                foreach (var r in friendshipReferences)
+                    friendshipRepository.Delete(r);
+                friendshipReferences = friendshipRepository.GetAll().Where(f => f.UserID2 == id).ToList();
+                foreach (var r in friendshipReferences)
+                    friendshipRepository.Delete(r);
+                uow.SaveChanges();
+
                 userRepository.Delete(user);
                 uow.SaveChanges();
                 return "Ok";

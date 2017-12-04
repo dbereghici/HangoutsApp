@@ -196,6 +196,52 @@ namespace HangoutsWebApi.Controllers
             List<UserGeneralDTO> friendsDTO = userGeneralMapper.Map(friends);
             return Ok(friendsDTO);
         }
+
+        [HttpDelete("{userId}/group/{groupId}")]
+        public IActionResult DeleteUserFromGroup(int userId, int groupId)
+        {
+            UserService userService = new UserService();
+            if (userService.GetByID(userId) == null)
+                return NotFound("Invalid user id");
+            GroupService groupService = new GroupService();
+            if (groupService.GetByID(groupId) == null)
+                return NotFound("Invalid group id");
+            UserGroupService userGroupService = new UserGroupService();
+            string res = userGroupService.DeleteUserGroup(userId, groupId);
+            if (res.Equals("Ok"))
+                return Ok();
+            else
+                return NotFound(res);
+        }
+
+        [HttpPut("{userId}/group/{groupId}")]
+        public IActionResult PutUserGroup(int userId, int groupId, [FromBody] UserGroup userGroup)
+        {
+            UserService userService = new UserService();
+            if (userService.GetByID(userId) == null)
+                return NotFound("Invalid user id");
+            GroupService groupService = new GroupService();
+            if (groupService.GetByID(groupId) == null)
+                return NotFound("Invalid group id");
+            UserGroupService userGroupService = new UserGroupService();
+            var existUserGroup = userGroupService.GetByID(groupId, userId);
+            string res;
+            if (existUserGroup == null)
+            {
+                userGroup.UserID = userId;
+                userGroup.GroupID = groupId;
+                res = res = userGroupService.AddUserGroup(userGroup);
+            }
+            else
+            {
+                userGroup.UserID = userId;
+                userGroup.GroupID = groupId;
+                res = userGroupService.UpdateUserGroup(userGroup);
+            }
+            if (res.Equals("Ok"))
+                return Ok();
+            else
+                return NotFound(res);
+        }
     }
-    
 }

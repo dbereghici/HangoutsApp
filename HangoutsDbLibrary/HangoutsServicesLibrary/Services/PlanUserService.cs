@@ -24,6 +24,7 @@ namespace HangoutsBusinessLibrary.Services
             using (var uow = new UnitOfWork())
             {
                 var planUserRepository = uow.GetRepository<PlanUser>();
+                var userChatRepository = uow.GetRepository<UserChat>();
                 PlanUser existPlanUser = planUserRepository
                     .GetAll()
                     .Where(pu => pu.PlanID == planUser.PlanID && pu.UserID == planUser.UserID)
@@ -31,6 +32,8 @@ namespace HangoutsBusinessLibrary.Services
                 if (existPlanUser != null)
                     return "This user is already in this plan";
                 planUserRepository.Insert(planUser);
+                
+                userChatRepository.Insert(new UserChat { ChatID = plan.ChatID, UserID = planUser.UserID});
                 uow.SaveChanges();
                 return "Ok";
             }

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp1\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HangoutsWebApi", "HangoutsWebApi\HangoutsWebApi.csproj", "{61F261A5-2646-448B-A076-EDB4493942CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HangoutsBusinessLibrary", "HangoutsServicesLibrary\HangoutsBusinessLibrary.csproj", "{0B3065D0-9018-4264-A4C1-125EB88AA591}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HangoutsBusinessLibrary", "HangoutsServicesLibrary\HangoutsBusinessLibrary.csproj", "{0B3065D0-9018-4264-A4C1-125EB88AA591}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

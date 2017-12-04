@@ -11,8 +11,8 @@ using System;
 namespace HangoutsDbLibrary.Migrations
 {
     [DbContext(typeof(HangoutsContext))]
-    [Migration("20171203193751_UserChat")]
-    partial class UserChat
+    [Migration("20171203201607_AddedUserChat")]
+    partial class AddedUserChat
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

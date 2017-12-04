@@ -1,0 +1,1553 @@
+{
+	"info": {
+		"name": "Postman",
+		"_postman_id": "dd2bcd53-6996-78ed-ced4-19fd580431fe",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1 - Add new User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"tudor.lung\",\n\t\"password\" : \"12345\",\n\t\"email\" : \"tudor.lung@accesa.eu\",\n\t\"firstname\" : \"tudor\",\n\t\"lastname\" : \"lung\",\n\t\"birthdate\" : \"1994-12-12T00:00:00\",\n\t\"address\" : {\n\t\t\"location\" : \"Cluj\",\n\t\t\"latitude\" : 12345,\n\t\t\"longitude\" : 12345\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "2 - Add new User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"tudor.lung\",\n\t\"password\" : \"12345\",\n\t\"email\" : \"tudor.lung@accesa.eu\",\n\t\"firstname\" : \"tudor\",\n\t\"lastname\" : \"lung\",\n\t\"birthdate\" : \"1994-12-12T00:00:00\",\n\t\"address\" : {\n\t\t\"location\" : \"Cluj\",\n\t\t\"latitude\" : 12345,\n\t\t\"longitude\" : 12345\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "3 - Add new User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"mihai.hornariu\",\n\t\"password\" : \"54321\",\n\t\"email\" : \"mihai.hornariu@accesa.eu\",\n\t\"firstname\" : \"mihai\",\n\t\"lastname\" : \"hornariu\",\n\t\"birthdate\" : \"1993-10-12T00:00:00\",\n\t\"address\" : {\n\t\t\"location\" : \"Cluj\",\n\t\t\"latitude\" : 312,\n\t\t\"longitude\" : 312\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "4 - Add new User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"alice.rosa\",\n\t\"password\" : \"54321\",\n\t\"email\" : \"alice.lupsan@accesa.eu\",\n\t\"firstname\" : \"alice\",\n\t\"lastname\" : \"rosa\",\n\t\"birthdate\" : \"1992-12-12T00:00:00\",\n\t\"address\" : {\n\t\t\"location\" : \"Bucuresti\",\n\t\t\"latitude\" : 987,\n\t\t\"longitude\" : 987\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "5 - Add new User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"alex.cocian\",\n\t\"password\" : \"54321\",\n\t\"email\" : \"alex.cocian@accesa.eu\",\n\t\"firstname\" : \"alex\",\n\t\"lastname\" : \"cocian\",\n\t\"birthdate\" : \"1992-12-12T00:00:00\",\n\t\"address\" : {\n\t\t\"location\" : \"Suceava\",\n\t\t\"latitude\" : 9873,\n\t\t\"longitude\" : 9873\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "6 - Add new User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"mihaela.fedor\",\n\t\"password\" : \"54321\",\n\t\"email\" : \"mihaela.fedor@accesa.eu\",\n\t\"firstname\" : \"mihaela\",\n\t\"lastname\" : \"fedor\",\n\t\"birthdate\" : \"1995-12-12T00:00:00\",\n\t\"address\" : {\n\t\t\"location\" : \"Bucuresti\",\n\t\t\"latitude\" : 987310,\n\t\t\"longitude\" : 987310\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "7 - Add new User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"monica.mosoiu\",\n\t\"password\" : \"54321\",\n\t\"email\" : \"monica.mosoiu@accesa.eu\",\n\t\"firstname\" : \"monica\",\n\t\"lastname\" : \"mosoiu\",\n\t\"birthdate\" : \"1992-12-12T00:00:00\",\n\t\"address\" : {\n\t\t\"location\" : \"Suceava\",\n\t\t\"latitude\" : 9873,\n\t\t\"longitude\" : 9873\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "8 - Add new User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"antonio.bentia\",\n\t\"password\" : \"54321\",\n\t\"email\" : \"antonio.bentia@accesa.eu\",\n\t\"firstname\" : \"antonio\",\n\t\"lastname\" : \"bentia\",\n\t\"birthdate\" : \"1990-12-12T00:00:00\",\n\t\"address\" : {\n\t\t\"location\" : \"Iasi\",\n\t\t\"latitude\" : 987322,\n\t\t\"longitude\" : 987322\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "9 - Add new Group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"name\": \"University Friends\",\n        \"admin\": {\n            \"id\": 59\n        }\n    }"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "10 - Add new Group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"name\": \"High School Friends\",\n        \"admin\": {\n            \"id\": 59\n        }\n    }"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "11 - Add new Group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"name\": \"Football Friends\",\n        \"admin\": {\n            \"id\": 56\n        }\n    }"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "12 - Add new Group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"name\": \"Football Friends\",\n        \"admin\": {\n            \"id\": 57\n        }\n    }"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "13 - Add new Group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"name\": \"Family Friends\",\n        \"admin\": {\n            \"id\": 60\n        }\n    }"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "14 - Put User",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"monica.mosoiu\",\n\t\"password\" : \"54321\",\n\t\"email\" : \"monicamosoiu@gmail.com\",\n\t\"firstname\" : \"monica\",\n\t\"lastname\" : \"mosoiu\",\n\t\"birthdate\" : \"1992-12-12T00:00:00\",\n\t\"address\" : {\n\t\t\"location\" : \"Suceava\",\n\t\t\"latitude\" : 9873,\n\t\t\"longitude\" : 9873\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user/61",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user",
+						"61"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "15 - Get All Users from a Group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"status\" : \"pending\"\n\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user/59/group/32",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user",
+						"59",
+						"group",
+						"32"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "16 - Get All Groups of an User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\" : 60\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user/group/33",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user",
+						"group",
+						"33"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "17 - Add user to group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"groupId\" : 32,\n\t\"userId\" : 60,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "18 - Add user to group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"groupId\" : 32,\n\t\"userId\" : 61,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "19 - Add user to group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"groupId\" : 32,\n\t\"userId\" : 61,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "20 - Add user to group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"groupId\" : 32,\n\t\"userId\" : 56,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "21- Add user to group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"groupId\" : 33,\n\t\"userId\" : 56,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "22- Add user to group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"groupId\" : 34,\n\t\"userId\" : 56,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "23- Add user to group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"groupId\" : 35,\n\t\"userId\" : 56,\n\t\"status\" : \"accepted\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "24 - Get all users from a Group",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"groupId\" : 35,\n\t\"userId\" : 56,\n\t\"status\" : \"accepted\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user/group/32",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user",
+						"group",
+						"32"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "25 - Add friendship",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId1\" : 56,\n\t\"userId2\" : 59,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/friendship",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"friendship"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "26 - Add friendship",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId1\" : 56,\n\t\"userId2\" : 62,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/friendship",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"friendship"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "27 - Add friendship",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId1\" : 57,\n\t\"userId2\" : 59,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/friendship",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"friendship"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "28 - Add friendship",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId1\" : 59,\n\t\"userId2\" : 62,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/friendship",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"friendship"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "29 - Add friendship",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId1\" : 59,\n\t\"userId2\" : 61,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/friendship",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"friendship"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "30 - Add friendship",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId1\" : 61,\n\t\"userId2\" : 60,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/friendship",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"friendship"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "30 - Get all friends of an user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId1\" : 61,\n\t\"userId2\" : 60,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/friends/user/59",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"friends",
+						"user",
+						"59"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "31 - Get all friendships",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId1\" : 61,\n\t\"userId2\" : 60,\n\t\"status\" : \"pending\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/friendship",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"friendship"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "32 - Update friendship",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"status\" : \"accepted\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/friendship/56/59",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"friendship",
+						"56",
+						"59"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "32 - Delete friendship",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\" : 61,\n\t\"groupId\" : {\n\t\t\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/activity/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"activity",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "33 - Add activity to Group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\" : \"Lunch\",\n\t\"groupDTO\" : {\n\t\t\"id\" : 36\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/activity/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"activity",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "33 - Add activity to Group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\" : \"Dinner\",\n\t\"groupDTO\" : {\n\t\t\"id\" : 36\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/activity/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"activity",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "34 - Add activity to Group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\" : \"Cinema\",\n\t\"groupDTO\" : {\n\t\t\"id\" : 32\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/activity/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"activity",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "35 - Add activity to Group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\" : \"Chill Out\",\n\t\"groupDTO\" : {\n\t\t\"id\" : 32\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/activity/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"activity",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "35 - Add activity to Group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\" : \"Drinking\",\n\t\"groupDTO\" : {\n\t\t\"id\" : 32\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/activity/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"activity",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "35 - Update Activity",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\" : \"Lunch\",\n\t\"groupDTO\" : {\n\t\t\"id\" : 32\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/activity/20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"activity",
+						"20"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "35 - Get all activities",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"activityId\" : 16,\n\t\"groupId\" : 36,\n\t\"startTime\" : \"2017-12-03T9:00:00\"\n\t\"endTime\" :\n\t\"address\" : {\n\t\t\"location\" : \n\t\t\"latitude\" :\n\t\t\"longitude\" : \n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/plan/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"plan",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "36 - Create new Plan",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"ActivityID\" : 16,\n\t\"GroupID\" : 36,\n\t\"StartTime\" : \"2017-12-03T09:00:00\",\n\t\"EndTime\" : \"2017-12-04T01:00:00\",\n\t\"Address\" : {\n\t\t\"Location\" : \"Indigo Cluj str.Piezisa\",\n\t\t\"Latitude\" : 9831,\n\t\t\"Longitude\" : 7219\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/plan/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"plan",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "37 - Create new Plan",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"ActivityID\" : 19,\n\t\"GroupID\" : 32,\n\t\"StartTime\" : \"2017-10-03T09:00:00\",\n\t\"EndTime\" : \"2017-11-04T01:00:00\",\n\t\"Address\" : {\n\t\t\"Location\" : \"Hard Club Cluj str.Republicii\",\n\t\t\"Latitude\" : 983132,\n\t\t\"Longitude\" : 72119\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/plan/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"plan",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "38 - Add user to Plan",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"PlanID\" : 29,\n\t\"UserID\" : 60\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user/plan/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user",
+						"plan",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "39 - Add user to Plan",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"PlanID\" : 29,\n\t\"UserID\" : 60\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user/plan/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user",
+						"plan",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "39 - Get all users from a plan",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"PlanID\" : 29,\n\t\"UserID\" : 60\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user/plan/29",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user",
+						"plan",
+						"29"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "40 - Add user to plan",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"PlanID\" : 28,\n\t\"UserID\" : 60\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user/plan",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user",
+						"plan"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "40 - Delete plan",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"PlanID\" : 28,\n\t\"UserID\" : 60\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/plan/28",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"plan",
+						"28"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "41 - Delete Group",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"PlanID\" : 28,\n\t\"UserID\" : 60\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/group/35",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"group",
+						"35"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "41 - Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"PlanID\" : 28,\n\t\"UserID\" : 60\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user/59",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user",
+						"59"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

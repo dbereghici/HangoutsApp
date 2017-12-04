@@ -21,7 +21,7 @@ namespace HangoutsWebApi.Controllers
             GroupService groupService = new GroupService();
             GroupMapper groupMapper = new GroupMapper();
             List<Group> groups = groupService.GetAllGroups();
-            if(groups == null || groups.Count == 0)
+            if (groups == null || groups.Count == 0)
             {
                 return NotFound("There are not groups");
             }
@@ -35,7 +35,7 @@ namespace HangoutsWebApi.Controllers
             GroupService groupService = new GroupService();
             GroupMapper groupMapper = new GroupMapper();
             Group group = groupService.GetByID(id);
-            if(group == null)
+            if (group == null)
             {
                 return NotFound("There is not group with such an ID");
             }
@@ -48,7 +48,7 @@ namespace HangoutsWebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(groupDTO.Name == null || groupDTO.Name.Length < 3 || groupDTO.Name.Length > 40)
+                if (groupDTO.Name == null || groupDTO.Name.Length < 3 || groupDTO.Name.Length > 40)
                 {
                     return BadRequest("The group name must contain from 3 to 40 characters!");
                 }
@@ -75,7 +75,7 @@ namespace HangoutsWebApi.Controllers
             GroupMapper groupMapper = new GroupMapper();
             if (!ModelState.IsValid)
             {
-                return BadRequest("The model is not valid!"); 
+                return BadRequest("The model is not valid!");
             }
             if (groupDTO.Name == null || groupDTO.Name.Length < 3 || groupDTO.Name.Length > 40)
             {
@@ -132,6 +132,36 @@ namespace HangoutsWebApi.Controllers
                 return NotFound("Invalid group id");
             UserGroupService userGroupService = new UserGroupService();
             string res = userGroupService.DeleteUserGroup(userId, groupId);
+            if (res.Equals("Ok"))
+                return Ok();
+            else
+                return NotFound(res);
+        }
+
+        [HttpPut("{groupId}/user/{userId}")]
+        public IActionResult PutUserGroup(int userId, int groupId, [FromBody] UserGroup userGroup)
+        {
+            UserService userService = new UserService();
+            if (userService.GetByID(userId) == null)
+                return NotFound("Invalid user id");
+            GroupService groupService = new GroupService();
+            if (groupService.GetByID(groupId) == null)
+                return NotFound("Invalid group id");
+            UserGroupService userGroupService = new UserGroupService();
+            var existUserGroup = userGroupService.GetByID(groupId, userId);
+            string res;
+            if (existUserGroup == null)
+            {
+                userGroup.UserID = userId;
+                userGroup.GroupID = groupId;
+                res = res = userGroupService.AddUserGroup(userGroup);
+            }
+            else
+            {
+                userGroup.UserID = userId;
+                userGroup.GroupID = groupId;
+                res = userGroupService.UpdateUserGroup(userGroup);
+            }
             if (res.Equals("Ok"))
                 return Ok();
             else

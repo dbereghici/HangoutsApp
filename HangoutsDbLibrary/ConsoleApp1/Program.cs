@@ -21,55 +21,50 @@ namespace ConsoleApp
 
                 using (var uow = new UnitOfWork())
                 {
-
-                    //var planRep = uow.GetRepository<Plan>();
-                    //var groupRep = uow.GetRepository<Group>();
-                    //var actRep = uow.GetRepository<Activity>();
-                    //var frRep = uow.GetRepository<Friendship>();
-                    //int id1 = 46, id2 = 48;
-                    //var pk = new object[] { (object)id1, (object)id2 };
-                    //Friendship f = frRep.GetByID(pk);
-                    //f.Status = "Blocked";
-                    //frRep.Edit(f);
+                    var ucRep = uow.GetRepository<UserChat>();
+                    ucRep.GetAll();
+                    UserChat userChat = new UserChat { UserID = 55, ChatID = 50 };
+                    ucRep.Insert(userChat);
                     //uow.SaveChanges();
-
-
                     //var userRep = uow.GetRepository<User>();
-                    //User user = userRep.GetByID(46);
-                    //Group group = groupRep.GetByID(25);
-                    //groupRep.Delete(group);
+                    //var groupRep = uow.GetRepository<Group>();
+                    //Group group = new Group
+                    //{
+                    //    Admin = userRep.GetAll().FirstOrDefault(),
+                    //    Name = "Sport Friends"
+                    //};
+                    //groupRep.Insert(group);
+                    //var activityRep = uow.GetRepository<Activity>();
+                    //Activity activity = new Activity
+                    //{
+                    //    Description = "Football",
+                    //    Group = group
+                    //};
+                    //activityRep.Insert(activity);
+                    //var planRep = uow.GetRepository<Plan>();
+                    //Plan plan = new Plan
+                    //{
+                    //    Activity = activity,
+                    //    Address = uow.GetRepository<Address>().GetAll().FirstOrDefault(),
+                    //    Chat = new Chat(),
+                    //    StartTime = new DateTime(2017, 12, 3),
+                    //    EndTime = new DateTime(2017, 12, 4),
+                    //    Group = group
+                    //};
+                    //planRep.Insert(plan);
                     //uow.SaveChanges();
-
-                    //var users = userRepository
-                    //    .GetAll()
-                    //    .Include(u => u.Friends1)
-                    //    .Include(u => u.Friends2)
-                    //    .Include(u => u.UserGroups)
-                    //    .ThenInclude(u => u.Group)
-                    //    .ToList();
-
-                    ////foreach (var u in users)
-                    ////{
-                    ////    var userGroups = db.UserGroups.Where(ug => ug.UserID == u.ID);
-                    ////    var groups = db.Groups.Where(x => userGroups.Any(y => y.GroupID == x.ID));
-                    ////}
-
-                    ////var groups = db.Groups.ToList();
-
-                    //User user = userRepository.GetByID(16);
-
-                    //Console.WriteLine("Friends:");
-                    //foreach(var friend in user.Friends)
+                    //User user = new User
                     //{
-                    //    Console.WriteLine(friend.FirstName);
-                    //}
-                    //Console.WriteLine("Groups:");
-                    //foreach(var usergroup in user.UserGroups)
-                    //{
-                    //    Console.WriteLine(usergroup.Group.Name);
-                    //}
-
-
+                    //    Address = new Address { Latitude = 0, Longitude = 0, Location = "Petresti" },
+                    //    BirthDate = new DateTime(1996, 6, 27),
+                    //    Email = "d.bereghici@gmail.com",
+                    //    Username = "d.bereghici",
+                    //    FirstName = "Dumitru",
+                    //    LastName = "Bereghici", 
+                    //    Password = "12345"
+                    //};
+                    //userRep.Insert(user);
+                    //uow.SaveChanges();
 
 
                     //ConsoleKeyInfo input;

@@ -89,5 +89,31 @@ namespace HangoutsWebApi.Services
                 return "Ok";
             }
         }
+
+        public string UpdateUserGroup(UserGroup userGroup)
+        {
+            UserService userService = new UserService();
+            GroupService groupService = new GroupService();
+            Group group = groupService.GetByID(userGroup.GroupID);
+            if (group == null)
+                return "Invalid groupID";
+            User user = userService.GetByID(userGroup.UserID);
+            if (user == null)
+                return "Invalid userID";
+            using (var uow = new UnitOfWork())
+            {
+                var userGroupRepository = uow.GetRepository<UserGroup>();
+                UserGroup userGroupToUpdate = userGroupRepository
+                    .GetAll()
+                    .Where(ug => ug.GroupID == userGroup.GroupID && ug.UserID == userGroup.UserID)
+                    .FirstOrDefault();
+                if (userGroupToUpdate == null)
+                    return "This user is not member of this group";
+                userGroupToUpdate.Status = userGroup.Status;
+                userGroupRepository.Edit(userGroupToUpdate);
+                uow.SaveChanges();
+                return "Ok";
+            }
+        }
     }
 }
