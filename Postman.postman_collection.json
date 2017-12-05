@@ -1548,6 +1548,39 @@
 				"description": ""
 			},
 			"response": []
+		},
+		{
+			"name": "42 - Delete User from Group",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\" : 1,\n\t\"username\" : \"c.vasilov\",\n\t\"password\" : \"12345\",\n\t\"email\" : \"c.vasilov@gmail.com\",\n\t\"firstname\" : \"corneliu\",\n\t\"lastname\" : \"vasilor\",\n\t\"birthdate\" : \"1996-06-28T00:00:00\",\n\t\"address\" : {\n\t\t\"location\" : \"Cluj\",\n\t\t\"latitude\" : 12345,\n\t\t\"longitude\" : 12345\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:15195/api/user/56/group/34",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "15195",
+					"path": [
+						"api",
+						"user",
+						"56",
+						"group",
+						"34"
+					]
+				},
+				"description": ""
+			},
+			"response": []
 		}
 	]
 }
