@@ -9,3 +9,14 @@ C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibra
 C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\obj\Debug\netcoreapp2.0\HangoutsBusinessLibrary.AssemblyInfo.cs
 C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\obj\Debug\netcoreapp2.0\HangoutsBusinessLibrary.dll
 C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\obj\Debug\netcoreapp2.0\HangoutsBusinessLibrary.pdb
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\bin\Debug\netcoreapp2.0\HangoutsBusinessLibrary.deps.json
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\bin\Debug\netcoreapp2.0\HangoutsBusinessLibrary.dll
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\bin\Debug\netcoreapp2.0\HangoutsBusinessLibrary.pdb
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\obj\Debug\netcoreapp2.0\HangoutsBusinessLibrary.csprojResolveAssemblyReference.cache
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\obj\Debug\netcoreapp2.0\HangoutsBusinessLibrary.csproj.CoreCompileInputs.cache
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\obj\Debug\netcoreapp2.0\HangoutsBusinessLibrary.AssemblyInfoInputs.cache
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\obj\Debug\netcoreapp2.0\HangoutsBusinessLibrary.AssemblyInfo.cs
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\obj\Debug\netcoreapp2.0\HangoutsBusinessLibrary.dll
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsServicesLibrary\obj\Debug\netcoreapp2.0\HangoutsBusinessLibrary.pdb

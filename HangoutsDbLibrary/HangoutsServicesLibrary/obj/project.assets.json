@@ -5220,11 +5220,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsServicesLibrary\\HangoutsBusinessLibrary.csproj",
+      "projectUniqueName": "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsServicesLibrary\\HangoutsBusinessLibrary.csproj",
       "projectName": "HangoutsBusinessLibrary",
-      "projectPath": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsServicesLibrary\\HangoutsBusinessLibrary.csproj",
+      "projectPath": "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsServicesLibrary\\HangoutsBusinessLibrary.csproj",
       "packagesPath": "C:\\Users\\dbere\\.nuget\\packages\\",
-      "outputPath": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsServicesLibrary\\obj\\",
+      "outputPath": "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsServicesLibrary\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -5243,8 +5243,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj": {
-              "projectPath": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj"
+            "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj": {
+              "projectPath": "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj"
             }
           }
         }

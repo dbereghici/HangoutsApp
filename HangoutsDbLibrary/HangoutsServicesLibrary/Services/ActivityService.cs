@@ -30,69 +30,62 @@ namespace HangoutsBusinessLibrary.Services
             }
         }
 
-        public string AddActivity(Activity activity)
+        public Activity AddActivity(Activity activity)
         {
             using (var uow = new UnitOfWork())
             {
                 var activityRepository = uow.GetRepository<Activity>();
                 var groupRepository = uow.GetRepository<Group>();
                 Group group = groupRepository.GetByID(activity.Group.ID);
-                if (group == null)
-                {
-                    return "Invalid group ID";
-                }
-                activity.Group = group;
+                activity.Group = group ?? throw new Exception("Invalid group ID");
                 Activity existActivity = activityRepository
                     .GetAll()
                     .Where(a => a.Description == activity.Description && a.GroupID == activity.Group.ID)
                     .FirstOrDefault();
                 if (existActivity != null)
-                    return "There is already an activity with such a description";
+                    throw new Exception("There is already an activity with such a description");
                 activityRepository.Insert(activity);
                 uow.SaveChanges();
-                return "Ok";
+                return activity;
             }
         }
 
-        public string UpdateActivity(Activity activity, int id)
+        public Activity UpdateActivity(Activity activity, int id)
         {
             using (var uow = new UnitOfWork())
             {
                 var activityRepository = uow.GetRepository<Activity>();
                 Activity activityToUpdate = activityRepository.GetByID(id);
                 if (activityToUpdate == null)
-                {
-                    return "Invalid ID"; 
-                }
+                    throw new Exception("Invalid ID");
                 Activity existActivity = activityRepository.GetAll().Where(a => a.Description == activity.Description).FirstOrDefault();
                 if (existActivity == null)
                 {
-                    return "There is already an activity with such a description";
+                    throw new Exception("There is already an activity with such a description");
                 }
                 activityToUpdate.Description = activity.Description;
                 activityRepository.Edit(activityToUpdate);
                 uow.SaveChanges();
-                return "Ok";
+                return activityToUpdate;
             }
         }
 
-        public string DeleteActivity(int id)
+        public void DeleteActivity(int id)
         {
             using (var uow = new UnitOfWork())
             {
                 var planRepository = uow.GetRepository<Plan>();
                 List<Plan> plan = planRepository.GetAll().Where(p => p.ActivityID == id).ToList();
                 if (plan != null)
-                    return "This activity can not be deleted as long as there are plans containing it";
+                    throw new Exception("This activity can not be deleted as long as there are plans containing it");
                 var activityRepository = uow.GetRepository<Activity>();
                 Activity activity = activityRepository.GetByID(id);
                 if (activity == null)
                 {
-                    return "Invalid ID";
+                    throw new Exception("Invalid ID");
                 }
                 activityRepository.Delete(activity);
                 uow.SaveChanges();
-                return "Ok";
             }
         }
     }

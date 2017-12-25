@@ -47,7 +47,7 @@ namespace HangoutsBusinessLibrary.Services
             }
         }
 
-        public string AddFriendship(Friendship friendship)
+        public Friendship AddFriendship(Friendship friendship)
         {
             UserService userService = new UserService();
             // Check for users
@@ -56,9 +56,9 @@ namespace HangoutsBusinessLibrary.Services
             User user1 = userService.GetByID(id1);
             User user2 = userService.GetByID(id2);
             if (user1 == null)
-                return "There is no user with ID :" + id1;
+                throw new Exception("There is no user with ID :" + id1);
             if (user2 == null)
-                return "There is no user with ID :" + id2;
+                throw new Exception("There is no user with ID :" + id2);
             using (var uow = new UnitOfWork())
             {
                 var friendshipRepository = uow.GetRepository<Friendship>();
@@ -71,7 +71,7 @@ namespace HangoutsBusinessLibrary.Services
                     existFriendship = friendshipRepository.GetByID(pk);
                 }
                 if (existFriendship != null)
-                    return "There already is a friendship relation between user" + id1 + " and user" + id2 + " Status = " + existFriendship.Status;
+                    throw new Exception("There already is a friendship relation between user" + id1 + " and user" + id2 + " Status = " + existFriendship.Status);
                 // Add friendship 
                 friendship.User1 = null;
                 friendship.User2 = null;
@@ -80,11 +80,11 @@ namespace HangoutsBusinessLibrary.Services
                 friendship.Chat = new Chat();
                 friendshipRepository.Insert(friendship);
                 uow.SaveChanges();
-                return "Ok";
+                return friendship;
             }
         }
 
-        public string UpdateFriendship(Friendship friendship)
+        public Friendship UpdateFriendship(Friendship friendship)
         {
             UserService userService = new UserService();
             // Check for users
@@ -93,9 +93,9 @@ namespace HangoutsBusinessLibrary.Services
             User user1 = userService.GetByID(id1);
             User user2 = userService.GetByID(id2);
             if (user1 == null)
-                return "There is no user with ID :" + id1;
+                throw new Exception("There is no user with ID :" + id1);
             if (user2 == null)
-                return "There is no user with ID :" + id2;
+                throw new Exception("There is no user with ID :" + id2);
             using (var uow = new UnitOfWork())
             {
                 var friendshipRepository = uow.GetRepository<Friendship>();
@@ -108,25 +108,25 @@ namespace HangoutsBusinessLibrary.Services
                     friendshipToUpdate = friendshipRepository.GetByID(pk);
                 }
                 if (friendshipToUpdate == null)
-                    return "There is no friendship relation between user" + id1 + " and user" + id2;
+                    throw new Exception("There is no friendship relation between user" + id1 + " and user" + id2);
                 // Update Friendship 
                 friendshipToUpdate.Status = friendship.Status;
                 friendshipRepository.Edit(friendshipToUpdate);
                 uow.SaveChanges();
-                return "Ok";
+                return friendship;
             }
         }
 
-        public string DeleteFriendship(int id1, int id2)
+        public void DeleteFriendship(int id1, int id2)
         {
             UserService userService = new UserService();
             // Check for users
             User user1 = userService.GetByID(id1);
             User user2 = userService.GetByID(id2);
             if (user1 == null)
-                return "There is no user with ID :" + id1;
+                throw new Exception("There is no user with ID :" + id1);
             if (user2 == null)
-                return "There is no user with ID :" + id2;
+                throw new Exception("There is no user with ID :" + id2);
             using (var uow = new UnitOfWork())
             {
                 var friendshipRepository = uow.GetRepository<Friendship>();
@@ -139,11 +139,10 @@ namespace HangoutsBusinessLibrary.Services
                     friendshipToDelete = friendshipRepository.GetByID(pk);
                 }
                 if (friendshipToDelete == null)
-                    return "There is no friendship relation between user" + id1 + " and user" + id2;
+                    throw new Exception("There is no friendship relation between user" + id1 + " and user" + id2);
                 // Delete Friendship 
                 friendshipRepository.Delete(friendshipToDelete);
                 uow.SaveChanges();
-                return "Ok";
             }
         }
 

@@ -25,6 +25,7 @@ namespace HangoutsWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper();
+            services.AddCors();
             services.AddMvc();
         }
 
@@ -35,7 +36,7 @@ namespace HangoutsWebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseMvc();
         }
     }

@@ -13,3 +13,18 @@ C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\De
 C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb
 C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsBusinessLibrary.dll
 C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsBusinessLibrary.pdb
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsWebApi.deps.json
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsWebApi.runtimeconfig.json
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsWebApi.runtimeconfig.dev.json
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsWebApi.dll
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsWebApi.pdb
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsBusinessLibrary.dll
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\bin\Debug\netcoreapp2.0\HangoutsBusinessLibrary.pdb
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\obj\Debug\netcoreapp2.0\HangoutsWebApi.csprojResolveAssemblyReference.cache
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\obj\Debug\netcoreapp2.0\HangoutsWebApi.csproj.CoreCompileInputs.cache
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\obj\Debug\netcoreapp2.0\HangoutsWebApi.AssemblyInfoInputs.cache
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\obj\Debug\netcoreapp2.0\HangoutsWebApi.AssemblyInfo.cs
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\obj\Debug\netcoreapp2.0\HangoutsWebApi.dll
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\HangoutsWebApi\obj\Debug\netcoreapp2.0\HangoutsWebApi.pdb

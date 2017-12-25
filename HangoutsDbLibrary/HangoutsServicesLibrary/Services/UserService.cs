@@ -1,6 +1,7 @@
 ﻿using HangoutsDbLibrary.Model;
 using HangoutsDbLibrary.Repository;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,7 +34,7 @@ namespace HangoutsWebApi.Services
             }
         }
 
-        public string AddUser(User user)
+        public User AddUser(User user)
         {
             using (var uow = new UnitOfWork())
             {
@@ -42,7 +43,7 @@ namespace HangoutsWebApi.Services
                 // Check if there is already a user with username / email data
                 var existUser = userRepository.GetAll().Where(u => u.Email == user.Email).FirstOrDefault();
                 if (existUser != null)
-                    return "This email is already used";
+                    throw new Exception("This email is already used");
                 existUser = userRepository.GetAll().Where(u => u.Username == user.Username).FirstOrDefault();
                 if (existUser == null)
                 {
@@ -52,17 +53,17 @@ namespace HangoutsWebApi.Services
                         user.Address = existAddress;
                     userRepository.Insert(user);
                     uow.SaveChanges();
-                    return "Ok"; ;
+                    return user;
                 }
                 else
                 {
-                    return "This username is already used";
+                    throw new Exception("This username is already used");
                 }
 
             }
         }
 
-        public string UpdateUser(int id, User user)
+        public User UpdateUser(int id, User user)
         {
             using (var uow = new UnitOfWork())
             {
@@ -71,14 +72,14 @@ namespace HangoutsWebApi.Services
 
                 if(userToUpdate == null)
                 {
-                    return "Invalid ID";
+                    throw new Exception("Invalid ID");
                 }
 
                 var addressRepository = uow.GetRepository<Address>();
                 // Check if there is already a user with email data
                 var existUser = userRepository.GetAll().Where(u => u.Email == user.Email).FirstOrDefault();
                 if (existUser != null && existUser.ID != userToUpdate.ID)
-                    return "This email is already used";
+                    throw new Exception("This email is already used");
                 else
                 {
                     // Check if the user's location is already in DB
@@ -96,7 +97,7 @@ namespace HangoutsWebApi.Services
 
                     userRepository.Edit(userToUpdate);
                     uow.SaveChanges();
-                    return "Ok";
+                    return userToUpdate;
                 }
             }
         }
@@ -124,7 +125,7 @@ namespace HangoutsWebApi.Services
             }
         }
 
-        public string DeleteUser(int id)
+        public void DeleteUser(int id)
         {
             using (var uow = new UnitOfWork())
             {
@@ -132,7 +133,7 @@ namespace HangoutsWebApi.Services
                 User user = userRepository.GetByID(id);
                 if(user == null)
                 {
-                    return "invalid ID";
+                    throw new Exception("Invalid ID");
                 }
                 var userGroupRepository = uow.GetRepository<UserGroup>();
                 var planUserRepository = uow.GetRepository<PlanUser>();
@@ -157,7 +158,6 @@ namespace HangoutsWebApi.Services
 
                 userRepository.Delete(user);
                 uow.SaveChanges();
-                return "Ok";
             }
         }
     }

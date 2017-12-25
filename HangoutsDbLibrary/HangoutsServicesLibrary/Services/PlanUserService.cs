@@ -11,16 +11,16 @@ namespace HangoutsBusinessLibrary.Services
 {
     public class PlanUserService
     {
-        public string AddPlanUser(PlanUser planUser)
+        public PlanUser AddPlanUser(PlanUser planUser)
         {
             PlanService planService = new PlanService();
             UserService userService = new UserService();
             Plan plan = planService.GetByID(planUser.PlanID);
             if (plan == null)
-                return "Invalid planID";
+                throw new Exception("Invalid plan ID");
             User user = userService.GetByID(planUser.UserID);
             if (user == null)
-                return "Invalid userID";
+                throw new Exception("Invalid user ID");
             using (var uow = new UnitOfWork())
             {
                 var planUserRepository = uow.GetRepository<PlanUser>();
@@ -30,12 +30,12 @@ namespace HangoutsBusinessLibrary.Services
                     .Where(pu => pu.PlanID == planUser.PlanID && pu.UserID == planUser.UserID)
                     .FirstOrDefault();
                 if (existPlanUser != null)
-                    return "This user is already in this plan";
+                    throw new Exception("This user is already in this plan");
                 planUserRepository.Insert(planUser);
                 
                 userChatRepository.Insert(new UserChat { ChatID = plan.ChatID, UserID = planUser.UserID});
                 uow.SaveChanges();
-                return "Ok";
+                return planUser;
             }
         }
 

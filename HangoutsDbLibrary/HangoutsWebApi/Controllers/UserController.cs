@@ -7,6 +7,7 @@ using AutoMapper;
 using HangoutsWebApi.Mappings;
 using System.ComponentModel.DataAnnotations;
 using HangoutsBusinessLibrary.Services;
+using System;
 
 namespace HangoutsWebApi.Controllers
 {
@@ -42,44 +43,29 @@ namespace HangoutsWebApi.Controllers
             return Ok(userGeneralDTO);
         }
 
-        public string ValidUserData(UserDTO userDTO)
-        {
-            if (userDTO.Address == null || userDTO.BirthDate == null || userDTO.Email == null || userDTO.FirstName == null || 
-                userDTO.LastName == null || userDTO.Username == null || userDTO.Password == null)
-                return "All fields must be completed!";
-            var emailAttr = new EmailAddressAttribute();
-            if (!new EmailAddressAttribute().IsValid(userDTO.Email))
-                return "The email input is not valid!";
-            if (userDTO.Email.Length > 40 || userDTO.FirstName.Length > 40 ||
-                 userDTO.LastName.Length > 40 || userDTO.Password.Length > 40 || userDTO.Username.Length > 40)
-                return "The maximum length for a field is 40 characters!";
-            if (userDTO.Password.Length < 5 || userDTO.Username.Length < 5)
-                return "The username and password must contain at least 5 characters!";
-            return "Ok";
-        }
-
         [HttpPost]
         public IActionResult Post([FromBody] UserDTO userDTO)
         {
-            if (ModelState.IsValid && ValidUserData(userDTO).Equals("Ok"))
+            if (ModelState.IsValid)
             {
                 UserService userService = new UserService();
                 UserMapper userMapper = new UserMapper();
                 User user = userMapper.Map(userDTO);
-                var res = userService.AddUser(user);
-                if (res.Equals("Ok"))
-                    return Ok();
-                else
-                    return BadRequest(res);
+                try
+                {
+                    user = userService.AddUser(user);
+                    UserDTO userDTOResponse = userMapper.Map(user);
+                    return Ok(userDTOResponse);
+                }
+                catch (Exception e)
+                {
+                    return BadRequest(e.Message);
+                }
             }
             else
             {
-                if (!ModelState.IsValid)
-                    return BadRequest("The model is not valid!");
-                else
-                    return BadRequest(ValidUserData(userDTO));
+                return BadRequest("The model is not valid!");
             }
-
         }
 
         [HttpPut("{id}")]
@@ -91,24 +77,15 @@ namespace HangoutsWebApi.Controllers
             {
                 return BadRequest("The model is not valid!");
             }
-            var validUserDataRes = ValidUserData(userDTO);
-            if (validUserDataRes.Equals("Ok"))
+            User user = userMapper.Map(userDTO);
+            try
             {
-                User user = userMapper.Map(userDTO);
-                var existUser = userService.GetByID(id);
-                string res;
-                if (existUser == null)
-                    res = userService.AddUser(user);
-                else 
-                    res = userService.UpdateUser(id, user); 
-                if (res.Equals("Ok"))
-                    return Ok();
-                else
-                    return BadRequest(res);
-            }
-            else
+                user = userService.UpdateUser(id, user);
+                return Ok(user);
+            } 
+            catch (Exception e)
             {
-                return BadRequest(validUserDataRes);
+                return BadRequest(e.Message);
             }
         }
 
@@ -116,12 +93,15 @@ namespace HangoutsWebApi.Controllers
         public IActionResult Delete(int id)
         {
             UserService userService = new UserService();
-            var res = userService.DeleteUser(id);
-
-            if (res.Equals("Ok"))
+            try
+            {
+                userService.DeleteUser(id);
                 return Ok();
-            else
-                return BadRequest(res);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost("group")]
@@ -130,11 +110,15 @@ namespace HangoutsWebApi.Controllers
             UserGroupService userGroupService = new UserGroupService();
             UserGroupMapper userGroupMapper = new UserGroupMapper();
             UserGroup userGroup = userGroupMapper.Map(userGroupDTO);
-            string res = userGroupService.AddUserGroup(userGroup);
-            if (res.Equals("Ok"))
-                return Ok();
-            else
-                return BadRequest(res);
+            try
+            {
+                userGroup = userGroupService.AddUserGroup(userGroup);
+                return Ok(userGroup);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost("plan")]
@@ -142,11 +126,15 @@ namespace HangoutsWebApi.Controllers
         {
             PlanUserService planUserService = new PlanUserService();
             PlanUser planUser = new PlanUser { PlanID = planUserDTO.PlanID, UserID = planUserDTO.UserID };
-            string res = planUserService.AddPlanUser(planUser);
-            if (res.Equals("Ok"))
-                return Ok();
-            else
-                return BadRequest(res);
+            try
+            {
+                planUser = planUserService.AddPlanUser(planUser);
+                return Ok(planUser);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet()]
@@ -207,11 +195,15 @@ namespace HangoutsWebApi.Controllers
             if (groupService.GetByID(groupId) == null)
                 return NotFound("Invalid group id");
             UserGroupService userGroupService = new UserGroupService();
-            string res = userGroupService.DeleteUserGroup(userId, groupId);
-            if (res.Equals("Ok"))
+            try
+            {
+                userGroupService.DeleteUserGroup(userId, groupId);
                 return Ok();
-            else
-                return NotFound(res);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         [HttpPut("{userId}/group/{groupId}")]
@@ -224,24 +216,17 @@ namespace HangoutsWebApi.Controllers
             if (groupService.GetByID(groupId) == null)
                 return NotFound("Invalid group id");
             UserGroupService userGroupService = new UserGroupService();
-            var existUserGroup = userGroupService.GetByID(groupId, userId);
-            string res;
-            if (existUserGroup == null)
+            try
             {
                 userGroup.UserID = userId;
                 userGroup.GroupID = groupId;
-                res = res = userGroupService.AddUserGroup(userGroup);
+                userGroup = userGroupService.UpdateUserGroup(userGroup);
+                return Ok(userGroup);
             }
-            else
+            catch (Exception e)
             {
-                userGroup.UserID = userId;
-                userGroup.GroupID = groupId;
-                res = userGroupService.UpdateUserGroup(userGroup);
+                return NotFound(e.Message);
             }
-            if (res.Equals("Ok"))
-                return Ok();
-            else
-                return NotFound(res);
         }
     }
 }

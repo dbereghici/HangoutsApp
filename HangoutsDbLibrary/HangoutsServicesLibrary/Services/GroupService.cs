@@ -17,7 +17,6 @@ namespace HangoutsWebApi.Services
                 var groupRepository = uow.GetRepository<Group>();
                 Group group = groupRepository.GetByID(id);
                 return group;
-
             }
         }
 
@@ -31,7 +30,7 @@ namespace HangoutsWebApi.Services
             }
         }
 
-        public string AddGroup(Group group)
+        public Group AddGroup(Group group)
         {
             using (var uow = new UnitOfWork())
             {
@@ -39,11 +38,11 @@ namespace HangoutsWebApi.Services
                 var userGroupRepository = uow.GetRepository<UserGroup>();
                 Group existGroup = groupRepository.GetAll().Where(g => g.AdminID == group.AdminID && g.Name == group.Name).FirstOrDefault();
                 if (existGroup != null)
-                    return "There already exist a group with this name";
+                    throw new Exception("There already exist a group with this name");
                 groupRepository.Insert(group);
                 userGroupRepository.Insert(new UserGroup { UserID = group.AdminID, GroupID = group.ID });
                 uow.SaveChanges();
-                return "Ok";
+                return group;
             }
         }
 
@@ -70,7 +69,7 @@ namespace HangoutsWebApi.Services
             }
         }
 
-        public string UpdateGroup(Group group, int id)
+        public Group UpdateGroup(Group group, int id)
         {
             using (var uow = new UnitOfWork())
             {
@@ -78,19 +77,19 @@ namespace HangoutsWebApi.Services
                 Group groupToUpdate = groupRepository.GetByID(id);
                 if (groupToUpdate == null)
                 {
-                    return "Invalid ID";
+                    throw new Exception("Invalid ID");
                 }
                 Group existGroup = groupRepository.GetAll().Where(g => g.AdminID == group.AdminID && g.Name == group.Name).FirstOrDefault();
                 if (existGroup != null)
-                    return "There already exist a group with this name";
+                    throw new Exception("There already exist a group with this name");
                 groupToUpdate.Name = group.Name;
                 groupRepository.Edit(groupToUpdate);
                 uow.SaveChanges();
-                return "Ok";
+                return groupToUpdate;
             }
         }
 
-        public string DeleteGroup(int id)
+        public void DeleteGroup(int id)
         {
             using (var uow = new UnitOfWork())
             {
@@ -98,11 +97,10 @@ namespace HangoutsWebApi.Services
                 Group group = groupRepository.GetByID(id);
                 if (group == null)
                 {
-                    return "Invalid ID";
+                    throw new Exception("Invalid ID");
                 }
                 groupRepository.Delete(group);
                 uow.SaveChanges();
-                return "Ok";
             }
         }
     }

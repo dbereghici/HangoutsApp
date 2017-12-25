@@ -17,12 +17,8 @@ namespace HangoutsBusinessLibrary.Services
                 var planRepository = uow.GetRepository<Plan>();
                 var addressRepository = uow.GetRepository<Address>();
                 Plan plan = planRepository.GetAll().Include(p => p.Activity).Where(p => p.ID == id).FirstOrDefault();
-                //Plan plan = planRepository.GetByID(id);
                 if(plan != null)
                 {
-                    //if (plan.EndTime < DateTime.Now)
-                    //    planRepository.Delete(plan);
-                    //else
                         plan.Address = addressRepository.GetByID(plan.AddressID);
                 }
                 return plan;
@@ -34,18 +30,12 @@ namespace HangoutsBusinessLibrary.Services
             using (var uow = new UnitOfWork())
             {
                 var planRepository = uow.GetRepository<Plan>();
-                //List<Plan> expiredPlans = planRepository.GetAll().Where(p => p.EndTime < DateTime.Now).ToList();
-                //foreach (var p in expiredPlans)
-                //{
-                //    planRepository.Delete(p);
-                //    uow.SaveChanges();
-                //}
                 List<Plan> plans = planRepository.GetAll().Include(p => p.Activity).Include(p => p.Address).ToList();
                 return plans;
             }
         }
 
-        public string AddPlan(Plan plan)
+        public Plan AddPlan(Plan plan)
         {
             using (var uow = new UnitOfWork())
             {
@@ -59,7 +49,7 @@ namespace HangoutsBusinessLibrary.Services
                     p.Activity == plan.Activity).FirstOrDefault();
                 if (existPlan != null)
                 {
-                    return "There already exist a similar plan";
+                    throw new Exception("There already exist a similar plan");
                 }
                 Address existAddress = addressRepository.GetAll().Where(u => u.Latitude == plan.Address.Latitude || u.Longitude == plan.Address.Longitude).FirstOrDefault();
                 if (existAddress != null)
@@ -67,11 +57,11 @@ namespace HangoutsBusinessLibrary.Services
                 plan.Chat = new Chat();
                 planRepository.Insert(plan);
                 uow.SaveChanges();
-                return "Ok";
+                return plan;
             }
         }
 
-        public string DeletePlan(int id)
+        public void DeletePlan(int id)
         {
             using (var uow = new UnitOfWork())
             {
@@ -79,11 +69,10 @@ namespace HangoutsBusinessLibrary.Services
                 Plan plan = planRepository.GetByID(id);
                 if (plan == null)
                 {
-                    return "Invalid ID";
+                    throw new Exception("Invalid ID");
                 }
                 planRepository.Delete(plan);
                 uow.SaveChanges();
-                return "Ok";
             }
         }
 

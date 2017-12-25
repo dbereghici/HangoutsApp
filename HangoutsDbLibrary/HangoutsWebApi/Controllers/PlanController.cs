@@ -52,14 +52,14 @@ namespace HangoutsWebApi.Controllers
                 PlanService planService = new PlanService();
                 PlanMapper planMapper = new PlanMapper();
                 Plan plan = planMapper.Map(planDTO);
-                var res = planService.AddPlan(plan);
-                if (res.Equals("Ok"))
+                try
                 {
-                    return Ok();
+                    plan = planService.AddPlan(plan);
+                    return Ok(plan);
                 }
-                else
+                catch (Exception e)
                 {
-                    return BadRequest(res);
+                    return NotFound(e.Message);
                 }
             }
             else
@@ -72,12 +72,15 @@ namespace HangoutsWebApi.Controllers
         public IActionResult Delete(int id)
         {
             PlanService planService = new PlanService();
-            var res = planService.DeletePlan(id);
-
-            if (res.Equals("Ok"))
+            try
+            {
+                planService.DeletePlan(id);
                 return Ok();
-            else
-                return BadRequest(res);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // Get all plans from a group
@@ -105,11 +108,15 @@ namespace HangoutsWebApi.Controllers
         {
             PlanUserService planUserService = new PlanUserService();
             PlanUser planUser = new PlanUser { PlanID = planUserDTO.PlanID, UserID = planUserDTO.UserID };
-            string res = planUserService.AddPlanUser(planUser);
-            if (res.Equals("Ok"))
+            try
+            {
+                planUser = planUserService.AddPlanUser(planUser);
                 return Ok();
-            else
-                return BadRequest(res);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // Add a new plan to group
@@ -127,13 +134,14 @@ namespace HangoutsWebApi.Controllers
                 }
                 Plan plan = planMapper.Map(planDTO);
                 var res = planService.AddPlan(plan);
-                if (res.Equals("Ok"))
+                try
                 {
+                    plan = planService.AddPlan(plan);
                     return Ok();
                 }
-                else
+                catch (Exception e)
                 {
-                    return BadRequest(res);
+                    return BadRequest(e.Message);
                 }
             }
             else

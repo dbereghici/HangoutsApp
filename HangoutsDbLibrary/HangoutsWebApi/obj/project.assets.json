@@ -13228,11 +13228,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsWebApi\\HangoutsWebApi.csproj",
+      "projectUniqueName": "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsWebApi\\HangoutsWebApi.csproj",
       "projectName": "HangoutsWebApi",
-      "projectPath": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsWebApi\\HangoutsWebApi.csproj",
+      "projectPath": "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsWebApi\\HangoutsWebApi.csproj",
       "packagesPath": "C:\\Users\\dbere\\.nuget\\packages\\",
-      "outputPath": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsWebApi\\obj\\",
+      "outputPath": "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsWebApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -13251,11 +13251,11 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj": {
-              "projectPath": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj"
+            "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj": {
+              "projectPath": "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj"
             },
-            "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsServicesLibrary\\HangoutsBusinessLibrary.csproj": {
-              "projectPath": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsServicesLibrary\\HangoutsBusinessLibrary.csproj"
+            "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsServicesLibrary\\HangoutsBusinessLibrary.csproj": {
+              "projectPath": "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsServicesLibrary\\HangoutsBusinessLibrary.csproj"
             }
           }
         }

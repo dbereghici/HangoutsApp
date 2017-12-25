@@ -12,7 +12,7 @@ namespace HangoutsBusinessLibrary.Services
 {
     public class UserChatService
     {
-        public string AddUserChat(UserChat userChat)
+        public UserChat AddUserChat(UserChat userChat)
         {
             UserService userService = new UserService();
             using (var uow = new UnitOfWork())
@@ -22,19 +22,19 @@ namespace HangoutsBusinessLibrary.Services
                 var userChatRepository = uow.GetRepository<UserChat>();
                 Chat chat = chatRepository.GetByID(userChat.ChatID);
                 if (chat == null)
-                    return "Invalid chat ID";
+                    throw new Exception("Invalid chat ID");
                 User user = userRepository.GetByID(userChat.UserID);
                 if (user == null)
-                    return "Invalid user ID";
+                    throw new Exception("Invalid user ID");
                 UserChat existUserChat = userChatRepository
                     .GetAll()
                     .Where(uc => uc.ChatID == userChat.ChatID && uc.UserID == userChat.UserID)
                     .FirstOrDefault();
                 if (existUserChat != null)
-                    return "This user is already in this chat";
+                    throw new Exception("This user is already in this chat");
                 userChatRepository.Insert(userChat);
                 uow.SaveChanges();
-                return "Ok";
+                return userChat;
             }
         }
     }

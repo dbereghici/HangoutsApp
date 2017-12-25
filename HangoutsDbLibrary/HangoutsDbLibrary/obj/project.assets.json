@@ -5202,11 +5202,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj",
+      "projectUniqueName": "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj",
       "projectName": "HangoutsDbLibrary",
-      "projectPath": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj",
+      "projectPath": "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary.csproj",
       "packagesPath": "C:\\Users\\dbere\\.nuget\\packages\\",
-      "outputPath": "C:\\DIMA PC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\obj\\",
+      "outputPath": "C:\\DIMAPC\\AccesaStart\\HangoutsDbLibrary\\HangoutsDbLibrary\\HangoutsDbLibrary\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

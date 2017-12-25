@@ -1,0 +1,28 @@
+.hangouts-header {
+    height: 60px;
+    background: #212121;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hangouts-nodes {
+    display: flex;
+    flex: 0 0 500px;
+    text-transform: uppercase;
+    font-size: large;
+    font-weight: bold;
+    align-content: center;
+    cursor: pointer;
+}
+
+.hangouts-nodes a {
+    color: white;
+    text-decoration: none;
+    padding: 20px 40px;
+}
+
+.hangouts-nodes a:hover {
+    background: #ababab;
+}

@@ -46,11 +46,15 @@ namespace HangoutsWebApi.Controllers
             FriendshipService friendshipService = new FriendshipService();
             FriendshipMapper friendshipMapper = new FriendshipMapper();
             Friendship friendship = friendshipMapper.Map(friendshipDTO);
-            string res = friendshipService.AddFriendship(friendship);
-            if (res.Equals("Ok"))
-                return Ok();
-            else
-                return BadRequest(res);
+            try
+            {
+                friendship = friendshipService.AddFriendship(friendship);
+                return Ok(friendship);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPut("{id1}/{id2}")]
@@ -61,27 +65,30 @@ namespace HangoutsWebApi.Controllers
             friendshipDTO.UserID1 = id1;
             friendshipDTO.UserID2 = id2;
             Friendship friendship = friendshipMapper.Map(friendshipDTO);
-            Friendship existFriendship = friendshipService.GetByID(id1, id2);
-            string res;
-            if(existFriendship == null)
-                res = friendshipService.AddFriendship(friendship);
-            else
-                res = friendshipService.UpdateFriendship(friendship);
-            if (res.Equals("Ok"))
-                return Ok();
-            else
-                return BadRequest(res);
+            try
+            {
+                friendship = friendshipService.UpdateFriendship(friendship);
+                return Ok(friendship);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpDelete("{id1}/{id2}")]
         public IActionResult Delete(int id1, int id2)
         {
             FriendshipService friendshipService = new FriendshipService();
-            string res = friendshipService.DeleteFriendship(id1, id2);
-            if (res.Equals("Ok"))
+            try
+            {
+                friendshipService.DeleteFriendship(id1, id2);
                 return Ok();
-            else
-                return BadRequest(res);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

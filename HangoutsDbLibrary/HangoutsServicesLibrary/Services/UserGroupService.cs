@@ -32,16 +32,16 @@ namespace HangoutsWebApi.Services
             }
         }
 
-        public string AddUserGroup(UserGroup userGroup)
+        public UserGroup AddUserGroup(UserGroup userGroup)
         {
             UserService userService = new UserService();
             GroupService groupService = new GroupService();
             Group group = groupService.GetByID(userGroup.GroupID);
             if (group == null)
-                return "Invalid groupID";
+                throw new Exception("Invalid group ID");
             User user = userService.GetByID(userGroup.UserID);
             if (user == null)
-                return "Invalid userID";
+                throw new Exception("Invalid user ID");
             using (var uow = new UnitOfWork())
             {
                 var userGroupRepository = uow.GetRepository<UserGroup>();
@@ -50,10 +50,10 @@ namespace HangoutsWebApi.Services
                     .Where(ug => ug.GroupID == userGroup.GroupID && ug.UserID == userGroup.UserID)
                     .FirstOrDefault();
                 if (existUserGroup != null)
-                    return "This user is already in this group";
+                    throw new Exception("This user is already in this group");
                 userGroupRepository.Insert(userGroup);
                 uow.SaveChanges();
-                return "Ok";
+                return userGroup;
             }
         }
 
@@ -76,30 +76,29 @@ namespace HangoutsWebApi.Services
             }
         }
 
-        public string DeleteUserGroup(int userId, int groupId)
+        public void DeleteUserGroup(int userId, int groupId)
         {
             using (var uow = new UnitOfWork())
             {
                 var userGroupRepository = uow.GetRepository<UserGroup>();
                 UserGroup userGroup = userGroupRepository.GetAll().Where(ug => ug.GroupID == groupId && ug.UserID == userId).FirstOrDefault();
                 if (userGroup == null)
-                    return userId + " is not member of " + groupId;
+                    throw new Exception(userId + " is not member of " + groupId);
                 userGroupRepository.Delete(userGroup);
                 uow.SaveChanges();
-                return "Ok";
             }
         }
 
-        public string UpdateUserGroup(UserGroup userGroup)
+        public UserGroup UpdateUserGroup(UserGroup userGroup)
         {
             UserService userService = new UserService();
             GroupService groupService = new GroupService();
             Group group = groupService.GetByID(userGroup.GroupID);
             if (group == null)
-                return "Invalid groupID";
+                throw new Exception("Invalid group ID");
             User user = userService.GetByID(userGroup.UserID);
             if (user == null)
-                return "Invalid userID";
+                throw new Exception("Invalid user ID");
             using (var uow = new UnitOfWork())
             {
                 var userGroupRepository = uow.GetRepository<UserGroup>();
@@ -108,11 +107,11 @@ namespace HangoutsWebApi.Services
                     .Where(ug => ug.GroupID == userGroup.GroupID && ug.UserID == userGroup.UserID)
                     .FirstOrDefault();
                 if (userGroupToUpdate == null)
-                    return "This user is not member of this group";
+                    throw new Exception("This user is not member of this group");
                 userGroupToUpdate.Status = userGroup.Status;
                 userGroupRepository.Edit(userGroupToUpdate);
                 uow.SaveChanges();
-                return "Ok";
+                return userGroupToUpdate;
             }
         }
     }

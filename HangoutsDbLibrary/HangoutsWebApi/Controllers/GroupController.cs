@@ -48,19 +48,19 @@ namespace HangoutsWebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (groupDTO.Name == null || groupDTO.Name.Length < 3 || groupDTO.Name.Length > 40)
-                {
-                    return BadRequest("The group name must contain from 3 to 40 characters!");
-                }
                 GroupService groupService = new GroupService();
                 GroupMapper groupMapper = new GroupMapper();
                 Group group = groupMapper.Map(groupDTO);
                 group.Admin = null;
-                var res = groupService.AddGroup(group);
-                if (res.Equals("Ok"))
-                    return Ok();
-                else
-                    return BadRequest(res);
+                try
+                {
+                    group = groupService.AddGroup(group);
+                    return Ok(group);
+                }
+                catch (Exception e)
+                {
+                    return BadRequest(e.Message);
+                }
             }
             else
             {
@@ -77,35 +77,31 @@ namespace HangoutsWebApi.Controllers
             {
                 return BadRequest("The model is not valid!");
             }
-            if (groupDTO.Name == null || groupDTO.Name.Length < 3 || groupDTO.Name.Length > 40)
-            {
-                return BadRequest("The group name must contain from 3 to 40 characters!");
-            }
             Group group = groupMapper.Map(groupDTO);
-            var existGroup = groupService.GetByID(id);
-            string res;
-            if (existGroup == null) {
-                group.AdminID = id;
-                res = groupService.AddGroup(group);
+            try
+            {
+                group = groupService.UpdateGroup(group, id);
+                return Ok(group);
             }
-            else
-                res = groupService.UpdateGroup(group, id);
-            if (res.Equals("Ok"))
-                return Ok();
-            else
-                return BadRequest(res);
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             GroupService groupService = new GroupService();
-            var res = groupService.DeleteGroup(id);
-
-            if (res.Equals("Ok"))
+            try
+            {
+                groupService.DeleteGroup(id);
                 return Ok();
-            else
-                return BadRequest(res);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost("user")]
@@ -114,11 +110,15 @@ namespace HangoutsWebApi.Controllers
             UserGroupService userGroupService = new UserGroupService();
             UserGroupMapper userGroupMapper = new UserGroupMapper();
             UserGroup userGroup = userGroupMapper.Map(userGroupDTO);
-            string res = userGroupService.AddUserGroup(userGroup);
-            if (res.Equals("Ok"))
-                return Ok();
-            else
-                return BadRequest(res);
+            try
+            {
+                userGroup = userGroupService.AddUserGroup(userGroup);
+                return Ok(userGroup);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpDelete("{groupId}/user/{userId}")]
@@ -131,11 +131,15 @@ namespace HangoutsWebApi.Controllers
             if (groupService.GetByID(groupId) == null)
                 return NotFound("Invalid group id");
             UserGroupService userGroupService = new UserGroupService();
-            string res = userGroupService.DeleteUserGroup(userId, groupId);
-            if (res.Equals("Ok"))
+            try
+            {
+                userGroupService.DeleteUserGroup(userId, groupId);
                 return Ok();
-            else
-                return NotFound(res);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPut("{groupId}/user/{userId}")]
@@ -148,24 +152,17 @@ namespace HangoutsWebApi.Controllers
             if (groupService.GetByID(groupId) == null)
                 return NotFound("Invalid group id");
             UserGroupService userGroupService = new UserGroupService();
-            var existUserGroup = userGroupService.GetByID(groupId, userId);
-            string res;
-            if (existUserGroup == null)
-            {
-                userGroup.UserID = userId;
-                userGroup.GroupID = groupId;
-                res = res = userGroupService.AddUserGroup(userGroup);
+
+            userGroup.UserID = userId;
+            userGroup.GroupID = groupId;
+            try { 
+                userGroup = userGroupService.UpdateUserGroup(userGroup);
+                return Ok(userGroup);
             }
-            else
+            catch (Exception e)
             {
-                userGroup.UserID = userId;
-                userGroup.GroupID = groupId;
-                res = userGroupService.UpdateUserGroup(userGroup);
+                return BadRequest(e.Message);
             }
-            if (res.Equals("Ok"))
-                return Ok();
-            else
-                return NotFound(res);
         }
 
         [HttpGet("user/{id}")]

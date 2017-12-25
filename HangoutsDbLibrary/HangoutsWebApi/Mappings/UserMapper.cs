@@ -22,6 +22,7 @@ namespace HangoutsWebApi.Mappings
             return userDTO;
         }
 
+
         public List<UserDTO> Map (List<User> users)
         {
             List<UserDTO> usersDTO = new List<UserDTO>();

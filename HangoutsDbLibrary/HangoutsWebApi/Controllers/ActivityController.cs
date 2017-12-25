@@ -47,24 +47,21 @@ namespace HangoutsWebApi.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] ActivityDTO activityDTO)
         {
-            if (ModelState.IsValid)
-            {
-                if (activityDTO.Description == null || activityDTO.Description.Length < 3 || activityDTO.Description.Length > 40)
-                {
-                    return BadRequest("The activity description must contain from 3 to 40 characters!");
-                }
-                ActivityService activityService = new ActivityService();
-                ActivityMapper activityMapper = new ActivityMapper();
-                Activity activity = activityMapper.Map(activityDTO);
-                var res = activityService.AddActivity(activity);
-                if (res.Equals("Ok"))
-                    return Ok();
-                else
-                    return BadRequest(res);
-            }
-            else
+            if (!ModelState.IsValid)
             {
                 return BadRequest("The model is not valid!");
+            }
+            ActivityService activityService = new ActivityService();
+            ActivityMapper activityMapper = new ActivityMapper();
+            Activity activity = activityMapper.Map(activityDTO);
+            try
+            {
+                activity = activityService.AddActivity(activity);
+                return Ok(activity);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
 
@@ -77,33 +74,32 @@ namespace HangoutsWebApi.Controllers
             {
                 return BadRequest("The model is not valid!");
             }
-            if (activityDTO.Description == null || activityDTO.Description.Length < 3 || activityDTO.Description.Length > 40)
-            {
-                return BadRequest("The activity description must contain from 3 to 40 characters!");
-            }
             Activity activity = activityMapper.Map(activityDTO);
             var existActivity = activityService.GetByID(id);
-            string res;
-            if (existActivity == null)
-                res = activityService.AddActivity(activity);
-            else
-                res = activityService.UpdateActivity(activity, id);
-            if (res.Equals("Ok"))
-                return Ok();
-            else
-                return BadRequest(res);
+            try
+            {
+                activity = activityService.UpdateActivity(activity, id);
+                return Ok(activity);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             ActivityService activityService = new ActivityService();
-            var res = activityService.DeleteActivity(id);
-
-            if (res.Equals("Ok"))
+            try
+            {
+                activityService.DeleteActivity(id);
                 return Ok();
-            else
-                return BadRequest(res);
+            } 
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }
