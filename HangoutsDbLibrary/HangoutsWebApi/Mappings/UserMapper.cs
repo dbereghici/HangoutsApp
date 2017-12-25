@@ -14,8 +14,8 @@ namespace HangoutsWebApi.Mappings
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<User, UserDTO>()
-                .ForMember(dest => dest.Password, op => op.Ignore());
+                cfg.CreateMap<User, UserDTO>();
+            //    .ForMember(dest => dest.Password, op => op.Ignore());
             });
             IMapper mapper = config.CreateMapper();
             UserDTO userDTO = mapper.Map<User, UserDTO>(user);

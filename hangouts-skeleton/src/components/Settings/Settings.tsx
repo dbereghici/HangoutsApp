@@ -3,6 +3,7 @@ import './Settings.css';
 import AuthService from '../../services/AuthService'
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { Redirect } from 'react-router';
+// import { Link } from 'react-router-dom';
 
 export class Settings extends BaseComponent {
 
@@ -10,9 +11,11 @@ export class Settings extends BaseComponent {
         super(props);
 
         this.logOut = this.logOut.bind(this);
+        this.myProfile = this.myProfile.bind(this);
 
         this.state = {
             isPanelOpened: false,
+            redirectToReferrer: ''
         };
     }
 
@@ -33,12 +36,21 @@ export class Settings extends BaseComponent {
     logOut() {
         AuthService.logOut();
         this.setState({ isAuth: false });
-        this.setState({ redirectToReferrer: true, isAuth: true });
+        this.setState({ redirectToReferrer: 'authentication', isAuth: true });
     }
 
+    myProfile() {
+        this.setState({redirectToReferrer: 'myprofile'})
+    }
+
+
+
     render() {
-        if (this.state.redirectToReferrer) {
+        if (this.state.redirectToReferrer === 'authentication') {
             return <Redirect to='/authentication' />;
+        }
+        if (this.state.redirectToReferrer === 'myprofile') {
+            return <Redirect to='/myprofile' />;
         }
         return (
             <div className="hangouts-settings" onMouseEnter={(event) => { this.onSettingsHover(event) }} onMouseLeave={(event) => { this.onSettingsMouseLeave(event) }}>
@@ -48,7 +60,7 @@ export class Settings extends BaseComponent {
                 {this.state.isPanelOpened ?
                     <ul>
                         <li>
-                        <button> My Profile </button>
+                        <button onClick={this.myProfile}> MyProfile </button>
                         </li>
                         <li>
                         <button> Setting </button>

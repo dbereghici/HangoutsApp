@@ -19,6 +19,7 @@ export class RegistrationForm extends BaseComponent {
             ...this.state,
             email: '',
             password: '',
+            confirmpassword: '',
             firstname: '',
             lastname: '',
             birthdate: new Date(),
@@ -30,6 +31,7 @@ export class RegistrationForm extends BaseComponent {
             formErrors: { 
                 email: '', 
                 password: '', 
+                confirmpassword: '',
                 firstname: '', 
                 lastname: '', 
                 birthdate: new Date(),
@@ -41,6 +43,7 @@ export class RegistrationForm extends BaseComponent {
             },
             emailValid: false,
             passwordValid: false,
+            confirmpasswordValid : false,
             firstnameValid : false,
             lastnameValid : false,
             birthdateValid : false,
@@ -55,6 +58,7 @@ export class RegistrationForm extends BaseComponent {
         let fieldValidationErrors = this.state.formErrors;
         let emailValid = this.state.emailValid;
         let passwordValid = this.state.passwordValid;
+        let confirmpasswordValid = this.state.confirmpasswordValid;
         let firstnameValid = this.state.firstnameValid;
         let lastnameValid = this.state.lastnameValid;
         let birthdateValid = this.state.birthdateValid;
@@ -67,6 +71,10 @@ export class RegistrationForm extends BaseComponent {
             case 'password':
                 passwordValid = value.length >= 6;
                 fieldValidationErrors.password = passwordValid ? '' : ' is too short';
+                break;
+            case 'confirmpassword':
+                confirmpasswordValid = this.state.password === this.state.confirmpassword;
+                fieldValidationErrors.confirmpassword = confirmpasswordValid ? '' : "doesn't match with password";
                 break;
             case 'firstname':
                 firstnameValid = value.length >= 1;
@@ -87,6 +95,7 @@ export class RegistrationForm extends BaseComponent {
             formErrors: fieldValidationErrors,
             emailValid: emailValid,
             passwordValid: passwordValid,
+            confirmpasswordValid: confirmpasswordValid,
             firstnameValid : firstnameValid,
             lastnameValid : lastnameValid,
             birthdateValid : birthdateValid
@@ -94,7 +103,8 @@ export class RegistrationForm extends BaseComponent {
     }
 
     validateForm() {
-        this.setState({ formValid: this.state.emailValid && this.state.passwordValid && this.state.lastnameValid && this.state.firstnameValid && this.state.birthdateValid});
+        this.setState({ formValid: this.state.emailValid && this.state.passwordValid && this.state.lastnameValid 
+            && this.state.firstnameValid && this.state.birthdateValid && this.state.confirmpasswordValid});
     }
 
     handleUserInput(e: any) {
@@ -173,6 +183,12 @@ export class RegistrationForm extends BaseComponent {
                         <label htmlFor="password">Password*</label>
                         <input type="password" className="form-control"
                             name="password" value={this.state.password} onChange={(event) => this.handleUserInput(event)} onSelect={(event) => this.handleUserInput(event)}
+                        />
+                    </div >
+                    <div className={`form-group ${this.errorClass(this.state.formErrors.email)}`}>
+                        <label htmlFor="confirmpassword">Confirm Password*</label>
+                        <input type="password" className="form-control"
+                            name="confirmpassword" value={this.state.confirmpassword} onChange={(event) => this.handleUserInput(event)} onSelect={(event) => this.handleUserInput(event)}
                         />
                     </div >
                     <div>

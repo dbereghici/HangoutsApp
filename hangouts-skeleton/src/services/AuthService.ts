@@ -26,6 +26,24 @@ export default class AuthService {
     public static register(user : any){
         return new Promise((resolve, reject) => {
             axios.post(this.userRoot, user).then((response: any) => {
+                let dataToBeStored = JSON.stringify(response.data);
+                debugger;
+                console.log(dataToBeStored);
+                localStorage.setItem(this.userStorageKey, JSON.stringify(response.data));
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
+        });
+    }
+
+    public static updateUserData(user : any, id : number){
+        return new Promise((resolve, reject) => {
+            axios.put(this.userRoot + "/" + id, user).then((response: any) => {
+                let dataToBeStored = JSON.stringify(response.data);
+                debugger;
+                console.log(dataToBeStored);
                 localStorage.setItem(this.userStorageKey, JSON.stringify(response.data));
                 resolve(response.data);
             },
@@ -37,5 +55,9 @@ export default class AuthService {
 
     public static logOut(){
         localStorage.removeItem(this.userStorageKey);
+    }
+
+    public static getUserData() : any{
+        return localStorage.getItem(this.userStorageKey);
     }
 }

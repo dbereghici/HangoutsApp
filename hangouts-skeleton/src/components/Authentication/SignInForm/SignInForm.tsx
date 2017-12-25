@@ -76,8 +76,11 @@ export class SignInForm extends BaseComponent {
                 this.setState({ redirectToReferrer: true, isAuth: true });
             },
             (error) => {
-                this.setState({ error: error.response.data });
-
+                if(error.message){
+                    this.setState({ error: error.message });
+                if(error && error.response && error.response.data)
+                    this.setState({ error: error.response.data });
+                }
             }
         );
     }

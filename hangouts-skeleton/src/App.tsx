@@ -9,6 +9,7 @@ import 'font-awesome/css/font-awesome.css';
 import Home from './components/Home/Home'
 import { Route } from 'react-router';
 import { Authentication } from './components/Authentication/Authentication';
+import { MyProfile } from './components/MyProfile/MyProfile';
 
 class App extends React.Component {
   render() {
@@ -21,6 +22,7 @@ class App extends React.Component {
           <Route path="/" exact={true} component={Authentication} />
           <Route path="/home" component={Home} />
           <Route path="/authentication" component={Authentication} />
+          <Route path="/myprofile" component={MyProfile}/>
         </div>
       </Router>
     );

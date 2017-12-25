@@ -20,29 +20,41 @@ export class AddressSelector extends React.Component<any, any> {
     }
 
     setInitialAddress() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                let location = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                }
-                if (this.mapElement && this.mapsElement) {
-                    this.renderMarker(this.mapElement, this.mapsElement, location)
-                }
-                this.setState({ defaultCenter: location });
-                this.getAddressFromCoord(this.state.defaultCenter);
-            });
+        if (this.props.loadUserLocation) {
+            let location = {
+                lat: this.props.userLocation.lat,
+                lng: this.props.userLocation.lng
+            }
+            if (this.mapElement && this.mapsElement) {
+                this.renderMarker(this.mapElement, this.mapsElement, location)
+            }
+            this.setState({ defaultCenter: location });
+            this.getAddressFromCoord(this.state.defaultCenter);
+        } else {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    let location = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    }
+                    if (this.mapElement && this.mapsElement) {
+                        this.renderMarker(this.mapElement, this.mapsElement, location)
+                    }
+                    this.setState({ defaultCenter: location });
+                    this.getAddressFromCoord(this.state.defaultCenter);
+                });
+            }
         }
     }
 
     getAddressFromCoord(coord: any) {
         AddressService.getAddressFromCoords(coord).then(
             (address) => {
-                if (address) 
+                if (address)
                     this.setState({ fullAddress: address.formatted_address });
                 else
                     this.setState({ fullAddress: "No address found!" });
-                this.props.getDataFromMap({latitude : coord.lat, longitude : coord.lng, location : address ? address.formatted_address : ''})
+                this.props.getDataFromMap({ latitude: coord.lat, longitude: coord.lng, location: address ? address.formatted_address : '' })
             },
             (error) => {
 
@@ -67,9 +79,9 @@ export class AddressSelector extends React.Component<any, any> {
         this.getAddressFromCoord({ lat: this.state.defaultCenter.lat, lng: this.state.defaultCenter.lng });
 
         let address = {
-            locatie : this.state.fullAddress,
-            latitudine : this.state.defaultCenter.lat,
-            longitudine : this.state.defaultCenter.lng
+            locatie: this.state.fullAddress,
+            latitudine: this.state.defaultCenter.lat,
+            longitudine: this.state.defaultCenter.lng
         }
         this.props.getDataFromMap(address);
         // this.renderMarker(map, maps,  defaultPosition)
