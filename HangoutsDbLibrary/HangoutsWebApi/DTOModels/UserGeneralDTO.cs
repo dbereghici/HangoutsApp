@@ -10,6 +10,8 @@ namespace HangoutsWebApi.DTOModels
     {
         public int ID { get; set; }
         [Required]
+        public string Username { get; set; }
+        [Required]
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }

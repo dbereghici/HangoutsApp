@@ -18,6 +18,7 @@ export class RegistrationForm extends BaseComponent {
         this.state = {
             ...this.state,
             email: '',
+            username: '',
             password: '',
             confirmpassword: '',
             firstname: '',
@@ -30,6 +31,7 @@ export class RegistrationForm extends BaseComponent {
             },
             formErrors: { 
                 email: '', 
+                username: '',
                 password: '', 
                 confirmpassword: '',
                 firstname: '', 
@@ -42,6 +44,7 @@ export class RegistrationForm extends BaseComponent {
                 },
             },
             emailValid: false,
+            usernameValid: false,
             passwordValid: false,
             confirmpasswordValid : false,
             firstnameValid : false,
@@ -56,6 +59,7 @@ export class RegistrationForm extends BaseComponent {
 
     validateField(fieldName: any, value: any) {
         let fieldValidationErrors = this.state.formErrors;
+        let usernameValid = this.state.usernameValid;
         let emailValid = this.state.emailValid;
         let passwordValid = this.state.passwordValid;
         let confirmpasswordValid = this.state.confirmpasswordValid;
@@ -67,6 +71,10 @@ export class RegistrationForm extends BaseComponent {
             case 'email':
                 emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
                 fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+                break;
+            case 'username':
+                usernameValid = (value.length >= 6);
+                fieldValidationErrors.username = usernameValid ? '' : ' is too short';
                 break;
             case 'password':
                 passwordValid = value.length >= 6;
@@ -94,6 +102,7 @@ export class RegistrationForm extends BaseComponent {
         this.setState({
             formErrors: fieldValidationErrors,
             emailValid: emailValid,
+            usernameValid: usernameValid,
             passwordValid: passwordValid,
             confirmpasswordValid: confirmpasswordValid,
             firstnameValid : firstnameValid,
@@ -103,7 +112,7 @@ export class RegistrationForm extends BaseComponent {
     }
 
     validateForm() {
-        this.setState({ formValid: this.state.emailValid && this.state.passwordValid && this.state.lastnameValid 
+        this.setState({ formValid: this.state.emailValid && this.state.passwordValid && this.state.lastnameValid && this.state.usernameValid
             && this.state.firstnameValid && this.state.birthdateValid && this.state.confirmpasswordValid});
     }
 
@@ -121,7 +130,7 @@ export class RegistrationForm extends BaseComponent {
     register(event: any) {
         event.preventDefault();
         let user = {
-            username : this.state.email,
+            username : this.state.username,
             email: this.state.email,
             password: this.state.password,
             firstname: this.state.firstname,
@@ -134,6 +143,8 @@ export class RegistrationForm extends BaseComponent {
                 this.setState({ redirectToReferrer: true, isAuth: true });
             }, 
             (error) => {
+                if(error.message)
+                    this.setState({ error: error.message });
                 if(error && error.response && error.response.data)
                     this.setState({ error: error.response.data });
             }
@@ -173,6 +184,12 @@ export class RegistrationForm extends BaseComponent {
             <div>
                 <form className="demoForm" onSubmit={this.register}>
                     <h2>Register</h2>
+                    <div>
+                        <label htmlFor="text">Username*</label>
+                        <input type="text" className="form-control"
+                            name="username" value={this.state.username} onChange={(event) => this.handleUserInput(event)} onSelect={(event) => this.handleUserInput(event)}
+                        />
+                    </div >
                     <div className="form-group">
                         <label htmlFor="email"  >Email address*</label>
                         <input type="email" className="form-control"

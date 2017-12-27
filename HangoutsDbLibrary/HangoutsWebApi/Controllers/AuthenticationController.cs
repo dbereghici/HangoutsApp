@@ -25,6 +25,7 @@ namespace HangoutsWebApi.Controllers
                 UserMapper userMapper = new UserMapper();
                 User user = new User
                 {
+                    Username = userLoginDTO.Username,
                     Email = userLoginDTO.Email,
                     Password = userLoginDTO.Password
                 };

@@ -40,7 +40,7 @@ export class Settings extends BaseComponent {
     }
 
     myProfile() {
-        this.setState({redirectToReferrer: 'myprofile'})
+        this.setState({ redirectToReferrer: 'myprofile' })
     }
 
 
@@ -53,23 +53,32 @@ export class Settings extends BaseComponent {
             return <Redirect to='/myprofile' />;
         }
         return (
-            <div className="hangouts-settings" onMouseEnter={(event) => { this.onSettingsHover(event) }} onMouseLeave={(event) => { this.onSettingsMouseLeave(event) }}>
-                <div className="settings-cog">
-                    <i className="fa fa-cog" aria-hidden="true"></i>
-                </div>
-                {this.state.isPanelOpened ?
-                    <ul>
-                        <li>
-                        <button onClick={this.myProfile}> MyProfile </button>
-                        </li>
-                        <li>
-                        <button> Setting </button>
-                        </li>
-                        <li>
-                        <button onClick={this.logOut}> LogOut </button>
-                        </li>
-                    </ul>
-                    : null}
+            // <div className="hangouts-settings" onMouseEnter={(event) => { this.onSettingsHover(event) }} onMouseLeave={(event) => { this.onSettingsMouseLeave(event) }}>
+            //     <div className="settings-cog">
+            //         <i className="fa fa-cog" aria-hidden="true"></i>
+            //     </div>
+            //     {this.state.isPanelOpened ?
+            //         <ul>
+            //             <li>
+            //             <button onClick={this.myProfile}> MyProfile </button>
+            //             </li>
+            //             <li>
+            //             <button> Settings </button>
+            //             </li>
+            //             <li>
+            //             <button onClick={this.logOut}> LogOut </button>
+            //             </li>
+            //         </ul>
+            //         : null}
+            // </div>
+            <div className="dropdown ">
+                <button className="btn dropdown-toggle hangouts-settings settings-btn glyphicon glyphicon-cog" type="button" data-toggle="dropdown">
+            
+                </button>
+                <ul className="dropdown-menu">
+                    <li><button className="btn btn-default" onClick={this.myProfile}> MyProfile </button></li>
+                    <button className="btn btn-default" onClick={this.logOut}> LogOut </button>
+                </ul>
             </div>
         );
     }

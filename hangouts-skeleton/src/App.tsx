@@ -10,6 +10,9 @@ import Home from './components/Home/Home'
 import { Route } from 'react-router';
 import { Authentication } from './components/Authentication/Authentication';
 import { MyProfile } from './components/MyProfile/MyProfile';
+import { Friends } from './components/Friends/Friends';
+import { Groups } from './components/Group/Groups';
+
 
 class App extends React.Component {
   render() {
@@ -23,6 +26,8 @@ class App extends React.Component {
           <Route path="/home" component={Home} />
           <Route path="/authentication" component={Authentication} />
           <Route path="/myprofile" component={MyProfile}/>
+          <Route path="/friends" component={Friends}/>
+          <Route path="/groups" component={Groups}/>
         </div>
       </Router>
     );

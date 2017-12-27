@@ -13,11 +13,65 @@ namespace HangoutsBusinessLibrary.Services
     {
         public List<Friendship> GetAllFriendships()
         {
-            using(var uow = new UnitOfWork())
+            using (var uow = new UnitOfWork())
             {
                 var friendshipRepository = uow.GetRepository<Friendship>();
                 List<Friendship> friendships = friendshipRepository.GetAll().Include(f => f.User1).Include(f => f.User2).ToList();
                 return friendships;
+            }
+        }
+
+        public List<User> GetAllFriendRequestsMade(int id)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                User user = userRepository
+                    .GetAll()
+                    .Include(u => u.FriendRequestsAccepted)
+                    .ThenInclude(f => f.User2)
+                    .ThenInclude(u => u.Address)
+                    .Include(u => u.FriendRequestsMade)
+                    .ThenInclude(f => f.User1)
+                    .ThenInclude(u => u.Address)
+                    .Where(u => u.ID == id)
+                    .FirstOrDefault();
+                if (user == null)
+                    throw new Exception("Invalid id");
+                List<User> friendRequestMade = new List<User>();
+                foreach (var friendship in user.FriendRequestsMade)
+                {
+                    if (friendship.Status.Equals("pending"))
+                        friendRequestMade.Add(friendship.User1);
+                }
+                return friendRequestMade;
+            }
+        }
+
+        public List<User> GetAllFriendRequestReceived(int id)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                User user = userRepository
+                     .GetAll()
+                     .Include(u => u.FriendRequestsAccepted)
+                     .ThenInclude(f => f.User2)
+                     .ThenInclude(u => u.Address)
+                     .Include(u => u.FriendRequestsMade)
+                     .ThenInclude(f => f.User1)
+                     .ThenInclude(u => u.Address)
+                     .Where(u => u.ID == id)
+                     .FirstOrDefault();
+                if (user == null)
+                    throw new Exception("Invalid id");
+                List<User> friendRequestMade = new List<User>();
+                foreach (var friendship in user.FriendRequestsAccepted)
+                {
+                    if (friendship.Status.Equals("pending"))
+                        friendRequestMade.Add(friendship.User2);
+                }
+                return friendRequestMade;
             }
         }
 

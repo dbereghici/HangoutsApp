@@ -8,6 +8,7 @@ using HangoutsWebApi.Mappings;
 using System.ComponentModel.DataAnnotations;
 using HangoutsBusinessLibrary.Services;
 using System;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
 namespace HangoutsWebApi.Controllers
 {
@@ -27,6 +28,83 @@ namespace HangoutsWebApi.Controllers
             }
             List<UserGeneralDTO> usersDTO = userGeneralMapper.Map(users);
             return Ok(usersDTO);
+        }
+
+        [HttpGet("{id}/search")]
+        public IActionResult SearchNewFriends(int id, string q, int page, int size) {
+            UserService userService = new UserService();
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            List<User> source = userService.SearchNewFriends(id, q);
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("We couldn't find anything for " + q);
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<User> users;
+            if ((page - 1) * size + size < count)
+                users = source.GetRange((page - 1) * size, size);
+            else
+                users = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<UserGeneralDTO> usersDTO = userGeneralMapper.Map(users);
+
+            var response = new
+            {
+                totalCount = count,
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                users = usersDTO
+            };
+
+            return Ok(response);
+        }
+
+        [HttpGet("page/{page}/size/{size}")]
+        public IActionResult GetAllUsersPage(int page, int size)
+        {
+            UserService userService = new UserService();
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            List<User> source = userService.GetAllUsers();
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("There are no users!");
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<User> users;
+            if((page - 1) * size + size < count)
+                users = source.GetRange((page - 1) * size, size);
+            else
+                users = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<UserGeneralDTO> usersDTO = userGeneralMapper.Map(users);
+
+            var response = new
+            {
+                totalCount = count, 
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                users = usersDTO
+            };
+
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -80,8 +158,10 @@ namespace HangoutsWebApi.Controllers
             User user = userMapper.Map(userDTO);
             try
             {
+
                 user = userService.UpdateUser(id, user);
-                return Ok(user);
+                UserDTO userDTOResponse = userMapper.Map(user);
+                return Ok(userDTOResponse);
             } 
             catch (Exception e)
             {
@@ -167,22 +247,6 @@ namespace HangoutsWebApi.Controllers
                 return NotFound("This plan has no members");
             List<UserGeneralDTO> usersGeneralDTO = userGeneralMapper.Map(users);
             return Ok(usersGeneralDTO);
-        }
-
-        [Route("~/api/friends/user/{id}")]
-        [HttpGet]
-        public IActionResult GetAllFriendsForUser(int id)
-        {
-            UserService userService = new UserService();
-            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
-            User existUser = userService.GetByID(id);
-            if (existUser == null)
-                return BadRequest("Invalid ID");
-            List<User> friends = userService.GetAllFriends(id);
-            if (friends == null || friends.Count == 0)
-                return NotFound("User" + id + " has no friends");
-            List<UserGeneralDTO> friendsDTO = userGeneralMapper.Map(friends);
-            return Ok(friendsDTO);
         }
 
         [HttpDelete("{userId}/group/{groupId}")]
