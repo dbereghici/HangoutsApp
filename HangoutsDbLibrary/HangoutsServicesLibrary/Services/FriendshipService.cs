@@ -116,6 +116,7 @@ namespace HangoutsBusinessLibrary.Services
             using (var uow = new UnitOfWork())
             {
                 var friendshipRepository = uow.GetRepository<Friendship>();
+                var userChatRepository = uow.GetRepository<UserChat>();
                 // Check for existent friendship
                 var pk = new object[] { (object)id1, (object)id2 };
                 var existFriendship = friendshipRepository.GetByID(pk);
@@ -133,6 +134,19 @@ namespace HangoutsBusinessLibrary.Services
                 friendship.UserID2 = id2;
                 friendship.Chat = new Chat();
                 friendshipRepository.Insert(friendship);
+                uow.SaveChanges();
+                // Add users to chat
+                pk = new object[] { (object)id1, (object)id2 };
+                friendship = friendshipRepository.GetByID(pk);
+                if (friendship == null)
+                {
+                    pk = new object[] { (object)id2, (object)id1 };
+                    friendship = friendshipRepository.GetByID(pk);
+                }
+                UserChat userChat = new UserChat { ChatID = friendship.ChatID, UserID = id1 };
+                userChatRepository.Insert(userChat);
+                userChat = new UserChat { ChatID = friendship.ChatID, UserID = id2 };
+                userChatRepository.Insert(userChat);
                 uow.SaveChanges();
                 return friendship;
             }

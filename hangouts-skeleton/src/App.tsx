@@ -12,6 +12,7 @@ import { Authentication } from './components/Authentication/Authentication';
 import { MyProfile } from './components/MyProfile/MyProfile';
 import { Friends } from './components/Friends/Friends';
 import { Groups } from './components/Group/Groups';
+import Chat from './components/Chat/Chat';
 
 
 class App extends React.Component {
@@ -28,6 +29,7 @@ class App extends React.Component {
           <Route path="/myprofile" component={MyProfile}/>
           <Route path="/friends" component={Friends}/>
           <Route path="/groups" component={Groups}/>
+          <Route path="/chat/:type/:id/" component={Chat}/>
         </div>
       </Router>
     );

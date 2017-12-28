@@ -18,10 +18,8 @@ export class Groups extends BaseComponent {
         }
 
         return (
-
             <div>
                 <Header />
-                Groups
             </div>
         );
     }

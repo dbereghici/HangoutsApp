@@ -1,0 +1,49 @@
+div.scroll {
+    background-color: rgba(0, 0, 0, 0.184);
+    width: 1000px;
+    height: 600px;
+    overflow: scroll;
+}
+
+.msgcontainer {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.darker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+
+.msgcontainer::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.msgcontainer img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+.msgcontainer img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right:0;
+}
+
+.time-right {
+    float: right;
+    color: #aaa;
+}
+
+.time-left {
+    float: left;
+    color: #999;
+}

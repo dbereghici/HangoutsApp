@@ -83,13 +83,11 @@ export class ReceivedReqList extends BaseComponent {
             () =>
             {
                 alert("Request accepted");
-                this.props.forceUpdateHandler();
                 FriendService.getFriendRequestReceivedPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
                     (friends) => {
                         this.setState({
                             UsersData: friends
                         });
-                        this.forceUpdate();
                     },
                     (error) => {
                         if (error && error.response && error.response.data)
