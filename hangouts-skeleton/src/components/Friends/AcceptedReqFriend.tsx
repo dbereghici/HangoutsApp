@@ -7,6 +7,8 @@ import './Friends.css'
 import AuthService from '../../services/AuthService';
 import { Redirect } from 'react-router';
 
+const logo = require('../../images/user.png');
+
 export class AcceptedReqFriend extends BaseComponent {
     constructor(props: any) {
         super(props);
@@ -20,13 +22,13 @@ export class AcceptedReqFriend extends BaseComponent {
         }
     }
 
-    unfriend(){
+    unfriend() {
         let id1 = this.state.UserData.id;
         let id2 = JSON.parse(AuthService.getUserData()).id;
         this.props.unfriend(id1, id2);
     }
 
-    message(){
+    message() {
         this.setState({
             redirectToChat: true
         })
@@ -40,19 +42,20 @@ export class AcceptedReqFriend extends BaseComponent {
         return (
             <div className="panel panel-primary">
                 <div className="panel-heading">
-                  {this.state.UserData.username}
+                    <img src={logo} width="50px" height="50px" />
+                    <b>{this.state.UserData.username}</b>
                 </div>
                 <div className="panel-body">
                     <b>
-                    {this.state.UserData.firstName} {this.state.UserData.lastName}
+                        {this.state.UserData.firstName} {this.state.UserData.lastName}
                     </b>
-                    <br/>
+                    <br />
                     {this.state.UserData.age} years
-                    <br/>
+                    <br />
                     {this.state.UserData.address}
-                    <br/>
-                    <button className="btn btn-warning glyphicon glyphicon-remove" onClick = {this.unfriend}> Unfriend </button>
-                    <button className="btn btn-warning glyphicon glyphicon-envelope" onClick = {this.message}> Message </button>
+                    <br />
+                    <button className="btn btn-warning glyphicon glyphicon-remove" onClick={this.unfriend}> Unfriend </button>
+                    <button className="btn btn-warning glyphicon glyphicon-envelope" onClick={this.message}> Message </button>
                 </div>
             </div>
         );

@@ -9,6 +9,8 @@ namespace HangoutsWebApi.DTOModels
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public UserGeneralDTO Admin { get; set; }
+        public string Admin { get; set; }
+        public int AdminID { get; set; }
+        public int NrOfMembers { get; set; }
     }
 }

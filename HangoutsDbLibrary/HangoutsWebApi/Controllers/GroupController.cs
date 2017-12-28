@@ -55,7 +55,8 @@ namespace HangoutsWebApi.Controllers
                 try
                 {
                     group = groupService.AddGroup(group);
-                    return Ok(group);
+                    GroupDTO groupDTOResponse = groupMapper.Map(group);
+                    return Ok(groupDTOResponse);
                 }
                 catch (Exception e)
                 {
@@ -178,6 +179,123 @@ namespace HangoutsWebApi.Controllers
                 return NotFound("This user is not part of any group");
             List<GroupDTO> groupsDTO = groupMapper.Map(groups);
             return Ok(groupsDTO);
+        }
+
+        [HttpGet("search")]
+        public IActionResult GetAllGroupsSearchPage(string q, int page, int size)
+        {
+            GroupService groupService = new GroupService();
+            GroupMapper groupMapper = new GroupMapper();
+            List<Group> source = groupService.GetAllGroups(q);
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("We couldn't find anything for " + q);
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<Group> groups;
+            if ((page - 1) * size + size < count)
+                groups = source.GetRange((page - 1) * size, size);
+            else
+                groups = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<GroupDTO> groupsDTO = groupMapper.Map(groups);
+
+            var response = new
+            {
+                totalCount = count,
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                groups = groupsDTO
+            };
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id}/my/search")]
+        public IActionResult GetMyGroupsSearchPage(int id, string q, int page, int size)
+        {
+            GroupService groupService = new GroupService();
+            GroupMapper groupMapper = new GroupMapper();
+            List<Group> source = groupService.GetMyGroups(id, q);
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("We couldn't find anything for " + q);
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<Group> groups;
+            if ((page - 1) * size + size < count)
+                groups = source.GetRange((page - 1) * size, size);
+            else
+                groups = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<GroupDTO> groupsDTO = groupMapper.Map(groups);
+
+            var response = new
+            {
+                totalCount = count,
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                groups = groupsDTO
+            };
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id}/administrated/search")]
+        public IActionResult GetGroupsAdministratedSearchPage(int id, string q, int page, int size)
+        {
+            GroupService groupService = new GroupService();
+            GroupMapper groupMapper = new GroupMapper();
+            List<Group> source = groupService.GetGroupsAdministrated(id, q);
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("We couldn't find anything for " + q);
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<Group> groups;
+            if ((page - 1) * size + size < count)
+                groups = source.GetRange((page - 1) * size, size);
+            else
+                groups = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<GroupDTO> groupsDTO = groupMapper.Map(groups);
+
+            var response = new
+            {
+                totalCount = count,
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                groups = groupsDTO
+            };
+
+            return Ok(response);
         }
     }
 }

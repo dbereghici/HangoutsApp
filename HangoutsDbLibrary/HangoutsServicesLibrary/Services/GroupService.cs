@@ -40,7 +40,7 @@ namespace HangoutsWebApi.Services
                 if (existGroup != null)
                     throw new Exception("There already exist a group with this name");
                 groupRepository.Insert(group);
-                userGroupRepository.Insert(new UserGroup { UserID = group.AdminID, GroupID = group.ID });
+                userGroupRepository.Insert(new UserGroup { UserID = group.AdminID, GroupID = group.ID, Status = "admin" });
                 uow.SaveChanges();
                 return group;
             }
@@ -101,6 +101,84 @@ namespace HangoutsWebApi.Services
                 }
                 groupRepository.Delete(group);
                 uow.SaveChanges();
+            }
+        }
+
+        public List<Group> GetAllGroups(string searchString)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var groupRepository = uow.GetRepository<Group>();
+
+                List<Group> groups = new List<Group>();
+                List<Group> intermedGroups = new List<Group>();
+
+                if (searchString == null || searchString.Equals(""))
+                    groups = groupRepository
+                        .GetAll()
+                        .Include(g => g.UserGroups)
+                        .ToList();
+                else
+                {
+                    char[] delimiterChar = { ' ' };
+                    string[] words = searchString.Split(delimiterChar);
+
+                    foreach (var word in words)
+                    {
+                        intermedGroups = groupRepository
+                            .GetAll()
+                            .Where(g => g.Name.Contains(word))
+                            .ToList();
+                        groups = groups.Concat(intermedGroups).ToList();
+                    }
+                }
+                return groups;
+            }
+        }
+
+        public List<Group> GetMyGroups(int id, string searchString)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                var groupRepository = uow.GetRepository<Group>();
+                var userGroupRepository = uow.GetRepository<UserGroup>();
+                User user = userRepository.GetByID(id);
+                if (user == null)
+                    throw new Exception("Invalid id");
+                List<UserGroup> usergroups = userGroupRepository.GetAll().ToList();
+                List<Group> groups = GetAllGroups(searchString);
+                List<Group> result = new List<Group>();
+                foreach (var group in groups)
+                {
+                    foreach (var ug in group.UserGroups)
+                        if (ug.UserID == id)
+                            result.Add(group);
+                }
+                return result;
+            }
+        }
+
+        public List<Group> GetGroupsAdministrated(int id, string searchString)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                var groupRepository = uow.GetRepository<Group>();
+                var userGroupRepository = uow.GetRepository<UserGroup>();
+                User user = userRepository.GetByID(id);
+                if (user == null)
+                    throw new Exception("Invalid id");
+                List<UserGroup> usergroups = userGroupRepository.GetAll().ToList();
+                List<Group> groups = GetAllGroups(searchString);
+                List<Group> result = new List<Group>();
+                foreach (var group in groups)
+                {
+                    if (group.AdminID == id)
+                        result.Add(group);
+
+                }
+                return result;
             }
         }
     }

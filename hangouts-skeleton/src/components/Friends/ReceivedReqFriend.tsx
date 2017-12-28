@@ -6,6 +6,8 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 import './Friends.css'
 import AuthService from '../../services/AuthService';
 
+const logo = require('../../images/user.png');
+
 export class ReceivedReqFriend extends BaseComponent {
     constructor(props: any) {
         super(props);
@@ -18,7 +20,7 @@ export class ReceivedReqFriend extends BaseComponent {
         }
     }
 
-    accept(){
+    accept() {
         this.state.UserData;
         this.props.UserData;
         let id1 = this.state.UserData.id;
@@ -26,7 +28,7 @@ export class ReceivedReqFriend extends BaseComponent {
         this.props.accept(id1, id2);
     }
 
-    decline(){
+    decline() {
         this.state.UserData;
         this.props.UserData;
         let id1 = this.state.UserData.id;
@@ -38,19 +40,21 @@ export class ReceivedReqFriend extends BaseComponent {
         return (
             <div className="panel panel-primary">
                 <div className="panel-heading">
-                  {this.state.UserData.username}
+
+                    <img src={logo} width="50px" height="50px" />
+                    <b>{this.state.UserData.username}</b>
                 </div>
                 <div className="panel-body">
                     <b>
-                    {this.state.UserData.firstName} {this.state.UserData.lastName}
+                        {this.state.UserData.firstName} {this.state.UserData.lastName}
                     </b>
-                    <br/>
+                    <br />
                     {this.state.UserData.age} years
-                    <br/>
+                    <br />
                     {this.state.UserData.address}
-                    <br/>
-                    <button className="btn btn-warning glyphicon glyphicon-ok" onClick = {this.accept}> Accept </button>
-                    <button className="btn btn-warning glyphicon glyphicon-remove" onClick = {this.decline}> Decline </button>
+                    <br />
+                    <button className="btn btn-warning glyphicon glyphicon-ok" onClick={this.accept}> Accept </button>
+                    <button className="btn btn-warning glyphicon glyphicon-remove" onClick={this.decline}> Decline </button>
                 </div>
             </div>
         );

@@ -4,6 +4,8 @@ import * as React from 'react';
 import { Redirect } from 'react-router';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { Header } from '../Header/Header';
+import { AddNewGroupForm } from './AddNewGroupForm';
+import { GroupList } from './GroupList';
 
 export class Groups extends BaseComponent {
     constructor(props: any) {
@@ -20,6 +22,8 @@ export class Groups extends BaseComponent {
         return (
             <div>
                 <Header />
+                <AddNewGroupForm />
+                <GroupList />
             </div>
         );
     }

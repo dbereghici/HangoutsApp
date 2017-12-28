@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HangoutsDbLibrary.Model;
+using HangoutsDbLibrary.Repository;
 using HangoutsWebApi.DTOModels;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,13 @@ namespace HangoutsWebApi.Mappings
             IMapper mapper = config.CreateMapper();
             GroupDTO groupDTO = mapper.Map<Group, GroupDTO>(group);
             UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
-            groupDTO.Admin = userGeneralMapper.Map(group.Admin);
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                User user = userRepository.GetByID(group.AdminID);
+                groupDTO.Admin = user.FirstName + " " + user.LastName;
+                groupDTO.NrOfMembers = group.UserGroups.Count;
+            }
             return groupDTO;
         }
 
@@ -44,7 +51,7 @@ namespace HangoutsWebApi.Mappings
             IMapper mapper = config.CreateMapper();
             Group group = mapper.Map<GroupDTO, Group>(groupDTO);
             UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
-            group.Admin = userGeneralMapper.Map(groupDTO.Admin);
+            //group.Admin = userGeneralMapper.Map(groupDTO.Admin);
             return group;
         }
 
