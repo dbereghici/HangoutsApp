@@ -15,7 +15,11 @@ namespace HangoutsWebApi.Services
             using (var uow = new UnitOfWork())
             {
                 var groupRepository = uow.GetRepository<Group>();
-                Group group = groupRepository.GetByID(id);
+                Group group = groupRepository
+                    .GetAll()
+                    .Where(g => g.ID == id)
+                    .Include(g => g.UserGroups)
+                    .FirstOrDefault();
                 return group;
             }
         }
@@ -25,7 +29,12 @@ namespace HangoutsWebApi.Services
             using (var uow = new UnitOfWork())
             {
                 var groupRepository = uow.GetRepository<Group>();
-                List<Group> groups = groupRepository.GetAll().Include(g => g.Admin).ThenInclude(u => u.Address).ToList();
+                List<Group> groups = groupRepository
+                    .GetAll()
+                    .Include(g => g.UserGroups)
+                    .Include(g => g.Admin)
+                    .ThenInclude(u => u.Address)
+                    .ToList();
                 return groups;
             }
         }

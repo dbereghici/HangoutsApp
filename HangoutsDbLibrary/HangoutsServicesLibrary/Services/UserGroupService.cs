@@ -114,5 +114,17 @@ namespace HangoutsWebApi.Services
                 return userGroupToUpdate;
             }
         }
+
+        public string GetUserGroupStatus(int groupId, int userId)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userGroupRepository = uow.GetRepository<UserGroup>();
+                UserGroup userGroup = userGroupRepository.GetAll().Where(ug => ug.GroupID == groupId && ug.UserID == userId).FirstOrDefault();
+                if (userGroup == null)
+                    return "";
+                return userGroup.Status;
+            }
+        }
     }
 }

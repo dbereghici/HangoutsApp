@@ -22,7 +22,9 @@ export class Groups extends BaseComponent {
         return (
             <div>
                 <Header />
+                <h2> Add new group </h2>
                 <AddNewGroupForm />
+                <h2> Group List </h2>
                 <GroupList />
             </div>
         );

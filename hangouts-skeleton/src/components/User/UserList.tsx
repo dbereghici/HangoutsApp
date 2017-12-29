@@ -1,23 +1,28 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
-// import { Redirect } from 'react-router';
 import BaseComponent from '../BaseComponent/BaseComponent';
-import './Friends.css'
-import FriendService from '../../services/FriendsService';
 import AuthService from '../../services/AuthService';
-import { AcceptedReqFriend } from './AcceptedReqFriend';
+import { UsersService } from '../../services/UsersService';
+import { User } from './User';
+import { Redirect } from 'react-router';
 
-export class AcceptedReqList extends BaseComponent {
+export class UsersList extends BaseComponent {
     constructor(props: any) {
         super(props);
 
         this.nextPage = this.nextPage.bind(this);
         this.previousPage = this.previousPage.bind(this);
-        this.unfriend = this.unfriend.bind(this);
+        this.handleSearchInput = this.handleSearchInput.bind(this);
+        this.search = this.search.bind(this);
+        this.refresh = this.refresh.bind(this);
+        this.showError = this.showError.bind(this);
 
         this.state = {
+            func: this.props.getUsers,
             errorMessage: '',
+            redirectToChat: false,
+            searchString: '',
             UsersData: {
                 totalCount: 0,
                 pageSize: 6,
@@ -30,13 +35,13 @@ export class AcceptedReqList extends BaseComponent {
     }
 
     componentDidMount() {
-        FriendService.getFriendsPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
-            (friends) => {
+        UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, 1, 6).then(
+            (usersData: any) => {
                 this.setState({
-                    UsersData: friends
+                    UsersData: usersData
                 })
             },
-            (error) => {
+            (error: any) => {
                 if (error && error.response && error.response.data)
                     this.setState({ errorMessage: error.response.data })
                 else if (error.message)
@@ -46,7 +51,7 @@ export class AcceptedReqList extends BaseComponent {
     }
 
     nextPage() {
-        FriendService.getFriendsPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
+        UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -62,7 +67,7 @@ export class AcceptedReqList extends BaseComponent {
     }
 
     previousPage() {
-        FriendService.getFriendsPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
+        UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -77,40 +82,45 @@ export class AcceptedReqList extends BaseComponent {
         )
     }
 
-    unfriend(id1: number, id2: number) {
-        FriendService.deleteFriendship(id1, id2).then(
-            () => {
-                FriendService.getFriendsPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
-                    (friends) => {
-                        this.setState({
-                            UsersData: friends
-                        });
-                        alert("Operation successfull");
-                    },
-                    (error) => {
-                        if (error && error.response && error.response.data)
-                            this.setState({ errorMessage: error.response.data })
-                        else if (error.message)
-                            this.setState({ errorMessage: error.message })
-                    }
-                )
+    search(event: any){
+        event.preventDefault();
+        UsersService.getAllUsersSearchPage(JSON.parse(AuthService.getUserData()).id, this.state.searchString, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+            (friends) => {
+                this.setState({
+                    UsersData: friends,
+                    errorMessage: ''
+                })
             },
-            (error) =>                 
-            FriendService.getFriendsPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
-                (friends) => {
-                    this.setState({
-                        UsersData: friends
-                    });
-                    this.forceUpdate();
-                },
-                (error) => {
-                    if (error && error.response && error.response.data)
-                        this.setState({ errorMessage: error.response.data })
-                    else if (error.message)
-                        this.setState({ errorMessage: error.message })
+            (error) => {
+                if (error && error.response && error.response.data){
+                    this.setState({errorMessage: error.response.data})
                 }
-            )
-        );
+                else if (error.message)
+                    this.setState({errorMessage: error.message})
+                
+            }
+        )
+    }
+
+    handleSearchInput(e: any) {
+        const q = e.target.value;
+        this.setState({
+            searchString: q
+        });
+    }
+
+    refresh(){
+        UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+            (friends) => {
+                // alert("Operation succesfull");
+                this.setState({
+                    UsersData: friends
+                })
+            });
+    }
+
+    showError(error: any){
+        this.setState({errorMessage: error})
     }
 
     render() {
@@ -127,9 +137,25 @@ export class AcceptedReqList extends BaseComponent {
             else
                 users3.push(users[i]);
         }
-
+        if (this.state.redirectToChat) {
+            let redirectTo = '/chat/user/' + this.state.UserData.id;
+            return <Redirect to={redirectTo} />;
+        }
         return (
             <div>
+                <h1> All users </h1>
+                <form className="demoForm" 
+                     onSubmit={this.search}
+                >    
+                    <div>
+                    <label htmlFor="text">Search</label>
+                        <input type="text" className="form-control"
+                            name="lastname" //value={this.state.lastname} //onChange={(event) => this.handleUserInput(event)} onLoad={(event) => this.handleUserInput(event)}
+                            onChange={(event) => this.handleSearchInput(event)}
+                        />
+                    </div>
+                    <button type="submit" className="btn btn-primary">Search</button>
+                </form >
                 <p> {this.state.errorMessage} </p>
                 {(this.state.UsersData.users.length === 0) ?
                     <p>
@@ -140,37 +166,34 @@ export class AcceptedReqList extends BaseComponent {
                         <div className="col-sm-4">
                             {
                                 users1.map((friend: any, i: number) =>
-                                    <AcceptedReqFriend 
+                                    <User 
                                         UserData={friend} 
                                         key={friend.id} 
-                                        unfriend={this.unfriend} 
-                                        displayButtons={this.props.displayButtons}
-                                        onClickHandler={this.props.onClickHandler}
+                                        showError = {this.showError}
+                                        refresh = {this.refresh}
                                     />
                                 )}
                         </div>
                         <div className="col-sm-4">
                             {
                                 users2.map((friend: any, i: number) =>
-                                <AcceptedReqFriend 
+                                <User 
                                     UserData={friend} 
                                     key={friend.id} 
-                                    unfriend={this.unfriend} 
-                                    displayButtons={this.props.displayButtons}
-                                    onClickHandler={this.props.onClickHandler}
+                                    showError = {this.showError}
+                                    refresh = {this.refresh}
                                 />
                                 )}
                         </div>
                         <div className="col-sm-4">
                             {
                                 users3.map((friend: any, i: number) =>
-                                <AcceptedReqFriend 
-                                    UserData={friend} 
-                                    key={friend.id} 
-                                    unfriend={this.unfriend} 
-                                    displayButtons={this.props.displayButtons}
-                                    onClickHandler={this.props.onClickHandler}
-                                />
+                                    <User 
+                                        UserData={friend} 
+                                        key={friend.id} 
+                                        showError = {this.showError}
+                                        refresh = {this.refresh}
+                                    />
                                 )}
                         </div>
                     </div>

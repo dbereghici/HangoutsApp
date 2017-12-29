@@ -28,6 +28,7 @@ export class SendReqFriend extends BaseComponent {
     }
 
     render() {
+        let buttonDisplay = JSON.parse(AuthService.getUserData()).id === this.state.UserData.id;
         return (
             <div className="panel panel-primary">
                 <div className="panel-heading">
@@ -43,7 +44,7 @@ export class SendReqFriend extends BaseComponent {
                     <br />
                     {this.state.UserData.address}
                     <br />
-                    <button className="btn btn-warning glyphicon glyphicon-remove" onClick={this.cancel}> Cancel </button>
+                    <button className="btn btn-warning glyphicon glyphicon-remove" onClick={this.cancel} disabled={buttonDisplay}> Cancel </button>
                 </div>
             </div>
         );

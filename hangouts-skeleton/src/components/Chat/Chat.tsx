@@ -86,8 +86,8 @@ export default class Chat extends BaseComponent {
             createdAt: Date,
             userID: JSON.parse(AuthService.getUserData()).id,
         }
-        MessageService.addMessage(message);
-
+        MessageService.addMessage(message).then(
+            () =>
         this.props.match.params.type === "user" ?
             //"user"            
             ChatService.getChatOfFriendship(this.props.match.params.id, JSON.parse(AuthService.getUserData()).id).then(
@@ -98,7 +98,7 @@ export default class Chat extends BaseComponent {
                 },
                 (error) => {
                     if (error && error.response && error.response.data)
-                        this.setState({ errorMessage: error.response.data })
+                        this.setState({ errorMessage: error.response.data }) 
                     else if (error.message)
                         this.setState({ errorMessage: error.message })
                 }
@@ -108,7 +108,7 @@ export default class Chat extends BaseComponent {
             this.setState({
                 Chat: []
                 //TODO Modify
-            })
+            }), (error) => {})
     }
 
 

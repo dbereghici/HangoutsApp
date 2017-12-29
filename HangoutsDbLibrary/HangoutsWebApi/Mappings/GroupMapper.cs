@@ -2,6 +2,7 @@
 using HangoutsDbLibrary.Model;
 using HangoutsDbLibrary.Repository;
 using HangoutsWebApi.DTOModels;
+using HangoutsWebApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

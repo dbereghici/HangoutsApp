@@ -214,6 +214,36 @@ namespace HangoutsBusinessLibrary.Services
             }
         }
 
-
+        public string GetUserRelation(int id1, int id2)
+        {
+            UserService userService = new UserService();
+            User user1 = userService.GetByID(id1);
+            User user2 = userService.GetByID(id2);
+            if (user1 == null)
+                throw new Exception("There is no user with ID :" + id1);
+            if (user2 == null)
+                throw new Exception("There is no user with ID :" + id2);
+            using (var uow = new UnitOfWork())
+            {
+                var friendshipRepository = uow.GetRepository<Friendship>();
+                var pk = new object[] { (object)id1, (object)id2 };
+                var friendship = friendshipRepository.GetByID(pk);
+                if (friendship != null)
+                {
+                    if (friendship.Status.Equals("pending"))
+                        return "sent";
+                    return friendship.Status;
+                }
+                pk = new object[] { (object)id2, (object)id1 };
+                friendship = friendshipRepository.GetByID(pk);
+                if (friendship != null)
+                {
+                    if (friendship.Status.Equals("pending"))
+                        return "received";
+                    return friendship.Status;
+                }
+                return "";
+            }
+        }
     }
 }

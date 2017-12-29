@@ -90,7 +90,7 @@ export default class FriendService {
 
     public static getNewFriendsSearchPage(id: number, q : string,  page: number, size: number){
         return new Promise<IUserDataPage>((resolve, reject) => {
-            axios.get(this.friendsSearch + "/" + id + "/search?q=" + q + "&page=" + page + "&size=" + size).then((response) => {
+            axios.get(this.friendsSearch + "/" + id + "/friends/search?q=" + q + "&page=" + page + "&size=" + size).then((response) => {
                 resolve(response.data);
             },
                 (error: any) => {

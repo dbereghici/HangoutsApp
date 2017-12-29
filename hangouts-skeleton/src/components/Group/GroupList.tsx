@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 // import { Redirect } from 'react-router';
 import BaseComponent from '../BaseComponent/BaseComponent';
-import { Group } from './Group';
+import { GroupPanel } from './GroupPanel';
 import GroupService from '../../services/GroupService';
 
 export class GroupList extends BaseComponent {
@@ -100,28 +100,35 @@ export class GroupList extends BaseComponent {
             },
             (error) => {
                 if (error && error.response && error.response.data)
-                    this.setState({ errorMessage: error.response.data })
-                else if (error.message)
-                    this.setState({ errorMessage: error.message })
+                    this.setState({ errorMessage: error.response.data})
+                else if (error.message){
+                    this.setState({ errorMessage: error.message}) 
+                }
             }
         )
     }
 
     render() {
-        let groups = this.state.GroupData.groups;
-        let groups1 = [];
-        let groups2 = [];
-        let groups3 = [];
+        let groups = this.state.GroupData ?  this.state.GroupData.groups : null;
 
-        for (var i = 0; i < this.state.GroupData.groups.length; i++) {
-            if ((i % 3) == 0)
-                groups1.push(groups[i]);
-            else if ((i % 3) == 1)
-                groups2.push(groups[i]);
-            else
-                groups3.push(groups[i]);
+        if(!groups) {
+           return <div></div> 
+    
         }
 
+        let groups1 = [];
+            let groups2 = [];
+            let groups3 = [];
+    
+            for (var i = 0; i < this.state.GroupData.groups.length; i++) {
+                if ((i % 3) == 0)
+                    groups1.push(groups[i]);
+                else if ((i % 3) == 1)
+                    groups2.push(groups[i]);
+                else
+                    groups3.push(groups[i]);
+            }
+       
         return (
             <div>
                 <form className="demoForm"
@@ -131,7 +138,7 @@ export class GroupList extends BaseComponent {
                         <label htmlFor="text">Search</label>
                         <input type="text" className="form-control"
                             name="lastname" //value={this.state.lastname} //onChange={(event) => this.handleUserInput(event)} onLoad={(event) => this.handleUserInput(event)}
-                            onChange={(event) => this.search(event)}
+                            onChange={(event) => this.handleSearchInput(event)}
                         />
                     </div>
                     <button type="submit" className="btn btn-primary">Search</button>
@@ -146,19 +153,19 @@ export class GroupList extends BaseComponent {
                         <div className="col-sm-4">
                             {
                                 groups1.map((group: any, i: number) =>
-                                    <Group GroupData={group} key={group.id} />
+                                    <GroupPanel GroupData={group} key={group.id} />
                                 )}
                         </div>
                         <div className="col-sm-4">
                             {
                                 groups2.map((group: any, i: number) =>
-                                    <Group GroupData={group} key={group.id} />
+                                    <GroupPanel GroupData={group} key={group.id} />
                                 )}
                         </div>
                         <div className="col-sm-4">
                             {
                                 groups3.map((group: any, i: number) =>
-                                    <Group GroupData={group} key={group.id} />
+                                    <GroupPanel GroupData={group} key={group.id} />
                                 )}
                         </div>
                     </div>

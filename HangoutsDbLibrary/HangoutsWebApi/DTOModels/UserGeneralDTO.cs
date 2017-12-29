@@ -18,5 +18,6 @@ namespace HangoutsWebApi.DTOModels
         [Required]
         public string Address { get; set; }
         public int Age { get; set; }
+        public string RelationshipStatus { get; set; }
     }
 }

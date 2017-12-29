@@ -13,6 +13,8 @@ import { MyProfile } from './components/MyProfile/MyProfile';
 import { Friends } from './components/Friends/Friends';
 import { Groups } from './components/Group/Groups';
 import Chat from './components/Chat/Chat';
+import { Group } from './components/Group/Group';
+import { UserPage } from './components/User/UserPage';
 
 
 class App extends React.Component {
@@ -30,6 +32,8 @@ class App extends React.Component {
           <Route path="/friends" component={Friends}/>
           <Route path="/groups" component={Groups}/>
           <Route path="/chat/:type/:id/" component={Chat}/>
+          <Route path="/group/:id" component={Group}/>
+          <Route path="/users" component={UserPage} />
         </div>
       </Router>
     );

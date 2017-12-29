@@ -30,7 +30,7 @@ namespace HangoutsWebApi.Controllers
             return Ok(usersDTO);
         }
 
-        [HttpGet("{id}/search")]
+        [HttpGet("{id}/friends/search")]
         public IActionResult SearchNewFriends(int id, string q, int page, int size) {
             UserService userService = new UserService();
             UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
@@ -64,7 +64,44 @@ namespace HangoutsWebApi.Controllers
                 nextPage,
                 users = usersDTO
             };
+            return Ok(response);
+        }
 
+        [HttpGet("{id}/search")]
+        public IActionResult SearchAllFriends(int id, string q, int page, int size)
+        {
+            UserService userService = new UserService();
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            List<User> source = userService.SearchAllFriends(id, q);
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("We couldn't find anything for " + q);
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<User> users;
+            if ((page - 1) * size + size < count)
+                users = source.GetRange((page - 1) * size, size);
+            else
+                users = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<UserGeneralDTO> usersDTO = userGeneralMapper.Map(users);
+
+            var response = new
+            {
+                totalCount = count,
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                users = usersDTO
+            };
             return Ok(response);
         }
 
@@ -96,6 +133,51 @@ namespace HangoutsWebApi.Controllers
             var response = new
             {
                 totalCount = count, 
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                users = usersDTO
+            };
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id}/page/{page}/size/{size}")]
+        public IActionResult GetAllUsersWithRelationStatusPage(int id, int page, int size)
+        {
+            UserService userService = new UserService();
+            FriendshipService friendshipService = new FriendshipService();
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            List<User> source = userService.GetAllUsersExceptId(id);
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("There are no users!");
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<User> users;
+            if ((page - 1) * size + size < count)
+                users = source.GetRange((page - 1) * size, size);
+            else
+                users = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<UserGeneralDTO> usersDTO = userGeneralMapper.Map(users);
+
+            foreach(var u in usersDTO)
+            {
+                u.RelationshipStatus = friendshipService.GetUserRelation(u.ID, id);
+            }
+
+            var response = new
+            {
+                totalCount = count,
                 pageSize = size,
                 currentPage = page,
                 totalPages = totalPages,

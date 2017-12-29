@@ -29,17 +29,23 @@ namespace HangoutsWebApi.Controllers
             return Ok(groupsDTO);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetGroupByID(int id)
+        [HttpGet("{groupId}")]
+        public IActionResult GetGroupByID(int groupId, int userId)
         {
             GroupService groupService = new GroupService();
+            UserService userService = new UserService();
+            UserGroupService userGroupService = new UserGroupService();
             GroupMapper groupMapper = new GroupMapper();
-            Group group = groupService.GetByID(id);
+            Group group = groupService.GetByID(groupId);
             if (group == null)
             {
                 return NotFound("There is not group with such an ID");
             }
             GroupDTO groupDTO = groupMapper.Map(group);
+            User user = userService.GetByID(userId);
+            if(user == null)
+                return Ok(groupDTO);
+            groupDTO.Status = userGroupService.GetUserGroupStatus(groupId, userId);
             return Ok(groupDTO);
         }
 

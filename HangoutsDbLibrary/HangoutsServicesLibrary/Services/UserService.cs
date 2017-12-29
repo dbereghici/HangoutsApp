@@ -34,6 +34,16 @@ namespace HangoutsWebApi.Services
             }
         }
 
+        public List<User> GetAllUsersExceptId(int id)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                List<User> users = userRepository.GetAll().Where(u => u.ID != id).Include(u => u.Address).ToList();
+                return users;
+            }
+        }
+
         public User AddUser(User user)
         {
             using (var uow = new UnitOfWork())
@@ -169,6 +179,42 @@ namespace HangoutsWebApi.Services
                 }
 
                 return result;
+            }
+        }
+
+        
+        public List<User> SearchAllFriends(int id, string searchString)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                var friendshipRepository = uow.GetRepository<Friendship>();
+                User user = userRepository.GetByID(id);
+                if (user == null)
+                {
+                    throw new Exception("Invalid id");
+                }
+                List<User> users = new List<User>();
+                List<User> intermedUsers = new List<User>();
+                if (searchString == null || searchString.Equals(""))
+                    users = userRepository.GetAll().Where(u => u.ID != id).ToList();
+                else
+                {
+                    char[] delimiterChar = { ' ' };
+                    string[] words = searchString.Split(delimiterChar);
+
+                    foreach (var word in words)
+                    {
+                        intermedUsers = userRepository
+                            .GetAll()
+                            .Where(u => ((u.FirstName.Contains(word) || u.LastName.Contains(word) || u.Username.Contains(word))
+                            && u.ID != id))
+                        .ToList();
+                        users = users.Concat(intermedUsers).ToList();
+                    }
+
+                }
+                return users;
             }
         }
 

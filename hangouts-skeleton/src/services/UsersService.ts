@@ -1,56 +1,42 @@
-// import axios from 'axios';
-
-// import { IUser } from './../models/IUser';
+import axios from 'axios';
+import { IUserDataPage } from '../models/IUserDataPage';
+import { IUser } from '../models/IUser';
 
 export class UsersService {
-    // private static root: string = 'https://www.anapioficeandfire.com/api/characters/';
-    // private static startRoot: string = 'http://accesastartapi.azurewebsites.net/api/users';
+    private static userRoot: string = 'http://localhost:15195/api/user';
 
-    // public static getUserById(id: number): Promise<IUser> {
-    //     return new Promise((resolve, reject) => {
-    //         axios.get(this.root + id).then((response: any) => {
-    //             let character = this.toUser(response.data);
-    //             resolve(character);
-    //         },
-    //             (error: any) => {
-    //                 reject(error);
-    //             })
-    //     });
-    // }
 
-    // public static getUsers(): Promise<IUser[]> {
-    //     return new Promise((resolve, reject) => {
-    //         axios.get(this.root).then((response: any) => {
-    //             let users = [
-    //                 { name: "Daenerys Targaryen" },
-    //                 { name: "Arya Stark" },
-    //                 { name: "Jon Snow" },
-    //                 { name: "Jamie Lannister" }
-    //             ];
-    //             resolve(users);
-    //         },
-    //             (error: any) => {
-    //                 reject(error);
-    //             });
-    //     });
-    // }
+    public static GetAllUsersWithRelationStatusPage(id: number, page: number, size: number){
+        return new Promise<IUserDataPage>((resolve, reject) => {
+            axios.get(this.userRoot + "/" + id + "/page/" + page + "/size/" + size).then((response) => {
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
+        });
+    }
 
-    // public static addUser(user: any): Promise<any> {
-    //     return new Promise((resolve, reject) => {
-    //         axios.post(this.startRoot, user).then((response: any) => {
-    //             resolve(response.data);
-    //         },
-    //             (error: any) => {
-    //                 reject(error);
-    //             });
-    //     });
-    // }
+    public static getAllUsersSearchPage(id: number, q : string,  page: number, size: number){
+        return new Promise<IUserDataPage>((resolve, reject) => {
+            axios.get(this.userRoot + "/" + id + "/search?q=" + q + "&page=" + page + "&size=" + size).then((response) => {
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
+        });
+    }
 
-    // private static toUser(responseCharacter: any): IUser {
-    //     return {
-    //         name: responseCharacter.name,
-    //         born: responseCharacter.born,
-    //         gender: responseCharacter.gender
-    //     };
-    // }
+    public static getUser(id: number){
+        return new Promise<IUser>((resolve, reject) =>
+        {
+            axios.get(this.userRoot + "/" + id).then((response) => {
+                resolve(response.data);
+            },
+            (error: any) => {
+                reject(error);
+            });
+        });
+    }
 }

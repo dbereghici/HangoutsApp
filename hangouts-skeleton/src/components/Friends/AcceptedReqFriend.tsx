@@ -15,10 +15,13 @@ export class AcceptedReqFriend extends BaseComponent {
 
         this.unfriend = this.unfriend.bind(this);
         this.message = this.message.bind(this);
+        this.changeBackgroundColor = this.changeBackgroundColor.bind(this);
+        this.onClickHandler = this.onClickHandler.bind(this);
 
         this.state = {
             UserData: this.props.UserData,
-            redirectToChat: false
+            redirectToChat: false,
+            changeColor: false
         }
     }
 
@@ -34,13 +37,29 @@ export class AcceptedReqFriend extends BaseComponent {
         })
     }
 
+    changeBackgroundColor(){
+        this.setState({changeColor : !this.state.changeColor})
+    }
+
+    onClickHandler(){
+        if(this.props.onClickHandler)
+            this.props.onClickHandler(this.state.UserData.id, this.state.UserData.firstName + " " + this.state.UserData.lastName);
+    }
+
     render() {
         if (this.state.redirectToChat) {
             let redirectTo = '/chat/user/' + this.state.UserData.id;
             return <Redirect to={redirectTo} />;
         }
+        var style1 = {backgroundColor: '#110bcc32'};
+        var style2 = {backgroundColor:'white'};
         return (
-            <div className="panel panel-primary">
+            <div className="panel panel-primary " 
+                style={this.state.changeColor ? style1 : style2} 
+                onClick={this.onClickHandler} 
+                onMouseEnter={this.changeBackgroundColor} 
+                onMouseLeave={this.changeBackgroundColor}
+            >
                 <div className="panel-heading">
                     <img src={logo} width="50px" height="50px" />
                     <b>{this.state.UserData.username}</b>
@@ -54,8 +73,15 @@ export class AcceptedReqFriend extends BaseComponent {
                     <br />
                     {this.state.UserData.address}
                     <br />
-                    <button className="btn btn-warning glyphicon glyphicon-remove" onClick={this.unfriend}> Unfriend </button>
-                    <button className="btn btn-warning glyphicon glyphicon-envelope" onClick={this.message}> Message </button>
+                    {this.props.displayButtons ? 
+                    <div/>
+                    :
+                    <div>
+                    <button className="btn btn-warning glyphicon glyphicon-remove" onClick={this.unfriend} > Unfriend </button>
+                    <button className="btn btn-warning glyphicon glyphicon-envelope" onClick={this.message} > Message </button>
+                    </div>
+                    
+                    }
                 </div>
             </div>
         );

@@ -20,19 +20,18 @@ export class SearchFriend extends BaseComponent {
     }
 
     addFriend() {
-        this.state.UserData;
-        this.props.UserData;
         let id1 = this.state.UserData.id;
         let id2 = JSON.parse(AuthService.getUserData()).id;
         this.props.addFriend(id1, id2);
     }
 
     render() {
+        let isMyAccount = JSON.parse(AuthService.getUserData()).id === this.state.UserData.id;
         return (
             <div className="panel panel-primary">
                 <div className="panel-heading">
                     <img src={logo} width="50px" height="50px" />
-                    <b>{this.state.UserData.username}</b>
+                    <b>{this.state.UserData.username} {isMyAccount ? <p>(me)</p> : <div/>}</b>
                 </div>
                 <div className="panel-body">
                     <b>
@@ -43,7 +42,10 @@ export class SearchFriend extends BaseComponent {
                     <br />
                     {this.state.UserData.address}
                     <br />
-                    <button className="btn btn-warning glyphicon glyphicon-remove" onClick={this.addFriend}> Add friend </button>
+                    {!isMyAccount ? 
+                        <button className="btn btn-warning glyphicon glyphicon-remove" onClick={this.addFriend}> Add friend </button> 
+                        : 
+                        <div/>}
                 </div>
             </div>
         );

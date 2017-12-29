@@ -12,5 +12,6 @@ namespace HangoutsWebApi.DTOModels
         public string Admin { get; set; }
         public int AdminID { get; set; }
         public int NrOfMembers { get; set; }
+        public string Status { get; set; }
     }
 }

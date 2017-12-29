@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { IChat } from '../models/IChat';
 
-export default class FriendService {
+export default class ChatService {
     private static chatRoot: string = 'http://localhost:15195/api/chat';
 
     public static getChatOfFriendship(id1 : number, id2 : number){
