@@ -26,7 +26,14 @@ namespace HangoutsWebApi.Mappings
                 var userRepository = uow.GetRepository<User>();
                 User user = userRepository.GetByID(group.AdminID);
                 groupDTO.Admin = user.FirstName + " " + user.LastName;
-                groupDTO.NrOfMembers = group.UserGroups.Count;
+                int count = 0;
+                foreach (var ug in group.UserGroups)
+                {
+                    if (ug != null && ug.Status != null)
+                        if (ug.Status.Equals("accepted") || ug.Status.Equals("admin"))
+                            count++;
+                }
+                groupDTO.NrOfMembers = count;
             }
             return groupDTO;
         }

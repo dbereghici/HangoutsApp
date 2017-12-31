@@ -92,7 +92,14 @@ export class SendReqList extends BaseComponent {
                     },
                     (error) => {
                         if (error && error.response && error.response.data)
-                            this.setState({ errorMessage: error.response.data })
+                            this.setState({ errorMessage: error.response.data, UsersData: {
+                                totalCount: this.state.UsersData.totalCount,
+                                pageSize: this.state.UsersData.pageSize,
+                                currentPage: this.state.UsersData.currentPage,
+                                previousPage: this.state.UsersData.previousPage,
+                                nextPage: this.state.UsersData.nextPage,
+                                users: []
+                            }})
                         else if (error.message)
                             this.setState({ errorMessage: error.message })
                     }

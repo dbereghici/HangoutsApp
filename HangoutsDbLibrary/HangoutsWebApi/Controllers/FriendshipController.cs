@@ -227,6 +227,19 @@ namespace HangoutsWebApi.Controllers
 
             return Ok(response);
         }
+
+        [HttpGet("status")]
+        public IActionResult GetUserStatus(int userAuthId, int userId)
+        {
+            UserService userService = new UserService();
+            if (userService.GetByID(userId) == null)
+                return NotFound("Invalid id");
+            if (userService.GetByID(userAuthId) == null)
+                return NotFound("Invalid id");
+
+            FriendshipService friendshipService = new FriendshipService();
+            return Ok(friendshipService.GetFriendshipStatus(userAuthId, userId));
+        }
     }
 }
 

@@ -18,9 +18,9 @@ export default class GroupService {
         });
     }
 
-    public static getAllGroupsPage(q: string, page: number, size: number){
-        return new Promise<IGroupDataPage>((resolve, reject) => {
-            axios.get(this.groupRoot + "/search?q=" + q + "&page=" + page + "&size=" + size).then((response) => {
+    public static deleteGroup(groupId: number){
+        return new Promise((resolve, reject) => {
+            axios.delete(this.groupRoot + "/" + groupId).then((response) => {
                 resolve(response.data);
             },
                 (error: any) => {
@@ -29,9 +29,9 @@ export default class GroupService {
         });
     }
 
-    public static getMyGroupsPage(q: string, id: number, page: number, size: number){
+    public static getAllGroupsPage(id: number, q: string, page: number, size: number){
         return new Promise<IGroupDataPage>((resolve, reject) => {
-            axios.get(this.groupRoot + "my/search?id=" + id + "&q=" + q + "&page=" + page + "&size=" + size).then((response) => {
+            axios.get(this.groupRoot + "/search?id=" + id + "&q=" + q + "&page=" + page + "&size=" + size).then((response) => {
                 resolve(response.data);
             },
                 (error: any) => {
@@ -40,14 +40,42 @@ export default class GroupService {
         });
     }
 
-    public static addUserToGroup(userid: number, groupid: number){
+    public static getMyGroupsPage(q: string, status: string, id: number, page: number, size: number){
+        return new Promise<IGroupDataPage>((resolve, reject) => {
+            ///111/my/admin/search?q=&page=1&size=6
+            axios.get(this.groupRoot + "/" + id + "/my/" + status + "/search?q=" + q + "&page=" + page + "&size=" + size).then((response) => {
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
+        });
+    }
+
+    public static addUserToGroup(userid: number, groupid: number, status: string){
         let usergroup = {
             groupId: groupid,
             userId: userid,
-            status: "received"
+            status: status
         }
         return new Promise((resolve, reject) => {
             axios.post(this.groupRoot + "/user", usergroup).then((response) => {
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
+        });
+    }
+
+    public static updateUserGroup(userid: number, groupid: number, status: string){
+        let usergroup = {
+            groupId: groupid,
+            userId: userid,
+            status: status
+        }
+        return new Promise((resolve, reject) => {
+            axios.put(this.groupRoot + "/" + groupid + "/user/" + userid, usergroup).then((response) => {
                 resolve(response.data);
             },
                 (error: any) => {
@@ -76,6 +104,17 @@ export default class GroupService {
             (error: any) => {
                 reject(error);
             });
+        });
+    }
+
+    public static deleteUserGroup(userid: number, groupid: number){
+        return new Promise<IGroup>((resolve, reject) => {
+            axios.delete(this.groupRoot + "/" + groupid + "/user/" + userid).then((response) => {
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
         });
     }
 }

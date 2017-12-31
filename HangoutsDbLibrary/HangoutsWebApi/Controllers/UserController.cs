@@ -315,6 +315,7 @@ namespace HangoutsWebApi.Controllers
             return Ok(usersGeneralDTO);
         }
 
+
         [HttpGet()]
         [Route("plan/{id}")]
         public IActionResult GetAllUsersFromAPlans(int id)
@@ -374,5 +375,51 @@ namespace HangoutsWebApi.Controllers
                 return NotFound(e.Message);
             }
         }
+
+        [HttpGet("group/{groupId}/search")]
+        public IActionResult GetAllUsersFromGroupPage(int groupId, int userId, string q, int page, int size)
+        {
+            UserService userService = new UserService();
+            FriendshipService friendshipService = new FriendshipService();
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            List<User> source = userService.SearchForUsersOfGroup(userId, groupId, q);
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("There are no users!");
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<User> users;
+            if ((page - 1) * size + size < count)
+                users = source.GetRange((page - 1) * size, size);
+            else
+                users = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<UserGeneralDTO> usersDTO = userGeneralMapper.Map(users);
+
+            foreach (var u in usersDTO)
+            {
+                u.RelationshipStatus = friendshipService.GetUserRelation(u.ID, userId);
+            }
+
+            var response = new
+            {
+                totalCount = count,
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                users = usersDTO
+            };
+
+            return Ok(response);
+        }
+
     }
 }

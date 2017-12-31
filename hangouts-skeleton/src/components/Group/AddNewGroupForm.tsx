@@ -25,7 +25,7 @@ export class AddNewGroupForm extends BaseComponent {
     }
 
     inviteUserToGroup(userid: number, groupid: number) {
-        GroupService.addUserToGroup(userid, this.state.groupid).then(
+        GroupService.addUserToGroup(userid, this.state.groupid, "received").then(
             (group: IGroup) => {
 
             },
@@ -108,7 +108,7 @@ export class AddNewGroupForm extends BaseComponent {
                             disabled={!this.state.formValid}>Add group</button>
                     </form>
                     <div>
-                        <h3> Select users : </h3>
+                        <h3> Select users to add to the new group: </h3>
                         <AcceptedReqList displayButtons={true} onClickHandler={this.selectUser} />
                     </div>
                 </div>

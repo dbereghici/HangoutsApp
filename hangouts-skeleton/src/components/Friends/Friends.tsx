@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import 'bootstrap/dist/css/bootstrap.css';
 // import 'bootstrap/dist/css/bootstrap-theme.css';
-import { Redirect } from 'react-router';
+// import { Redirect } from 'react-router';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { Header } from '../Header/Header';
 import { SendReqList } from './SendReqList';
@@ -12,41 +12,80 @@ import { SearchFriendList } from './SearchFriendList';
 export class Friends extends BaseComponent {
     constructor(props: any) {
         super(props);
-    
+
+        this.setFriendsTypeToAccepted = this.setFriendsTypeToAccepted.bind(this);
+        this.setFriendsTypeToReceived = this.setFriendsTypeToReceived.bind(this);
+        this.setFriendsTypeToSearch = this.setFriendsTypeToSearch.bind(this);
+        this.setFriendsTypeToSend = this.setFriendsTypeToSend.bind(this);
+
+        this.state = {
+            friendsType: "accepted"
+        }
     }
 
+    setFriendsTypeToAccepted() {
+        this.setState({
+            friendsType: "accepted"
+        })
+    }
+
+    setFriendsTypeToReceived() {
+        this.setState({
+            friendsType: "received"
+        })
+    }
+
+    setFriendsTypeToSearch() {
+        this.setState({
+            friendsType: "search"
+        })
+    }
+
+    setFriendsTypeToSend() {
+        this.setState({
+            friendsType: "send"
+        })
+    }
 
     render() {
-        if (!this.state.isAuth) {
-            return <Redirect to='/authentication' />;
-        }
+        // if (!this.state.isAuth) {
+        //     return <Redirect to='/authentication' />;
+        // }
 
         return (
             <div>
                 <Header />
-                <div className="container">
-                    <ul className="nav nav-tabs">
-                        <li className="active"><a data-toggle="tab" href="#home">All friends</a></li>
-                        <li><a data-toggle="tab" href="#menu1">Friend Requests Sent</a></li>
-                        <li><a data-toggle="tab" href="#menu2">Friend Requests Received</a></li>
-                        <li><a data-toggle="tab" href="#menu3">Search</a></li>
-                        
-                    </ul>
 
-                    <div className="tab-content">
-                        <div id="home" className="tab-pane fade in active">
-                            <AcceptedReqList />                     
+                <div className="container">
+                    <button type="button" className="btn btn-success" onClick={this.setFriendsTypeToAccepted}> All friends </button>
+                    <button type="button" className="btn btn-success" onClick={this.setFriendsTypeToSend}> Friend Requests Sent </button>
+                    <button type="button" className="btn btn-success" onClick={this.setFriendsTypeToReceived}> Friend Requests Received </button>
+                    <button type="button" className="btn btn-success" onClick={this.setFriendsTypeToSearch}> Search</button>
+
+                    {this.state.friendsType === "accepted" ?
+                        <div>
+                            <h2> All Friends </h2>
+                            <AcceptedReqList />
                         </div>
-                        <div id="menu1" className="tab-pane fade">
-                            <SendReqList/> 
-                        </div>
-                        <div id="menu2" className="tab-pane fade">
-                            <ReceivedReqList /> 
-                        </div>
-                        <div id="menu3" className="tab-pane fade">
-                            <SearchFriendList /> 
-                        </div>
-                    </div>
+                        :
+                        this.state.friendsType === "send" ?
+                            <div>
+                                <h2> Friend Requests Sent </h2>
+                                <SendReqList />
+                            </div>
+                            :
+                            this.state.friendsType === "received" ?
+                                <div>
+                                    <h2> Friend Requests Received </h2>
+                                    <ReceivedReqList />
+                                </div>
+
+                                :
+                                <div>
+                                    <h2> Search For New Friends </h2>
+                                    <SearchFriendList />
+                                </div>
+                    }
                 </div>
             </div>
         );

@@ -145,7 +145,7 @@ namespace HangoutsWebApi.Services
             }
         }
 
-        public List<Group> GetMyGroups(int id, string searchString)
+        public List<Group> GetMyGroups(int id, string status, string searchString)
         {
             using (var uow = new UnitOfWork())
             {
@@ -161,7 +161,7 @@ namespace HangoutsWebApi.Services
                 foreach (var group in groups)
                 {
                     foreach (var ug in group.UserGroups)
-                        if (ug.UserID == id)
+                        if (ug.UserID == id && ug.Status == status)
                             result.Add(group);
                 }
                 return result;

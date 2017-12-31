@@ -12,6 +12,10 @@ export class User extends BaseComponent {
     constructor(props: any) {
         super(props);
         
+        this.state = {
+            UserData : this.props.UserData
+        }
+
         this.unfriend = this.unfriend.bind(this);
         this.addFriend = this.addFriend.bind(this);
         this.accept = this.accept.bind(this);
@@ -66,24 +70,33 @@ export class User extends BaseComponent {
         })
     }
 
+    componentWillReceiveProps(nextProps: any){
+        this.setState({
+            UserData : nextProps.UserData
+        })
+
+    }
+
     render() {
-        if (this.props.UserData.relationshipStatus === "accepted"){
+        this.state;
+        debugger;
+        if (this.state.UserData.relationshipStatus === "accepted"){
             return (
-                <AcceptedReqFriend  UserData={this.props.UserData} key={this.props.UserData.id} unfriend={this.unfriend}/>
+                <AcceptedReqFriend  UserData={this.state.UserData} key={this.state.UserData.id} unfriend={this.unfriend}/>
             )
         }
-        if (this.props.UserData.relationshipStatus === "sent"){
+        if (this.state.UserData.relationshipStatus === "sent"){
             return (
-                <SendReqFriend  UserData={this.props.UserData} key={this.props.UserData.id} cancel={this.unfriend}/>
+                <SendReqFriend  UserData={this.state.UserData} key={this.state.UserData.id} cancel={this.unfriend}/>
             )
         }
-        if (this.props.UserData.relationshipStatus === "received"){
+        if (this.state.UserData.relationshipStatus === "received"){
             return (
-                <ReceivedReqFriend  UserData={this.props.UserData} key={this.props.UserData.id} accept={this.accept} decline={this.unfriend}/>
+                <ReceivedReqFriend  UserData={this.state.UserData} key={this.state.UserData.id} accept={this.accept} decline={this.unfriend}/>
             )
         }
         return (
-            <SearchFriend  UserData={this.props.UserData} key={this.props.UserData.id} addFriend={this.addFriend}/>
+            <SearchFriend  UserData={this.state.UserData} key={this.state.UserData.id} addFriend={this.addFriend}/>
         );
     }
 }

@@ -188,15 +188,24 @@ namespace HangoutsWebApi.Controllers
         }
 
         [HttpGet("search")]
-        public IActionResult GetAllGroupsSearchPage(string q, int page, int size)
+        public IActionResult GetAllGroupsSearchPage(int id, string q, int page, int size)
         {
             GroupService groupService = new GroupService();
             GroupMapper groupMapper = new GroupMapper();
-            List<Group> source = groupService.GetAllGroups(q);
+            List<Group> source;
+            try
+            {
+                source = groupService.GetAllGroups(q);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
             if (source == null || source.Count == 0)
             {
                 return NotFound("We couldn't find anything for " + q);
             }
+
             int count = source.Count;
             int totalPages = (int)Math.Ceiling(count / (double)size);
 
@@ -211,6 +220,9 @@ namespace HangoutsWebApi.Controllers
             var previousPage = page > 1 ? "Yes" : "No";
             var nextPage = page < totalPages ? "Yes" : "No";
             List<GroupDTO> groupsDTO = groupMapper.Map(groups);
+            UserGroupService userGroupService = new UserGroupService();
+            foreach (var g in groupsDTO)
+                g.Status = userGroupService.GetUserGroupStatus(g.ID, id);
 
             var response = new
             {
@@ -226,12 +238,19 @@ namespace HangoutsWebApi.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{id}/my/search")]
-        public IActionResult GetMyGroupsSearchPage(int id, string q, int page, int size)
+        [HttpGet("{id}/my/{status}/search")]
+        public IActionResult GetMyGroupsSearchPage(int id, string status, string q, int page, int size)
         {
             GroupService groupService = new GroupService();
             GroupMapper groupMapper = new GroupMapper();
-            List<Group> source = groupService.GetMyGroups(id, q);
+            List<Group> source;
+            try
+            {
+                source = groupService.GetMyGroups(id, status, q);
+            }
+            catch (Exception e) {
+                return BadRequest(e.Message);
+            }
             if (source == null || source.Count == 0)
             {
                 return NotFound("We couldn't find anything for " + q);

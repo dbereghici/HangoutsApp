@@ -21,6 +21,33 @@ namespace HangoutsBusinessLibrary.Services
             }
         }
 
+        public string GetFriendshipStatus(int id1, int id2)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var friendshipRepository = uow.GetRepository<Friendship>();
+                List<Friendship> friendships = friendshipRepository.GetAll().Include(f => f.User1).Include(f => f.User2).ToList();
+
+                Friendship friendship = friendshipRepository
+                    .GetAll()
+                    .Include(f => f.User1)
+                    .Include(f => f.User2)
+                    .Where(f => f.UserID1 == id1 && f.UserID2 == id2)
+                    .FirstOrDefault();
+                if (friendship != null)
+                    return "received";
+                friendship = friendshipRepository
+                    .GetAll()
+                    .Include(f => f.User1)
+                    .Include(f => f.User2)
+                    .Where(f => f.UserID1 == id2 && f.UserID2 == id1)
+                    .FirstOrDefault();
+                if (friendship != null)
+                    return "sent";
+                return "";
+            }
+        }
+
         public List<User> GetAllFriendRequestsMade(int id)
         {
             using (var uow = new UnitOfWork())

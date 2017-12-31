@@ -135,6 +135,53 @@ namespace HangoutsWebApi.Services
             }
         }
 
+        public List<User> SearchForUsersOfGroup(int userid, int groupid, string searchString)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                var friendshipRepository = uow.GetRepository<Friendship>();
+                var groupRepository = uow.GetRepository<Group>();
+                var userGroupRepository = uow.GetRepository<UserGroup>();
+                User user = userRepository.GetByID(userid);
+                if (user == null)
+                {
+                    throw new Exception("Invalid id");
+                }
+                List<User> users = new List<User>();
+                List<User> intermedUsers = new List<User>();
+                if (searchString == null || searchString.Equals(""))
+                    users = userRepository.GetAll().Where(u => u.ID != userid).ToList();
+                else
+                {
+                    char[] delimiterChar = { ' ' };
+                    string[] words = searchString.Split(delimiterChar);
+
+                    foreach (var word in words)
+                    {
+                        intermedUsers = userRepository
+                            .GetAll()
+                            .Where(u => ((u.FirstName.Contains(word) || u.LastName.Contains(word) || u.Username.Contains(word))
+                            && u.ID != userid))
+                        .ToList();
+                        users = users.Concat(intermedUsers).ToList();
+                    }
+                }
+                Group group = groupRepository.GetByID(groupid);
+                if (group == null)
+                    throw new Exception("invalid group id");
+                List<User> result = new List<User>();
+                foreach (var u in users)
+                {
+                    UserGroup usergroup = userGroupRepository.GetAll().Where(ug => ug.GroupID == groupid && ug.UserID == user.ID).FirstOrDefault();
+                    if (usergroup != null)
+                        result.Add(userRepository.GetByID(usergroup.UserID));
+                }
+
+                return result;
+            }
+        }
+
         public List<User> SearchNewFriends(int id, string searchString)
         {
             using (var uow = new UnitOfWork())
