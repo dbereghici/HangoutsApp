@@ -7,7 +7,7 @@ import { UsersService } from '../../services/UsersService';
 import { User } from '../User/User';
 import { Redirect } from 'react-router';
 
-export class UsersList extends BaseComponent {
+export class MembersList extends BaseComponent {
     constructor(props: any) {
         super(props);
 
@@ -35,7 +35,11 @@ export class UsersList extends BaseComponent {
     }
 
     componentDidMount() {
-        UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, 1, 6).then(
+        // UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, 1, 6).then(
+        this.props;    
+        debugger;
+        UsersService.getAllUsersFromGroup(this.props.groupId, JSON.parse(AuthService.getUserData()).id, 
+            this.state.searchString, 1, 6).then(
             (usersData: any) => {
                 this.setState({
                     UsersData: usersData
@@ -51,7 +55,8 @@ export class UsersList extends BaseComponent {
     }
 
     nextPage() {
-        UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
+        UsersService.getAllUsersFromGroup(this.props.groupId, JSON.parse(AuthService.getUserData()).id, 
+            this.state.searchString, this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -67,7 +72,8 @@ export class UsersList extends BaseComponent {
     }
 
     previousPage() {
-        UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
+        UsersService.getAllUsersFromGroup(this.props.groupId, JSON.parse(AuthService.getUserData()).id, 
+            this.state.searchString, this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -84,8 +90,8 @@ export class UsersList extends BaseComponent {
 
     search(event: any){
         event.preventDefault();
-        UsersService.getAllUsersSearchPage(JSON.parse(AuthService.getUserData()).id, this.state.searchString, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
-            (friends) => {
+        UsersService.getAllUsersFromGroup(this.props.groupId, JSON.parse(AuthService.getUserData()).id, 
+            this.state.searchString, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(    (friends) => {
                 this.setState({
                     UsersData: friends,
                     errorMessage: ''
@@ -110,8 +116,8 @@ export class UsersList extends BaseComponent {
     }
 
     refresh(){
-        UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
-            (friends) => {
+        UsersService.getAllUsersFromGroup(this.props.groupId, JSON.parse(AuthService.getUserData()).id, 
+            this.state.searchString, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(    (friends) => {
                 // alert("Operation succesfull");
                 this.setState({
                     UsersData: friends
@@ -143,7 +149,7 @@ export class UsersList extends BaseComponent {
         }
         return (
             <div>
-                <h1> All users </h1>
+                <h1> Members </h1>
                 <form className="demoForm" 
                      onSubmit={this.search}
                 >    

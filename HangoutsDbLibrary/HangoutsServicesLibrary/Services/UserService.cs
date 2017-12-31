@@ -1,4 +1,5 @@
-﻿using HangoutsDbLibrary.Model;
+﻿using HangoutsBusinessLibrary.Services;
+using HangoutsDbLibrary.Model;
 using HangoutsDbLibrary.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -171,16 +172,17 @@ namespace HangoutsWebApi.Services
                 if (group == null)
                     throw new Exception("invalid group id");
                 List<User> result = new List<User>();
+
                 foreach (var u in users)
                 {
-                    UserGroup usergroup = userGroupRepository.GetAll().Where(ug => ug.GroupID == groupid && ug.UserID == user.ID).FirstOrDefault();
-                    if (usergroup != null)
+                    UserGroup usergroup = userGroupRepository.GetAll().Where(ug => ug.GroupID == groupid && ug.UserID == u.ID && ug.UserID != user.ID).FirstOrDefault();
+                    if (usergroup != null && (usergroup.Status.Equals("member") || usergroup.Status.Equals("admin")))
                         result.Add(userRepository.GetByID(usergroup.UserID));
                 }
-
                 return result;
             }
         }
+
 
         public List<User> SearchNewFriends(int id, string searchString)
         {

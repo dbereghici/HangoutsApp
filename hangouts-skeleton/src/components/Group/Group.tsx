@@ -7,16 +7,25 @@ import GroupService from '../../services/GroupService';
 import { UsersService } from '../../services/UsersService';
 import { User } from '../User/User';
 import AuthService from '../../services/AuthService';
+import AdministrateGroup from './AdministrateGroup';
+import { MembersList } from './MembersList';
+import { Redirect } from 'react-router';
 
 export class Group extends BaseComponent {
     constructor(props: any) {
         super(props);
 
         this.refresh = this.refresh.bind(this);
-        this.showError = this.showError.bind(this);
+        this.showMembersOrPlans = this.showMembersOrPlans.bind(this);
+        this.deleteGroup = this.deleteGroup.bind(this);
+        this.sendRequest = this.sendRequest.bind(this);
+        this.deleteRequest = this.deleteRequest.bind(this);
+        this.acceptRequest = this.acceptRequest.bind(this);
 
         this.state = {
             errorMessage: '',
+            showMembersOrPlans: '',
+            redirectToGroup: false,
             admin: {
                 id: 0,
                 username: '',
@@ -48,10 +57,10 @@ export class Group extends BaseComponent {
                         this.setState({
                             admin: user
                         });
-                        UsersService.GetFriendshipStatus(JSON.parse(AuthService.getUserData()).id,this.state.admin.id).then(
+                        UsersService.GetFriendshipStatus(JSON.parse(AuthService.getUserData()).id, this.state.admin.id).then(
                             (status) => {
                                 this.setState({
-                                    admin: {...this.state.admin, relationshipStatus: status}
+                                    admin: { ...this.state.admin, relationshipStatus: status }
                                 })
                             }
                         )
@@ -73,55 +82,114 @@ export class Group extends BaseComponent {
         );
     }
 
-    toGroup(){
-
-    }
-
-    deleteGroup(){
-
-    }
-
-    acceptRequest(){
-
-    }
-
-    deleteRequest(){
-
-    }
-
-    sendRequest(){
-
-    }
-
-    refresh(){
-        // UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
-            UsersService.getUser(this.state.group.adminID).then(
-                (user) => {
-                    this.setState({
-                        admin: user
-                    });
-                    UsersService.GetFriendshipStatus(JSON.parse(AuthService.getUserData()).id,this.state.admin.id).then(
-                        (status) => {
-                            this.setState({
-                                admin: {...this.state.admin, relationshipStatus: status}
-                            })
-                        }
-                    )
-                },
-                (error) => {
-                    if (error && error.response && error.response.data)
-                        this.setState({ errorMessage: error.response.data })
-                    else if (error.message)
-                        this.setState({ errorMessage: error.message })
+    deleteGroup() {
+        GroupService.deleteGroup(this.state.group.id).then(
+            () => {
+                alert("The groups has been succesfully deleted");
+                this.setState({
+                    redirectToGroup: true
+                })
+            },
+            (error) => {
+                if (error && error.response && error.response.data)
+                    this.setState({ errorMessage: error.response.data, GroupData: { ...this.state.GroupData, groups: [] } })
+                else if (error.message) {
+                    this.setState({ errorMessage: error.message, GroupData: { ...this.state.GroupData, groups: [] } })
                 }
-            );
+            }
+        )
     }
-    
-    showError(){
-        
+
+    acceptRequest() {
+        GroupService.updateUserGroup(JSON.parse(AuthService.getUserData()).id, this.state.group.id, "member").then(
+            () => {
+                this.setState({
+                    group : {...this.state.group, status : "member"}
+                })
+            },
+            (error) => {
+                if (error && error.response && error.response.data)
+                    this.setState({ errorMessage: error.response.data, GroupData: { ...this.state.GroupData, groups: [] } })
+                else if (error.message) {
+                    this.setState({ errorMessage: error.message, GroupData: { ...this.state.GroupData, groups: [] } })
+                }
+            }
+        )
+    }
+
+    deleteRequest() {
+        GroupService.deleteUserGroup(JSON.parse(AuthService.getUserData()).id, this.state.group.id).then(
+            () => {
+                this.setState({
+                    group : {...this.state.group, status : ""}
+                })
+            },
+            (error) => {
+                if (error && error.response && error.response.data)
+                    this.setState({ errorMessage: error.response.data, GroupData: { ...this.state.GroupData, groups: [] } })
+                else if (error.message) {
+                    this.setState({ errorMessage: error.message, GroupData: { ...this.state.GroupData, groups: [] } })
+                }
+            }
+        )
+    }
+
+    sendRequest() {
+        GroupService.addUserToGroup(JSON.parse(AuthService.getUserData()).id, this.state.group.id, "sent").then(
+            () => {
+                this.setState({
+                    group : {...this.state.group, status : "sent"}
+                })
+            },
+            (error) => {
+                if (error && error.response && error.response.data)
+                    this.setState({ errorMessage: error.response.data, GroupData: { ...this.state.GroupData, groups: [] } })
+                else if (error.message) {
+                    this.setState({ errorMessage: error.message, GroupData: { ...this.state.GroupData, groups: [] } })
+                }
+            }
+        )
+    }
+
+    refresh() {
+        // UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+        UsersService.getUser(this.state.group.adminID).then(
+            (user) => {
+                this.setState({
+                    admin: user
+                });
+                UsersService.GetFriendshipStatus(JSON.parse(AuthService.getUserData()).id, this.state.admin.id).then(
+                    (status) => {
+                        this.setState({
+                            admin: { ...this.state.admin, relationshipStatus: status }
+                        })
+                    }
+                )
+            },
+            (error) => {
+                if (error && error.response && error.response.data)
+                    this.setState({ errorMessage: error.response.data })
+                else if (error.message)
+                    this.setState({ errorMessage: error.message })
+            }
+        );
+    }
+
+    showMembersOrPlans(type: string) {
+        this.setState({
+            showMembersOrPlans: type
+        })
+    }
+
+    showError() {
+
     }
 
     render() {
+        if (this.state.redirectToGroup) {
+            let redirectTo = '/groups/';
+            return <Redirect to={redirectTo} />;
+        }
         return (
             <div>
                 <Header />
@@ -145,8 +213,30 @@ export class Group extends BaseComponent {
                             <h2> {this.state.group.name} </h2>
                             <p> <b>  {this.state.group.nrOfMembers} members</b> </p>
                             <hr />
-                            <h3>Test</h3>
-                            <p>Lorem ipsum...</p>
+                            {/* <h3>Test</h3> */}
+                            {/* <UsersList groupId={this.state.group.id}/> */}
+
+                            <h3> What are you up for today, {JSON.parse(AuthService.getUserData()).firstName} ? </h3>
+                            <button
+                                className="btn-lg btn-info"
+                                //onClick={() => this.showMembersOrPlans("members")}
+                            > Create a plan </button>
+                            <br/><br/><br/>
+
+                            <button
+                                className="btn btn-success"
+                                onClick={() => this.showMembersOrPlans("members")}
+                            > Members </button>
+                            <button
+                                className="btn btn-success"
+                                onClick={() => this.showMembersOrPlans("plans")}
+                            > Plans </button>
+                            {this.state.showMembersOrPlans === "members" ?
+                                <MembersList groupId={this.state.group.id} />
+                                : this.state.showMembersOrPlans === "plans" ?
+                                    //<UsersList groupId={this.state.group.id}/>
+                                    <p> plans </p>
+                                    : <div />}
                         </div>
                         <div className="col-sm-2 sidenav">
                             <div className="well">
@@ -159,14 +249,8 @@ export class Group extends BaseComponent {
                                                 <p>You are the admin of this group </p>
                                                 <button
                                                     className="btn btn-warning glyphicon glyphicon-remove"
-                                                    onClick={this.toGroup}
-                                                > Edit
-                                    </button>
-                                    <br/><br/>                                    
-                                                <button
-                                                    className="btn btn-warning glyphicon glyphicon-remove"
                                                     onClick={this.deleteGroup}
-                                                > Delete
+                                                > Delete Group
                                     </button>
                                             </div>
                                             :
@@ -219,17 +303,11 @@ export class Group extends BaseComponent {
                                         </div>
                                 }
                             </div>
-                            <div className="well">
-                                <p>ADS</p>
-                            </div>
                         </div>
                     </div>
                 </div>
 
-                <footer className="container-fluid text-center">
-                    <p>Footer Text</p>
-                </footer>
-
+                {this.state.group.status === "admin" ? <AdministrateGroup groupId={this.state.group.id} /> : <div />}
 
 
             </div >

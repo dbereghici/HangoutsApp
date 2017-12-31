@@ -169,5 +169,99 @@ namespace HangoutsWebApi.Controllers
             List<PlanDTO> plansDTO = planMapper.Map(plans);
             return Ok(plansDTO);
         }
+
+        [HttpPost("similar")]
+        public IActionResult GetSimilarPlansPage([FromBody]PlanMatchInputDTO data, int page, int size)
+        {
+            PlanService planService = new PlanService();
+            PlanMapper planMapper = new PlanMapper();
+            PlanUserService planUserService = new PlanUserService();
+
+            //DateTime startTimeDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            //DateTime endTimeDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            //startTimeDate = startTimeDate.AddSeconds(startTime).ToLocalTime();
+            //endTimeDate = endTimeDate.AddSeconds(endTime).ToLocalTime();
+
+            List<Plan> source = planService.GetSimilarPlans(data.GroupID, data.StartTime, data.EndTime, data.ActivityDescription);
+
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("There are no similar plans!");
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<Plan> plans;
+            if((page - 1) * size + size < count)
+                plans = source.GetRange((page - 1) * size, size);
+            else
+                plans = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<PlanDTO> plansDTO = planMapper.Map(plans);
+            foreach (var plan in plansDTO)
+            {
+                plan.Status = planUserService.getStatus(plan.ID, data.UserID);
+            }
+
+            var response = new
+            {
+                totalCount = count, 
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                plans = plansDTO
+            };
+            return Ok(response);
+        }
+
+        [HttpGet("all")]
+        public IActionResult GetAllPlansPage(int userId, int page, int size)
+        {
+            PlanService planService = new PlanService();
+            PlanMapper planMapper = new PlanMapper();
+            PlanUserService planUserService = new PlanUserService();
+            //List<Plan> source = planService.GetSimilarPlans(groupId, startTime, endTime, activityDescription);
+            List<Plan> source = planService.GetAllPlans();
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("There are no similar plans!");
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<Plan> plans;
+            if ((page - 1) * size + size < count)
+                plans = source.GetRange((page - 1) * size, size);
+            else
+                plans = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<PlanDTO> plansDTO = planMapper.Map(plans);
+            foreach (var plan in plansDTO)
+            {
+                plan.Status = planUserService.getStatus(plan.ID, userId);
+            }
+
+            var response = new
+            {
+                totalCount = count,
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                plans = plansDTO
+            };
+            return Ok(response);
+        }
     }
 }

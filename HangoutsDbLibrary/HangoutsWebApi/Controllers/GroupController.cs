@@ -322,5 +322,146 @@ namespace HangoutsWebApi.Controllers
 
             return Ok(response);
         }
+
+        [Route("~/api/user/availabletoinvite/group")]
+        public IActionResult GetUsersAvailableToInvite(int id, int page, int size)
+        {
+            GroupService groupService = new GroupService();
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            List<User> source = new List<User>();
+            try {
+                source = groupService.GetFriendsAvailableToInviteToGroup(id);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+    }
+
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("There are no friends to invite");
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<User> users;
+            if ((page - 1) * size + size < count)
+                users = source.GetRange((page - 1) * size, size);
+            else
+                users = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<UserGeneralDTO> usersDTO = userGeneralMapper.Map(users);
+
+            var response = new
+            {
+                totalCount = count,
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                users = usersDTO
+            };
+
+            return Ok(response);
+        }
+
+        [Route("~/api/user/askedtojoin/group")]
+        public IActionResult GetUsersWhoAskedToJoinGroup(int id, int page, int size)
+        {
+            GroupService groupService = new GroupService();
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            List<User> source = new List<User>();
+            try
+            {
+                source = groupService.GetUsersWhoAskedToJoinGroup(id);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("There are no friends to invite");
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<User> users;
+            if ((page - 1) * size + size < count)
+                users = source.GetRange((page - 1) * size, size);
+            else
+                users = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<UserGeneralDTO> usersDTO = userGeneralMapper.Map(users);
+
+            var response = new
+            {
+                totalCount = count,
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                users = usersDTO
+            };
+
+            return Ok(response);
+        }
+
+        [Route("~/api/user/invited/group")]
+        public IActionResult GetInvitedUsers(int id, int page, int size)
+        {
+            GroupService groupService = new GroupService();
+            UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
+            List<User> source = new List<User>();
+            try
+            {
+                source = groupService.GetInvitedUsers(id);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("There are no invited friends");
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<User> users;
+            if ((page - 1) * size + size < count)
+                users = source.GetRange((page - 1) * size, size);
+            else
+                users = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<UserGeneralDTO> usersDTO = userGeneralMapper.Map(users);
+
+            var response = new
+            {
+                totalCount = count,
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                users = usersDTO
+            };
+
+            return Ok(response);
+        }
     }
 }

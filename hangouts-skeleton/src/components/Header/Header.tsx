@@ -32,7 +32,12 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
              {
                 title: "Users",
                 link: '/users'
-            }]
+            },
+            {
+               title: "Plans",
+               link: '/plans'
+            }
+           ]
         };
     }
 

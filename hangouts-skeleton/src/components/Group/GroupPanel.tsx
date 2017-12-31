@@ -17,11 +17,13 @@ export class GroupPanel extends BaseComponent {
         this.acceptRequest = this.acceptRequest.bind(this);
         this.deleteGroup = this.deleteGroup.bind(this);
         this.toGroup = this.toGroup.bind(this);
+        this.toGroupAdministrate = this.toGroupAdministrate.bind(this);
 
         this.state = {
             GroupData: this.props.GroupData,
             changeColor: false,
-            redirectToGroup: false
+            redirectToGroup: false,
+            redirectToGroupAdministrate: false,
         }
     }
 
@@ -47,6 +49,13 @@ export class GroupPanel extends BaseComponent {
         })
     }
 
+    toGroupAdministrate(){
+        this.setState({
+            redirectToGroupAdministrate: true
+        })
+    }
+
+
 
     changeBackgroundColor() {
         this.setState({ changeColor: !this.state.changeColor })
@@ -56,6 +65,10 @@ export class GroupPanel extends BaseComponent {
     render() {
         if (this.state.redirectToGroup) {
             let redirectTo = '/group/' + this.state.GroupData.id;
+            return <Redirect to={redirectTo} />;
+        }
+        if (this.state.redirectToGroupAdministrate){
+            let redirectTo = '/group/' + this.state.GroupData.id + '/administrate';
             return <Redirect to={redirectTo} />;
         }
         var style1 = { backgroundColor: '#110bcc32', width: "400px" };

@@ -15,6 +15,8 @@ import { Groups } from './components/Group/Groups';
 import Chat from './components/Chat/Chat';
 import { Group } from './components/Group/Group';
 import { UserPage } from './components/User/UserPage';
+import AddNewPlan from './components/Plan/AddNewPlan';
+// import AdministrateGroup from './components/Group/AdministrateGroup';
 
 
 class App extends React.Component {
@@ -34,6 +36,8 @@ class App extends React.Component {
           <Route path="/chat/:type/:id/" component={Chat}/>
           <Route path="/group/:id" component={Group}/>
           <Route path="/users" component={UserPage} />
+          <Route path="/plans" component={AddNewPlan} />
+          {/* <Route path="/group/:id/administrate" component={AdministrateGroup} /> */}
         </div>
       </Router>
     );

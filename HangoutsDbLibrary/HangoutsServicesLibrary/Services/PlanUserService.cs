@@ -57,5 +57,17 @@ namespace HangoutsBusinessLibrary.Services
                 return users;
             }
         }
+
+        public string getStatus(int planId, int userId)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var planUserRepository = uow.GetRepository<PlanUser>();
+                PlanUser planUser = planUserRepository.GetAll().Where(pu => pu.PlanID == planId && pu.UserID == userId).FirstOrDefault();
+                if (planUser != null)
+                    return "member";
+                return "";
+            }
+        }
     }
 }

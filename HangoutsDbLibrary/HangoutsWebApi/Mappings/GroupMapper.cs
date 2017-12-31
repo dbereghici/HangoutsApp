@@ -30,7 +30,7 @@ namespace HangoutsWebApi.Mappings
                 foreach (var ug in group.UserGroups)
                 {
                     if (ug != null && ug.Status != null)
-                        if (ug.Status.Equals("accepted") || ug.Status.Equals("admin"))
+                        if (ug.Status.Equals("member") || ug.Status.Equals("admin"))
                             count++;
                 }
                 groupDTO.NrOfMembers = count;

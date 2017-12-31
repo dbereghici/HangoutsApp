@@ -190,5 +190,68 @@ namespace HangoutsWebApi.Services
                 return result;
             }
         }
+
+        public List<User> GetFriendsAvailableToInviteToGroup(int groupid)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                var friendshipRepository = uow.GetRepository<Friendship>();
+                var groupRepository = uow.GetRepository<Group>();
+                var userGroupRepository = uow.GetRepository<UserGroup>();
+                Group group = groupRepository.GetByID(groupid);
+                if (group == null)
+                    throw new Exception("Invalid group id");
+                UserService userService = new UserService();
+                List<User> users = new List<User>();
+                List<User> result = new List<User>();
+                users = userService.GetAllFriends(group.AdminID);
+                foreach (var user in users)
+                {
+                    UserGroup userGroup = userGroupRepository.GetAll().Where(ug => ug.GroupID == groupid && ug.UserID == user.ID).FirstOrDefault();
+                    if (userGroup == null)
+                        result.Add(user);
+                }
+                return result;
+            }
+        }
+
+        public List<User> GetUsersWhoAskedToJoinGroup(int groupid)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                var groupRepository = uow.GetRepository<Group>();
+                var userGroupRepository = uow.GetRepository<UserGroup>();
+                Group group = groupRepository.GetByID(groupid);
+                if (group == null)
+                    throw new Exception("Invalid group id");
+                List<UserGroup> usergroups = userGroupRepository.GetAll().Where(ug => ug.GroupID == groupid).ToList();
+                List<User> users = new List<User>();
+                foreach (var ug in usergroups)
+                    if (ug.Status.Equals("sent"))
+                        users.Add(userRepository.GetByID(ug.UserID));
+                return users;
+            }
+        }
+
+        public List<User> GetInvitedUsers(int groupid)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                var groupRepository = uow.GetRepository<Group>();
+                var userGroupRepository = uow.GetRepository<UserGroup>();
+                Group group = groupRepository.GetByID(groupid);
+                if (group == null)
+                    throw new Exception("Invalid group id");
+                List<UserGroup> usergroups = userGroupRepository.GetAll().Where(ug => ug.GroupID == groupid).ToList();
+                List<User> users = new List<User>();
+                foreach (var ug in usergroups)
+                    if (ug.Status.Equals("received"))
+                        users.Add(userRepository.GetByID(ug.UserID));
+                return users;
+            }
+        }
     }
 }

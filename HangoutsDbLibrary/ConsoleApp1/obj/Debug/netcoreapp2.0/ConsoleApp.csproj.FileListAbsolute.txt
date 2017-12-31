@@ -35,3 +35,16 @@ C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\obj\Debug
 C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.AssemblyInfo.cs
 C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.dll
 C:\DIMA PC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.pdb
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.deps.json
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.runtimeconfig.json
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.runtimeconfig.dev.json
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.dll
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp.pdb
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.dll
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\bin\Debug\netcoreapp2.0\HangoutsDbLibrary.pdb
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.csprojResolveAssemblyReference.cache
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.csproj.CoreCompileInputs.cache
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.AssemblyInfoInputs.cache
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.AssemblyInfo.cs
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.dll
+C:\DIMAPC\AccesaStart\HangoutsDbLibrary\HangoutsDbLibrary\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp.pdb

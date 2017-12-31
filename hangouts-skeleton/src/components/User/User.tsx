@@ -78,8 +78,6 @@ export class User extends BaseComponent {
     }
 
     render() {
-        this.state;
-        debugger;
         if (this.state.UserData.relationshipStatus === "accepted"){
             return (
                 <AcceptedReqFriend  UserData={this.state.UserData} key={this.state.UserData.id} unfriend={this.unfriend}/>

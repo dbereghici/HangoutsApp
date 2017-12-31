@@ -2,10 +2,12 @@ import axios from 'axios';
 import { IGroup } from '../models/IGroup';
 import { IGroupDataPage } from '../models/IGroupDataPage';
 import AuthService from './AuthService';
+import { IUser } from '../models/IUser';
 
 
 export default class GroupService {
     private static groupRoot: string = 'http://localhost:15195/api/group';
+    private static userRoot: string = 'http://localhost:15195/api/user';
 
     public static addGroup(group: any){
         return new Promise<IGroup>((resolve, reject) => {
@@ -30,7 +32,7 @@ export default class GroupService {
     }
 
     public static getAllGroupsPage(id: number, q: string, page: number, size: number){
-        return new Promise<IGroupDataPage>((resolve, reject) => {
+        return new Promise<IGroupDataPage[]>((resolve, reject) => {
             axios.get(this.groupRoot + "/search?id=" + id + "&q=" + q + "&page=" + page + "&size=" + size).then((response) => {
                 resolve(response.data);
             },
@@ -110,6 +112,42 @@ export default class GroupService {
     public static deleteUserGroup(userid: number, groupid: number){
         return new Promise<IGroup>((resolve, reject) => {
             axios.delete(this.groupRoot + "/" + groupid + "/user/" + userid).then((response) => {
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
+        });
+    }
+
+    public static getUsersAvailableToInvite(groupid: number, page:number, size: number){
+        return new Promise<IUser[]>((resolve, reject) => {
+            //user/availabletoinvite/group?id=70&page=1&size=6
+            axios.get(this.userRoot + "/availabletoinvite/group?id=" + groupid + "&page=" + page + "&size=" + size).then((response) => {
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
+        });
+    }
+
+    public static GetUsersWhoAskedToJoinGroup(groupid: number, page:number, size: number){
+        return new Promise<IUser[]>((resolve, reject) => {
+            //user/availabletoinvite/group?id=70&page=1&size=6
+            axios.get(this.userRoot + "/askedtojoin/group?id=" + groupid + "&page=" + page + "&size=" + size).then((response) => {
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
+        });
+    }
+
+    public static GetInvitedUsers(groupid: number, page:number, size: number){
+        return new Promise<IUser[]>((resolve, reject) => {
+            //user/availabletoinvite/group?id=70&page=1&size=6
+            axios.get(this.userRoot + "/invited/group?id=" + groupid + "&page=" + page + "&size=" + size).then((response) => {
                 resolve(response.data);
             },
                 (error: any) => {

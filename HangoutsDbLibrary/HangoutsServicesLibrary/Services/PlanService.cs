@@ -106,5 +106,24 @@ namespace HangoutsBusinessLibrary.Services
                 return plans;
             }
         }
+
+        public List<Plan> GetSimilarPlans(int groupId, DateTime startTime, DateTime endTime, string activityDescription)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var planRepository = uow.GetRepository<Plan>();
+                var activityRepository = uow.GetRepository<Activity>();
+                Activity activity = activityRepository.GetAll().Where(a => a.Description.Equals(activityDescription)).FirstOrDefault();
+                List<Plan> plansMatchByDate = planRepository
+                    .GetAll()
+                    .Where(p => p.GroupID == groupId &&(p.StartTime < endTime || startTime < p.EndTime))
+                    .ToList();
+                List<Plan> plansMatchByActivity = new List<Plan>();
+                if (activity != null)
+                    plansMatchByActivity = planRepository.GetAll().Where(p => p.Activity.ID == activity.ID).ToList();
+                List<Plan> plans = plansMatchByDate.Concat(plansMatchByActivity).ToList();
+                return plans;
+            }
+        }
     }
 }
