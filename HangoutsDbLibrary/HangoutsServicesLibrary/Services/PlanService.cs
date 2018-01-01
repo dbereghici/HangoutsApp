@@ -114,14 +114,14 @@ namespace HangoutsBusinessLibrary.Services
                 var planRepository = uow.GetRepository<Plan>();
                 var activityRepository = uow.GetRepository<Activity>();
                 Activity activity = activityRepository.GetAll().Where(a => a.Description.Equals(activityDescription)).FirstOrDefault();
-                List<Plan> plansMatchByDate = planRepository
+                if (activity == null)
+                    return null;
+                List<Plan> plans = planRepository
                     .GetAll()
-                    .Where(p => p.GroupID == groupId &&(p.StartTime < endTime || startTime < p.EndTime))
+                    .Where(p => p.GroupID == groupId 
+                        &&((p.StartTime >= startTime && p.StartTime <= endTime) || (p.EndTime >= startTime && p.EndTime <= endTime))
+                        && p.Activity.ID == activity.ID)
                     .ToList();
-                List<Plan> plansMatchByActivity = new List<Plan>();
-                if (activity != null)
-                    plansMatchByActivity = planRepository.GetAll().Where(p => p.Activity.ID == activity.ID).ToList();
-                List<Plan> plans = plansMatchByDate.Concat(plansMatchByActivity).ToList();
                 return plans;
             }
         }

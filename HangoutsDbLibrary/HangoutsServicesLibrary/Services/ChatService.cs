@@ -29,5 +29,35 @@ namespace HangoutsBusinessLibrary.Services
                 return chat;
             }
         }
+
+        public Chat GetChatOfPlan(int id)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var planRepository = uow.GetRepository<Plan>();
+                var chatRepository = uow.GetRepository<Chat>();
+                Plan plan = planRepository.GetByID(id);
+                if (plan == null)
+                    return null;
+                Chat chat = chatRepository.GetByID(plan.ChatID);
+                return chat;
+            }
+        }
+
+
+        public void DeleteChat(int id)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var chatRepository = uow.GetRepository<Chat>();
+                Chat chat = chatRepository.GetByID(id);
+                if (chat == null)
+                {
+                    throw new Exception("Invalid ID");
+                }
+                chatRepository.Delete(chat);
+                uow.SaveChanges();
+            }
+        }
     }
 }

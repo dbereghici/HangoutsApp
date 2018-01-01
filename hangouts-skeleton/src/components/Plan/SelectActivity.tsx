@@ -16,11 +16,11 @@ export default class SelectActivity extends BaseComponent {
         }
     }
 
-    onClickHandler(key: number) {
+    onClickHandler(key: number, activity: string) {
         this.setState({
             selectedActivity: key
         })
-        this.props.setSelectedActivity(key);
+        this.props.setSelectedActivity(key, activity);
     }
 
 
@@ -30,7 +30,7 @@ export default class SelectActivity extends BaseComponent {
         return (
             <div className="container">
                 <div className="row">
-                    <div onClick={() => this.onClickHandler(index)}>
+                    <div onClick={() => this.onClickHandler(index, activity)}>
                         <div className="col-md-2">
                             <div className="thumbnail" style={index === this.state.selectedActivity ? defaultStyle : onselectStyle}>
                                 <img src={require('../../images/' + activity + '.png')}

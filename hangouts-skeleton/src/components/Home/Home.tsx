@@ -3,6 +3,8 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 import { Redirect } from 'react-router';
 import { Header } from '../Header/Header';
 import AuthService from '../../services/AuthService';
+import SimilarPlansList from '../Plan/SimilarPlansList';
+import AllPlansOfGroupList from '../Plan/AllPlansOfGroupList';
 
 export default class Home extends BaseComponent{
     constructor(props : any){
@@ -24,6 +26,10 @@ export default class Home extends BaseComponent{
                 {/* <h1> Home Page </h1> */}
                 <Header />
                 <h2> Hello {JSON.parse(AuthService.getUserData()).firstName}</h2>
+                All
+                <AllPlansOfGroupList/>
+                Similar
+                <SimilarPlansList />
             </div>
         );
     }

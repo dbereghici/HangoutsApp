@@ -15,4 +15,15 @@ export default class ChatService {
         });
     }
 
+    public static getChatOfPlan(id: number){
+        return new Promise<IChat>((resolve, reject) => {
+            axios.get(this.chatRoot + "/plan?id=" + id).then((response) => {
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
+        });
+    }
+
 }

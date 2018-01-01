@@ -21,11 +21,13 @@ export class Group extends BaseComponent {
         this.sendRequest = this.sendRequest.bind(this);
         this.deleteRequest = this.deleteRequest.bind(this);
         this.acceptRequest = this.acceptRequest.bind(this);
+        this.redirectToPlan = this.redirectToPlan.bind(this);
 
         this.state = {
             errorMessage: '',
             showMembersOrPlans: '',
             redirectToGroup: false,
+            redirectToPlan: false,
             admin: {
                 id: 0,
                 username: '',
@@ -185,9 +187,19 @@ export class Group extends BaseComponent {
 
     }
 
+    redirectToPlan(){
+        this.setState({
+            redirectToPlan: true
+        })
+    }
+
     render() {
         if (this.state.redirectToGroup) {
             let redirectTo = '/groups/';
+            return <Redirect to={redirectTo} />;
+        }
+        if (this.state.redirectToPlan) {
+            let redirectTo ='/plan/group/' + this.state.group.id;
             return <Redirect to={redirectTo} />;
         }
         return (
@@ -219,7 +231,7 @@ export class Group extends BaseComponent {
                             <h3> What are you up for today, {JSON.parse(AuthService.getUserData()).firstName} ? </h3>
                             <button
                                 className="btn-lg btn-info"
-                                //onClick={() => this.showMembersOrPlans("members")}
+                                onClick={this.redirectToPlan}
                             > Create a plan </button>
                             <br/><br/><br/>
 

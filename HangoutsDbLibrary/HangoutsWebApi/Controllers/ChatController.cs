@@ -27,5 +27,17 @@ namespace HangoutsWebApi.Controllers
             ChatDTO chatDTO = chatMapper.Map(chat);
             return Ok(chatDTO);
         }
+
+        [HttpGet("plan")]
+        public IActionResult GetChatOfPlan(int id)
+        {
+            ChatService chatService = new ChatService();
+            ChatMapper chatMapper = new ChatMapper();
+            Chat chat = chatService.GetChatOfPlan(id);
+            if (chat == null)
+                return NotFound();
+            ChatDTO chatDTO = chatMapper.Map(chat);
+            return Ok(chatDTO);
+        }
     }
 }

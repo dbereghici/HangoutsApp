@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HangoutsBusinessLibrary.Services;
 using HangoutsDbLibrary.Model;
 using HangoutsWebApi.DTOModels;
 using System;
@@ -20,6 +21,12 @@ namespace HangoutsWebApi.Mappings
             });
             IMapper mapper = config.CreateMapper();
             PlanDTO planDTO = mapper.Map<Plan, PlanDTO>(plan);
+            ActivityService activityService = new ActivityService();
+            Activity activity = new Activity();
+            if (planDTO != null)
+                activity = activityService.GetByID(planDTO.ActivityID);
+            if (activity != null && planDTO != null)
+                planDTO.Activity = activity.Description;
             //planDTO.ActivityID = plan.Activity.ID;
             return planDTO;
         }
@@ -39,7 +46,9 @@ namespace HangoutsWebApi.Mappings
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<PlanDTO, Plan>()
-                .ForMember(dst => dst.Address, op => op.Ignore());
+                .ForMember(dst => dst.Address, op => op.Ignore())
+                .ForMember(dst => dst.Activity, op => op.Ignore())
+                .ForMember(dst => dst.Chat, op => op.Ignore());
             });
             IMapper mapper = config.CreateMapper();
             Plan plan = mapper.Map<PlanDTO, Plan>(planDTO);

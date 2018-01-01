@@ -62,4 +62,15 @@ export class UsersService {
                 });
         });
     }
+
+    public static getAllUsersFromPlan(planid: number, userid: number, q: string, page: number, size: number){
+        return new Promise<IUserDataPage[]>((resolve, reject) => {
+            axios.get(this.userRoot + "/plan/" + planid + "/search?userId=" + userid + "&q=" + q + "&page=" + page + "&size=" + size).then((response) => {
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
+        });
+    }
 }

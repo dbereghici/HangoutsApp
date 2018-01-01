@@ -36,7 +36,7 @@ namespace HangoutsBusinessLibrary.Services
             {
                 var activityRepository = uow.GetRepository<Activity>();
                 var groupRepository = uow.GetRepository<Group>();
-                Group group = groupRepository.GetByID(activity.Group.ID);
+                Group group = groupRepository.GetByID(activity.GroupID);
                 activity.Group = group ?? throw new Exception("Invalid group ID");
                 Activity existActivity = activityRepository
                     .GetAll()
@@ -86,6 +86,16 @@ namespace HangoutsBusinessLibrary.Services
                 }
                 activityRepository.Delete(activity);
                 uow.SaveChanges();
+            }
+        }
+
+        public Activity GetActivityByDescription(string description)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var activityRepository = uow.GetRepository<Activity>();
+                Activity activity = activityRepository.GetAll().Where(a => a.Description == description).FirstOrDefault();
+                return activity;
             }
         }
     }

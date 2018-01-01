@@ -183,6 +183,53 @@ namespace HangoutsWebApi.Services
             }
         }
 
+        public List<User> SearchForUsersOfPlan(int userid, int planId, string searchString)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+                var friendshipRepository = uow.GetRepository<Friendship>();
+                var planRepository = uow.GetRepository<Plan>();
+                var planUserRepository = uow.GetRepository<PlanUser>();
+                User user = userRepository.GetByID(userid);
+                if (user == null)
+                {
+                    throw new Exception("Invalid id");
+                }
+                List<User> users = new List<User>();
+                List<User> intermedUsers = new List<User>();
+                if (searchString == null || searchString.Equals(""))
+                    users = userRepository.GetAll().Where(u => u.ID != userid).ToList();
+                else
+                {
+                    char[] delimiterChar = { ' ' };
+                    string[] words = searchString.Split(delimiterChar);
+
+                    foreach (var word in words)
+                    {
+                        intermedUsers = userRepository
+                            .GetAll()
+                            .Where(u => ((u.FirstName.Contains(word) || u.LastName.Contains(word) || u.Username.Contains(word))
+                            && u.ID != userid))
+                        .ToList();
+                        users = users.Concat(intermedUsers).ToList();
+                    }
+                }
+                Plan plan = planRepository.GetByID(planId);
+                if (plan == null)
+                    throw new Exception("invalid plan id");
+                List<User> result = new List<User>();
+
+                foreach (var u in users)
+                {
+                    PlanUser planUser = planUserRepository.GetAll().Where(ug => ug.PlanID == planId && ug.UserID == u.ID && ug.UserID != user.ID).FirstOrDefault();
+                    if (planUser != null)
+                        result.Add(userRepository.GetByID(planUser.UserID));
+                }
+                return result;
+            }
+        }
+
 
         public List<User> SearchNewFriends(int id, string searchString)
         {

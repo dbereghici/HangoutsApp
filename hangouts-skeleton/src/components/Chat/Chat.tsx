@@ -49,10 +49,19 @@ export default class Chat extends BaseComponent {
             )
             :
             //"plan"
-            this.setState({
-                Chat: []
-                //TODO Modify
-            })
+            ChatService.getChatOfPlan(this.props.match.params.id).then(
+                (Chat) => {
+                    this.setState({
+                        Chat: Chat
+                    })
+                },
+                (error) => {
+                    if (error && error.response && error.response.data)
+                        this.setState({ errorMessage: error.response.data })
+                    else if (error.message)
+                        this.setState({ errorMessage: error.message })
+                }
+            )
     }
 
     renderMessage(message: any, index: number): JSX.Element {
@@ -88,27 +97,37 @@ export default class Chat extends BaseComponent {
         }
         MessageService.addMessage(message).then(
             () =>
-        this.props.match.params.type === "user" ?
-            //"user"            
-            ChatService.getChatOfFriendship(this.props.match.params.id, JSON.parse(AuthService.getUserData()).id).then(
-                (Chat) => {
-                    this.setState({
-                        Chat: Chat
-                    });
-                },
-                (error) => {
-                    if (error && error.response && error.response.data)
-                        this.setState({ errorMessage: error.response.data }) 
-                    else if (error.message)
-                        this.setState({ errorMessage: error.message })
-                }
-            )
-            :
-            //"plan"
-            this.setState({
-                Chat: []
-                //TODO Modify
-            }), (error) => {})
+                this.props.match.params.type === "user" ?
+                    //"user"            
+                    ChatService.getChatOfFriendship(this.props.match.params.id, JSON.parse(AuthService.getUserData()).id).then(
+                        (Chat) => {
+                            this.setState({
+                                Chat: Chat
+                            });
+                        },
+                        (error) => {
+                            if (error && error.response && error.response.data)
+                                this.setState({ errorMessage: error.response.data })
+                            else if (error.message)
+                                this.setState({ errorMessage: error.message })
+                        }
+                    )
+                    :
+                    //"plan"
+                    ChatService.getChatOfPlan(this.props.match.params.id).then(
+                        (Chat) => {
+                            this.setState({
+                                Chat: Chat
+                            })
+                        },
+                        (error) => {
+                            if (error && error.response && error.response.data)
+                                this.setState({ errorMessage: error.response.data })
+                            else if (error.message)
+                                this.setState({ errorMessage: error.message })
+                        }
+                    )
+        )
     }
 
 

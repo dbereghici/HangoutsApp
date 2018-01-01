@@ -45,17 +45,39 @@ namespace HangoutsWebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] PlanDTO planDTO)
+        public IActionResult Post([FromBody] PlanDTO planDTO, int userId)
         {
             if (ModelState.IsValid)
             {
                 PlanService planService = new PlanService();
+                PlanUserService planUserService = new PlanUserService();
+                ActivityService activityService = new ActivityService();
                 PlanMapper planMapper = new PlanMapper();
+                Activity activity = activityService.GetActivityByDescription(planDTO.Activity);
+                if (activity == null)
+                {
+                    Activity newActivity = new Activity { Description = planDTO.Activity, GroupID = planDTO.GroupID };
+                    try
+                    {
+                        activity = activityService.AddActivity(newActivity);
+                    }
+                    catch (Exception e)
+                    {
+                        return BadRequest(e.Message);
+                    }
+                }
+
                 Plan plan = planMapper.Map(planDTO);
+                plan.ActivityID = activity.ID;
                 try
                 {
                     plan = planService.AddPlan(plan);
-                    return Ok(plan);
+                    PlanDTO response = planMapper.Map(plan);
+                    response.ActivityID = plan.ActivityID;
+                    response.Activity = activityService.GetByID(response.ActivityID).Description;
+                    planUserService.AddPlanUser(new PlanUser { PlanID = plan.ID, UserID = userId });
+                    response.Status = planUserService.getStatus(plan.ID, userId);
+                    return Ok(response);
                 }
                 catch (Exception e)
                 {
@@ -173,14 +195,11 @@ namespace HangoutsWebApi.Controllers
         [HttpPost("similar")]
         public IActionResult GetSimilarPlansPage([FromBody]PlanMatchInputDTO data, int page, int size)
         {
+            if (!ModelState.IsValid)
+                return BadRequest("The model is not valid");
             PlanService planService = new PlanService();
             PlanMapper planMapper = new PlanMapper();
             PlanUserService planUserService = new PlanUserService();
-
-            //DateTime startTimeDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            //DateTime endTimeDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            //startTimeDate = startTimeDate.AddSeconds(startTime).ToLocalTime();
-            //endTimeDate = endTimeDate.AddSeconds(endTime).ToLocalTime();
 
             List<Plan> source = planService.GetSimilarPlans(data.GroupID, data.StartTime, data.EndTime, data.ActivityDescription);
 
@@ -202,8 +221,15 @@ namespace HangoutsWebApi.Controllers
             var previousPage = page > 1 ? "Yes" : "No";
             var nextPage = page < totalPages ? "Yes" : "No";
             List<PlanDTO> plansDTO = planMapper.Map(plans);
+
             foreach (var plan in plansDTO)
             {
+                Plan p = planService.GetByID(plan.ID);
+                AddressDTO addressDTO = new AddressDTO { ID = p.Address.ID,
+                    Latitude = p.Address.Latitude,
+                    Location = p.Address.Location,
+                    Longitude = p.Address.Longitude };
+                plan.Address = addressDTO;
                 plan.Status = planUserService.getStatus(plan.ID, data.UserID);
             }
 
@@ -221,13 +247,13 @@ namespace HangoutsWebApi.Controllers
         }
 
         [HttpGet("all")]
-        public IActionResult GetAllPlansPage(int userId, int page, int size)
+        public IActionResult GetAllPlansOfGroupPage(int userId, int groupId, int page, int size)
         {
             PlanService planService = new PlanService();
             PlanMapper planMapper = new PlanMapper();
             PlanUserService planUserService = new PlanUserService();
             //List<Plan> source = planService.GetSimilarPlans(groupId, startTime, endTime, activityDescription);
-            List<Plan> source = planService.GetAllPlans();
+            List<Plan> source = planService.GetAllPlansFromGroup(groupId);
             if (source == null || source.Count == 0)
             {
                 return NotFound("There are no similar plans!");
@@ -246,8 +272,11 @@ namespace HangoutsWebApi.Controllers
             var previousPage = page > 1 ? "Yes" : "No";
             var nextPage = page < totalPages ? "Yes" : "No";
             List<PlanDTO> plansDTO = planMapper.Map(plans);
+            ActivityService activityService = new ActivityService();
             foreach (var plan in plansDTO)
             {
+                plan.ActivityID = plans.Where(p => plan.ID == p.ID).FirstOrDefault().ActivityID;
+                plan.Activity = activityService.GetByID(plan.ActivityID).Description;
                 plan.Status = planUserService.getStatus(plan.ID, userId);
             }
 
@@ -262,6 +291,22 @@ namespace HangoutsWebApi.Controllers
                 plans = plansDTO
             };
             return Ok(response);
+        }
+
+        [HttpDelete("{planId}/user/{userId}")]
+        public IActionResult DeleteUserFromPlan(int planId, int userId)
+        {
+            PlanUserService planUserService = new PlanUserService();
+            try
+            {
+                planUserService.DeletePlanUser(userId, planId);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

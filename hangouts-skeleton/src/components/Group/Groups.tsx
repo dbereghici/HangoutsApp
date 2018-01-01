@@ -37,11 +37,11 @@ export class Groups extends BaseComponent {
                 <Header />
                 <div className="container">
                     <button type="button" className="btn btn-success" onClick={() => this.setGroupsType("member")}> My groups</button>
-                    <button type="button" className="btn btn-success" onClick={() => this.setGroupsType("addnew")}> Add New Group</button>
                     <button type="button" className="btn btn-success" onClick={() => this.setGroupsType("admin")}> Group Administrated </button>
                     <button type="button" className="btn btn-success" onClick={() => this.setGroupsType("sent")}> Group Invitations Sent </button>
                     <button type="button" className="btn btn-success" onClick={() => this.setGroupsType("received")}> Group Invitations Received </button>
                     <button type="button" className="btn btn-success" onClick={() => this.setGroupsType("all")}> All groups </button>
+                    <button type="button" className="btn btn-danger" onClick={() => this.setGroupsType("addnew")}> Add New Group</button>
                     
 
                     {this.state.groupsType === "all" ?

@@ -32,8 +32,10 @@ namespace HangoutsBusinessLibrary.Services
                 if (existPlanUser != null)
                     throw new Exception("This user is already in this plan");
                 planUserRepository.Insert(planUser);
-                
-                userChatRepository.Insert(new UserChat { ChatID = plan.ChatID, UserID = planUser.UserID});
+                //>>
+                UserChat userChat = userChatRepository.GetAll().Where(c => c.ChatID == plan.ChatID && c.UserID == planUser.UserID).FirstOrDefault();
+                if (userChat == null)
+                    userChatRepository.Insert(new UserChat { ChatID = plan.ChatID, UserID = planUser.UserID });
                 uow.SaveChanges();
                 return planUser;
             }
@@ -67,6 +69,33 @@ namespace HangoutsBusinessLibrary.Services
                 if (planUser != null)
                     return "member";
                 return "";
+            }
+        }
+
+        public void DeletePlanUser(int userId, int planId)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var planUserRepository = uow.GetRepository<PlanUser>();
+                PlanUser planUser = planUserRepository.GetAll().Where(pu => pu.PlanID == planId && pu.UserID == userId).FirstOrDefault();
+                if (planUser != null)
+                {
+                    planUserRepository.Delete(planUser);
+                    uow.SaveChanges();
+                    var planRepository = uow.GetRepository<Plan>();
+                    Plan plan = planRepository.GetAll().Include(p => p.PlanUsers).Where(p => p.ID == planId).FirstOrDefault();
+                    if(plan.PlanUsers.Count == 0)
+                    {
+                        var chatRepository = uow.GetRepository<Chat>();
+                        var userChatRep = uow.GetRepository<UserChat>();
+                        Chat chat = chatRepository.GetAll().Where(c => c.ID == plan.ChatID).Include(c => c.UserChats).FirstOrDefault();
+                        foreach (var uc in chat.UserChats)
+                            userChatRep.Delete(uc);
+                        chatRepository.Delete(chat);
+                        planRepository.Delete(plan);
+                    }
+                    uow.SaveChanges();
+                }
             }
         }
     }
