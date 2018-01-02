@@ -256,7 +256,53 @@ namespace HangoutsWebApi.Controllers
             List<Plan> source = planService.GetAllPlansFromGroup(groupId);
             if (source == null || source.Count == 0)
             {
-                return NotFound("There are no similar plans!");
+                return NotFound("There are no plans in this group!");
+            }
+            int count = source.Count;
+            int totalPages = (int)Math.Ceiling(count / (double)size);
+
+            if (page > totalPages)
+                return BadRequest("Page number out of range");
+
+            List<Plan> plans;
+            if ((page - 1) * size + size < count)
+                plans = source.GetRange((page - 1) * size, size);
+            else
+                plans = source.GetRange((page - 1) * size, count - (page - 1) * size);
+            var previousPage = page > 1 ? "Yes" : "No";
+            var nextPage = page < totalPages ? "Yes" : "No";
+            List<PlanDTO> plansDTO = planMapper.Map(plans);
+            ActivityService activityService = new ActivityService();
+            foreach (var plan in plansDTO)
+            {
+                plan.ActivityID = plans.Where(p => plan.ID == p.ID).FirstOrDefault().ActivityID;
+                plan.Activity = activityService.GetByID(plan.ActivityID).Description;
+                plan.Status = planUserService.getStatus(plan.ID, userId);
+            }
+
+            var response = new
+            {
+                totalCount = count,
+                pageSize = size,
+                currentPage = page,
+                totalPages = totalPages,
+                previousPage,
+                nextPage,
+                plans = plansDTO
+            };
+            return Ok(response);
+        }
+
+        [HttpGet("my")]
+        public IActionResult GetAllPlansOfUserPage(int userId, int page, int size)
+        {
+            PlanService planService = new PlanService();
+            PlanMapper planMapper = new PlanMapper();
+            PlanUserService planUserService = new PlanUserService();
+            List<Plan> source = planService.GetAllPlansOfUser(userId);
+            if (source == null || source.Count == 0)
+            {
+                return NotFound("You have no plans yet!");
             }
             int count = source.Count;
             int totalPages = (int)Math.Ceiling(count / (double)size);

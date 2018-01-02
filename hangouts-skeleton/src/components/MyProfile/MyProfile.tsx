@@ -7,6 +7,7 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 import { Header } from '../Header/Header';
 import { EditDataForm } from './EditDataForm';
 import { EditPswForm } from './EditPswForm';
+import DeleteAccount from './DeleteAccount';
 
 export class MyProfile extends BaseComponent {
     constructor(props: any) {
@@ -26,6 +27,7 @@ export class MyProfile extends BaseComponent {
                     </div>
                     <div className="col-sm-6">
                         <EditPswForm/>
+                        <DeleteAccount />
                     </div>
                 </div>
             </div>

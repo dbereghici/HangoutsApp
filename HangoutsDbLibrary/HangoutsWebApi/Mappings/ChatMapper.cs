@@ -27,10 +27,11 @@ namespace HangoutsWebApi.Mappings
             {
                 var userRepository = uow.GetRepository<User>();
                 List<User> users = new List<User>();
-                foreach (var uc in chat.UserChats)
-                {
-                    users.Add(userRepository.GetByID(uc.UserID));
-                }
+                if (chat.UserChats != null)
+                    foreach (var uc in chat.UserChats)
+                    {
+                        users.Add(userRepository.GetByID(uc.UserID));
+                    }
                 UserGeneralMapper userGeneralMapper = new UserGeneralMapper();
                 chatDTO.Users = userGeneralMapper.Map(users);
             }

@@ -18,6 +18,17 @@ export class PlanService {
         });
     }
 
+    public static GetMyPlansPage(userId: number, page: number, size: number) {
+        return new Promise<IPlan[]>((resolve, reject) => {
+            axios.get(this.planRoot + "/my?userId=" + userId  + "&page=" + page + "&size=" + size).then((response) => {
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
+        });
+    }
+
     public static GetSimilarPlansPage(page: number, size: number, startTime: Date,
         endTime: Date, userId: number, groupId: number, activityDescription: string) {
         let input = {

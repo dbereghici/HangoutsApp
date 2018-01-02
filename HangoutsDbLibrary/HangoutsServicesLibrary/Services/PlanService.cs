@@ -95,13 +95,11 @@ namespace HangoutsBusinessLibrary.Services
                 var planRepository = uow.GetRepository<Plan>();
                 var planUserRepository = uow.GetRepository<PlanUser>();
                 List<Plan> plans = new List<Plan>();
-                List<PlanUser> planUsers = planUserRepository.GetAll().Include(pu => pu.User).ToList();
+                List<PlanUser> planUsers = planUserRepository.GetAll().Where(pu => pu.UserID == id).Include(pu => pu.User).ToList();
                 foreach (var pu in planUsers)
                 {
-                    if (pu.UserID == id)
-                    {
-                        plans.Add(pu.Plan);
-                    }
+                    if (pu != null)
+                        plans.Add(planRepository.GetByID(pu.PlanID));
                 }
                 return plans;
             }

@@ -40,6 +40,7 @@ export default class PlanPanel extends BaseComponent {
     }
 
     leave() {
+        debugger;
         PlanService.DeleteUserFromPlan(this.state.plan.id, JSON.parse(AuthService.getUserData()).id).then(
             () => {
                 PlanService.GetUsersFromPlan(this.state.plan.id).then(
@@ -49,6 +50,7 @@ export default class PlanPanel extends BaseComponent {
                     },
                     (error) => {
                         this.setState({ members: [] })
+                        this.props.refresh(this.state.plan.id);                        
                     }
                 )
             },
@@ -70,12 +72,11 @@ export default class PlanPanel extends BaseComponent {
                 PlanService.GetUsersFromPlan(this.state.plan.id).then(
                     (users) => {
                         this.setState({ members: users });
-                        this.props.refresh();
+                        this.props.refresh(this.state.plan.id);
                     },
                     (error) => {
                         this.setState({ members: [] })
                         this.props.refresh(this.state.plan.id);
-
                     }
                 )
             },
@@ -90,6 +91,9 @@ export default class PlanPanel extends BaseComponent {
         if (this.state.redirectToChat) {
             let redirectTo = '/chat/plan/' + this.state.plan.id;
             return <Redirect to={redirectTo} />;
+        }
+        if(this.state.members === []){
+            this.props.refresh(this.state.plan.id);
         }
         return (
             !!this.props.plan && !!this.props.plan.activity ?
@@ -129,9 +133,9 @@ export default class PlanPanel extends BaseComponent {
                                 this.state.members.length > 1 ?
                                     <p>
                                         {this.state.members[0].username}
-                                        <br />
+                                        ,{'\u00A0'}
                                         {this.state.members[1].username}
-                                        <a style={{display: "table-cell", color: "red"}} href={"members/plan/"+this.state.plan.id} target="_blank">
+                                        <a style={{display: "table-cell", color: "red"}} href={"../members/plan/"+this.state.plan.id} target="_blank">
                                         {this.state.members.length > 2 ? <p> and {this.state.members.length - 2} more </p> : <div />}                                        
                                         </a>
                                     </p>
@@ -140,8 +144,7 @@ export default class PlanPanel extends BaseComponent {
                                 :
                                 <div />
                         }
-                        <br />
-                        {this.props.hideButton === false ?
+                        {this.props.hideButton === false && this.state.members!==[]?
                             this.props.plan.status === "member" ?
                                 <div>
                                     <button type="button" className="btn btn-warning glyphicon glyphicon-remove" onClick={this.leave}> Leave </button>

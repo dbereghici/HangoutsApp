@@ -88,15 +88,19 @@ export default class AddNewPlan extends BaseComponent {
     }
 
     addPlan(e: any) {
-        e.preventDefault();
-        this.setSimilarPlans();
-        this.setState({
-            inputData: false
-        })
+        e.preventDefault();        
+        if(new Date(this.state.startTime) < new Date(Date.now())){
+            alert("The start time of the plan should be greater than the current time. Please re-enter");
+        } else{
+            this.setSimilarPlans();
+            this.setState({
+                inputData: false
+            })
+        }
     }
 
     createNewPlan(){
-        alert("caroce aici creez planul");
+        this.setState({similarPlans: false});
     }
 
     getDataFromMap(address: any) {
@@ -122,7 +126,7 @@ export default class AddNewPlan extends BaseComponent {
                             {/* {this.state.selectedActivity} */}
                             <div className="form-group">
                                 <label> Start Time: </label>
-                                <input type="datetime-local" className="form-control" value={this.state.startTime}
+                                <input type="datetime-local" className="form-control"
                                     onChange={(event) => this.handleStartTimeInput(event)}
                                 />
                             </div >
@@ -136,7 +140,6 @@ export default class AddNewPlan extends BaseComponent {
                             <button type="submit" className="btn btn-primary"
                                 disabled={!this.state.formValid}>Add plan</button>
                             <h2> Select a location </h2>
-                            <p> {this.state.address.location} </p>
                             <AddressSelector getDataFromMap={this.getDataFromMap} />
                             <h2> Select an activity: </h2>
                         </form>
@@ -157,8 +160,9 @@ export default class AddNewPlan extends BaseComponent {
                                 userId={JSON.parse(AuthService.getUserData()).id}
                                 groupId={this.props.match.params.id}
                                 activity={this.state.activityDescription} 
-
                             />
+                            <button type="button" className="btn btn-danger" onClick={this.createNewPlan}> Create new plan </button>                                                        
+
                             </div>
                             :
                             <div>
@@ -171,11 +175,10 @@ export default class AddNewPlan extends BaseComponent {
                                     endTime = {this.state.endTime}
                                     address = {this.state.address}
                                 />
-                                <button type="button" className="btn btn-warning" onClick={this.homeRedirect}> Back </button>                                                        
+                                <button type="button" className="btn btn-danger" onClick={this.homeRedirect}> Ok </button>                                                        
                                 {/* <Link className="btn btn-warning" to={'/group/' + this.props.match.params.id}/> */}
                             </div>
                         }
-                        ...
                     </div>
                 }
 

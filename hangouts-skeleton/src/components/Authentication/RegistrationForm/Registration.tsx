@@ -93,8 +93,8 @@ export class RegistrationForm extends BaseComponent {
                 fieldValidationErrors.lastname = lastnameValid ? '' : ' must be filled in';
                 break;
             case 'birthdate':
-                birthdateValid = isNaN(value);
-                fieldValidationErrors.birthdate = birthdateValid ? '' : ' must be filled in';
+                birthdateValid = isNaN(value) && (new Date (value) < new Date(Date.now()));
+                fieldValidationErrors.birthdate = birthdateValid ? '' : ' must be lower than the current date';
                 break;
             default:
                 break;

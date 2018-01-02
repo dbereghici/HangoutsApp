@@ -27,7 +27,7 @@ export default class AllPlansOfGroupList extends BaseComponent {
     }
 
     componentDidMount() {
-        PlanService.GetAllPlansPage(JSON.parse(AuthService.getUserData()).id, this.props.groupId, 1, 6).then(
+        PlanService.GetMyPlansPage(JSON.parse(AuthService.getUserData()).id, 1, 6).then(
             (plansData) => {
                 this.setState({
                     plansData: plansData,
@@ -44,7 +44,7 @@ export default class AllPlansOfGroupList extends BaseComponent {
     }
 
     refresh(id: number) {
-        PlanService.GetAllPlansPage(JSON.parse(AuthService.getUserData()).id, this.props.groupId, this.state.plansData.currentPage, this.state.plansData.pageSize).then(
+        PlanService.GetMyPlansPage(JSON.parse(AuthService.getUserData()).id, this.state.plansData.currentPage, this.state.plansData.pageSize).then(
             (plansData) => {
                 this.setState({
                     plansData: plansData,
@@ -63,8 +63,8 @@ export default class AllPlansOfGroupList extends BaseComponent {
         );
     }
 
-    previousPage(){
-        PlanService.GetAllPlansPage(JSON.parse(AuthService.getUserData()).id, this.props.groupId, this.state.plansData.currentPage - 1, this.state.plansData.pageSize).then(
+    previousPage() {
+        PlanService.GetMyPlansPage(JSON.parse(AuthService.getUserData()).id, this.state.plansData.currentPage - 1, this.state.plansData.pageSize).then(
             (plansData) => {
                 this.setState({
                     plansData: plansData,
@@ -83,8 +83,8 @@ export default class AllPlansOfGroupList extends BaseComponent {
         );
     }
 
-    nextPage(){
-        PlanService.GetAllPlansPage(JSON.parse(AuthService.getUserData()).id, this.props.groupId, this.state.plansData.currentPage + 1, this.state.plansData.pageSize).then(
+    nextPage() {
+        PlanService.GetMyPlansPage(JSON.parse(AuthService.getUserData()).id, this.state.plansData.currentPage + 1, this.state.plansData.pageSize).then(
             (plansData) => {
                 this.setState({
                     plansData: plansData,
@@ -120,13 +120,18 @@ export default class AllPlansOfGroupList extends BaseComponent {
 
         return (
             <div>
-                <h1> Plans </h1>                                
-                <h3> {this.state.errorMessage} </h3>
+                <div className="demoForm">
+                    <h3> {this.state.errorMessage} </h3>
+                </div>
+
                 {(this.state.plansData.plans.length === 0) ?
-                    <p>
-                    </p>
+                    <div className="demoForm">
+                        <h3> You can create a new plan on a group. Start planning your day now :) </h3>
+                    </div>
                     :
                     <div>
+                        <h1> My Plans </h1>
+
                         <div className="row">
                             <div className="col-sm-4">
                                 {

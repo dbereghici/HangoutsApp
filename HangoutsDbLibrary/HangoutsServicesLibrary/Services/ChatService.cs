@@ -36,7 +36,14 @@ namespace HangoutsBusinessLibrary.Services
             {
                 var planRepository = uow.GetRepository<Plan>();
                 var chatRepository = uow.GetRepository<Chat>();
-                Plan plan = planRepository.GetByID(id);
+                Plan plan = planRepository
+                    .GetAll()
+                    .Where(p => p.ID == id)
+                    .Include(p => p.Chat)
+                    .ThenInclude(c => c.UserChats)
+                    .Include(p => p.Chat)
+                    .ThenInclude(c => c.Messages)
+                    .FirstOrDefault();
                 if (plan == null)
                     return null;
                 Chat chat = chatRepository.GetByID(plan.ChatID);

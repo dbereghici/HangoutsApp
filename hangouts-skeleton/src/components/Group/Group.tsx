@@ -10,6 +10,7 @@ import AuthService from '../../services/AuthService';
 import AdministrateGroup from './AdministrateGroup';
 import { MembersList } from './MembersList';
 import { Redirect } from 'react-router';
+import AllPlansOfGroupList from '../Plan/AllPlansOfGroupList';
 
 export class Group extends BaseComponent {
     constructor(props: any) {
@@ -106,7 +107,7 @@ export class Group extends BaseComponent {
         GroupService.updateUserGroup(JSON.parse(AuthService.getUserData()).id, this.state.group.id, "member").then(
             () => {
                 this.setState({
-                    group : {...this.state.group, status : "member"}
+                    group: { ...this.state.group, status: "member" }
                 })
             },
             (error) => {
@@ -123,7 +124,7 @@ export class Group extends BaseComponent {
         GroupService.deleteUserGroup(JSON.parse(AuthService.getUserData()).id, this.state.group.id).then(
             () => {
                 this.setState({
-                    group : {...this.state.group, status : ""}
+                    group: { ...this.state.group, status: "" }
                 })
             },
             (error) => {
@@ -140,7 +141,7 @@ export class Group extends BaseComponent {
         GroupService.addUserToGroup(JSON.parse(AuthService.getUserData()).id, this.state.group.id, "sent").then(
             () => {
                 this.setState({
-                    group : {...this.state.group, status : "sent"}
+                    group: { ...this.state.group, status: "sent" }
                 })
             },
             (error) => {
@@ -187,7 +188,7 @@ export class Group extends BaseComponent {
 
     }
 
-    redirectToPlan(){
+    redirectToPlan() {
         this.setState({
             redirectToPlan: true
         })
@@ -199,7 +200,7 @@ export class Group extends BaseComponent {
             return <Redirect to={redirectTo} />;
         }
         if (this.state.redirectToPlan) {
-            let redirectTo ='/plan/group/' + this.state.group.id;
+            let redirectTo = '/plan/group/' + this.state.group.id;
             return <Redirect to={redirectTo} />;
         }
         return (
@@ -228,17 +229,21 @@ export class Group extends BaseComponent {
                             {/* <h3>Test</h3> */}
                             {/* <UsersList groupId={this.state.group.id}/> */}
 
-                            <h3> What are you up for today, {JSON.parse(AuthService.getUserData()).firstName} ? </h3>
-                            <button
-                                className="btn-lg btn-info"
-                                onClick={this.redirectToPlan}
-                            > Create a plan </button>
-                            <br/><br/><br/>
-
+                            {this.state.group.status === "member" || this.state.group.status==="admin" ?
+                                <div>
+                                    <h3> What are you up for today, {JSON.parse(AuthService.getUserData()).firstName} ? </h3>
+                                    <button
+                                        className="btn-lg btn-info"
+                                        onClick={this.redirectToPlan}
+                                    > Create a plan </button>
+                                    <br /><br /><br />
+                                </div> : <div />
+                            }
                             <button
                                 className="btn btn-success"
                                 onClick={() => this.showMembersOrPlans("members")}
                             > Members </button>
+                            
                             <button
                                 className="btn btn-success"
                                 onClick={() => this.showMembersOrPlans("plans")}
@@ -247,7 +252,9 @@ export class Group extends BaseComponent {
                                 <MembersList groupId={this.state.group.id} />
                                 : this.state.showMembersOrPlans === "plans" ?
                                     //<UsersList groupId={this.state.group.id}/>
-                                    <p> plans </p>
+                                    this.state.group.status === "member" || this.state.group.status==="admin" ?
+                                    <AllPlansOfGroupList groupId={this.state.group.id} />
+                                    :<h2>Sorry, you can not see the plans of a group you are not member of </h2>
                                     : <div />}
                         </div>
                         <div className="col-sm-2 sidenav">

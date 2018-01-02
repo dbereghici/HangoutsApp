@@ -28,6 +28,17 @@ export class UsersService {
         });
     }
 
+    public static DeleteUser(id: number){
+        return new Promise((resolve, reject) => {
+            axios.delete(this.userRoot + "/" + id).then((response) => {
+                resolve(response.data);
+            },
+                (error: any) => {
+                    reject(error);
+                });
+        }); 
+    }
+
 
     public static getAllUsersSearchPage(id: number, q: string, page: number, size: number) {
         return new Promise<IUserDataPage>((resolve, reject) => {

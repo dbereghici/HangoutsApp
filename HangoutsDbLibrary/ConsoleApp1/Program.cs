@@ -21,23 +21,8 @@ namespace ConsoleApp
 
                 using (var uow = new UnitOfWork())
                 {
-                    var pr = uow.GetRepository<Plan>();
-                    var c = uow.GetRepository<Chat>();
+    
 
-                    List<Plan> plans = pr.GetAll().ToList();
-                    foreach (var p in plans)
-                        pr.Delete(p);
-                    uow.SaveChanges();
-
-
-                    List<Chat> chat = c.GetAll().Include(cc => cc.Plan).Include(cc => cc.Friendship).ToList();
-                    chat = chat.Where(cc => cc.Friendship == null && cc.UserChats == null).ToList();
-
-                    ;
-                    foreach (var ccc in chat)
-                        c.Delete(ccc);
-                    uow.SaveChanges();
-                    ;
                     //uow.SaveChanges();
                     //var userRep = uow.GetRepository<User>();
                     //var groupRep = uow.GetRepository<Group>();
