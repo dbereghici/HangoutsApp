@@ -25,7 +25,8 @@ export class FriendsInvitedList extends BaseComponent {
                 previousPage: "No",
                 nextPage: "No",
                 users: []
-            }
+            },
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
@@ -46,7 +47,7 @@ export class FriendsInvitedList extends BaseComponent {
     }
 
     nextPage() {
-        GroupService.GetInvitedUsers(this.props.groupId, this.state.currentPage + 1, this.state.pageSize).then(
+        GroupService.GetInvitedUsers(this.props.groupId, this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -62,7 +63,7 @@ export class FriendsInvitedList extends BaseComponent {
     }
 
     previousPage() {
-        GroupService.GetInvitedUsers(this.props.groupId, this.state.currentPage - 1, this.state.pageSize).then(
+        GroupService.GetInvitedUsers(this.props.groupId, this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -80,7 +81,7 @@ export class FriendsInvitedList extends BaseComponent {
     unfriend(id1: number, id2: number) {
         FriendService.deleteFriendship(id1, id2).then(
             () => {
-                FriendService.getFriendsPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+                FriendService.getFriendsPage(this.state.authUser.id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
                     (friends) => {
                         this.setState({
                             UsersData: friends
@@ -96,7 +97,7 @@ export class FriendsInvitedList extends BaseComponent {
                 )
             },
             (error) =>                 
-            FriendService.getFriendsPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+            FriendService.getFriendsPage(this.state.authUser.id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
                 (friends) => {
                     this.setState({
                         UsersData: friends

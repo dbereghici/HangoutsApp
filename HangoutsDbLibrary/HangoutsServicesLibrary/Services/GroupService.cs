@@ -137,6 +137,7 @@ namespace HangoutsWebApi.Services
                         intermedGroups = groupRepository
                             .GetAll()
                             .Where(g => g.Name.Contains(word))
+                            .Include(g => g.UserGroups)
                             .ToList();
                         groups = groups.Concat(intermedGroups).ToList();
                     }

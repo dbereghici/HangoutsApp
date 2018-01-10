@@ -30,12 +30,13 @@ export class UsersList extends BaseComponent {
                 previousPage: "No",
                 nextPage: "No",
                 users: []
-            }
+            },
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
     componentDidMount() {
-        UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, 1, 6).then(
+        UsersService.GetAllUsersWithRelationStatusPage(this.state.authUser.id, 1, 6).then(
             (usersData: any) => {
                 this.setState({
                     UsersData: usersData
@@ -51,7 +52,7 @@ export class UsersList extends BaseComponent {
     }
 
     nextPage() {
-        UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
+        UsersService.getAllUsersSearchPage(this.state.authUser.id, this.state.searchString, this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -67,7 +68,7 @@ export class UsersList extends BaseComponent {
     }
 
     previousPage() {
-        UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
+        UsersService.getAllUsersSearchPage(this.state.authUser.id, this.state.searchString, this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -84,7 +85,7 @@ export class UsersList extends BaseComponent {
 
     search(event: any){
         event.preventDefault();
-        UsersService.getAllUsersSearchPage(JSON.parse(AuthService.getUserData()).id, this.state.searchString, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+        UsersService.getAllUsersSearchPage(this.state.authUser.id, this.state.searchString, 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends,
@@ -110,7 +111,7 @@ export class UsersList extends BaseComponent {
     }
 
     refresh(){
-        UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+        UsersService.GetAllUsersWithRelationStatusPage(this.state.authUser.id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
             (friends) => {
                 // alert("Operation succesfull");
                 this.setState({

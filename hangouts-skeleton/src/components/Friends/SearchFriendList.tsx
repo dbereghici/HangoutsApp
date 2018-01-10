@@ -26,12 +26,13 @@ export class SearchFriendList extends BaseComponent {
                 previousPage : "No",
                 nextPage : "No",
                 users : []  
-            } 
+            },
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
     
     componentDidMount(){
-        FriendService.getNewFriendsSearchPage(JSON.parse(AuthService.getUserData()).id, "", this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+        FriendService.getNewFriendsSearchPage(this.state.authUser.id, "", this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -47,7 +48,7 @@ export class SearchFriendList extends BaseComponent {
     }
 
     nextPage(){
-        FriendService.getNewFriendsSearchPage(JSON.parse(AuthService.getUserData()).id, "", this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
+        FriendService.getNewFriendsSearchPage(this.state.authUser.id, "", this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -63,7 +64,7 @@ export class SearchFriendList extends BaseComponent {
     }
 
     previousPage(){
-        FriendService.getNewFriendsSearchPage(JSON.parse(AuthService.getUserData()).id, "", this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
+        FriendService.getNewFriendsSearchPage(this.state.authUser.id, "", this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -82,7 +83,7 @@ export class SearchFriendList extends BaseComponent {
         FriendService.addFriendship(id1, id2).then(
             () =>{
                 alert("Request sent")
-                FriendService.getNewFriendsSearchPage(JSON.parse(AuthService.getUserData()).id, "", this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+                FriendService.getNewFriendsSearchPage(this.state.authUser.id, "", this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
                     (friends) => {
                         this.setState({
                             UsersData: friends
@@ -104,7 +105,7 @@ export class SearchFriendList extends BaseComponent {
                 )
             },
             (error) => {
-                FriendService.getNewFriendsSearchPage(JSON.parse(AuthService.getUserData()).id, "", this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+                FriendService.getNewFriendsSearchPage(this.state.authUser.id, "", this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
                     (friends) => {
                         this.setState({
                             UsersData: friends
@@ -130,7 +131,7 @@ export class SearchFriendList extends BaseComponent {
 
     search(event: any){
         event.preventDefault();
-        FriendService.getNewFriendsSearchPage(JSON.parse(AuthService.getUserData()).id, this.state.searchString, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+        FriendService.getNewFriendsSearchPage(this.state.authUser.id, this.state.searchString, 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends,

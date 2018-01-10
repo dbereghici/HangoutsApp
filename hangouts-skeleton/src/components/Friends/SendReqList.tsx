@@ -25,12 +25,13 @@ export class SendReqList extends BaseComponent {
                 previousPage: "No",
                 nextPage: "No",
                 users: []
-            }
+            },
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
     componentDidMount() {
-        FriendService.getFriendRequestMadePage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+        FriendService.getFriendRequestMadePage(this.state.authUser.id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -47,7 +48,7 @@ export class SendReqList extends BaseComponent {
     }
 
     nextPage() {
-        FriendService.getFriendRequestMadePage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
+        FriendService.getFriendRequestMadePage(this.state.authUser.id, this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -64,7 +65,7 @@ export class SendReqList extends BaseComponent {
     }
 
     previousPage() {
-        FriendService.getFriendRequestMadePage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
+        FriendService.getFriendRequestMadePage(this.state.authUser.id, this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -84,7 +85,7 @@ export class SendReqList extends BaseComponent {
         FriendService.deleteFriendship(id1, id2).then(
             () =>{
                 alert("Request canceled");
-                FriendService.getFriendRequestMadePage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+                FriendService.getFriendRequestMadePage(this.state.authUser.id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
                     (friends) => {
                         this.setState({
                             UsersData: friends
@@ -105,7 +106,7 @@ export class SendReqList extends BaseComponent {
                     }
             )},
             (error) => 
-            FriendService.getFriendRequestMadePage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+            FriendService.getFriendRequestMadePage(this.state.authUser.id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
                 (friends) => {
                     this.setState({
                         UsersData: friends

@@ -15,18 +15,19 @@ export class SearchFriend extends BaseComponent {
         this.addFriend = this.addFriend.bind(this);
 
         this.state = {
-            UserData: this.props.UserData
+            UserData: this.props.UserData,
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
     addFriend() {
         let id1 = this.state.UserData.id;
-        let id2 = JSON.parse(AuthService.getUserData()).id;
+        let id2 = this.state.authUser.id;
         this.props.addFriend(id1, id2);
     }
 
     render() {
-        let isMyAccount = JSON.parse(AuthService.getUserData()).id === this.state.UserData.id;
+        let isMyAccount = this.state.authUser.id === this.state.UserData.id;
         return (
             <div className="panel panel-primary">
                 <div className="panel-heading">

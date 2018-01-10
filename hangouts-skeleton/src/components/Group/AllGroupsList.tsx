@@ -31,12 +31,13 @@ export class AllGroupsList extends BaseComponent {
                 previousPage: "No",
                 nextPage: "No",
                 groups: []
-            }
+            },
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
     componentDidMount() {
-        GroupService.getAllGroupsPage(JSON.parse(AuthService.getUserData()).id, "", this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
+        GroupService.getAllGroupsPage(this.state.authUser.id, "", this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
             (groupData) => {
                 this.setState({
                     GroupData: groupData
@@ -52,7 +53,7 @@ export class AllGroupsList extends BaseComponent {
     }
 
     nextPage() {
-        GroupService.getAllGroupsPage(JSON.parse(AuthService.getUserData()).id, this.state.searchString, this.state.GroupData.currentPage + 1, this.state.GroupData.pageSize).then(
+        GroupService.getAllGroupsPage(this.state.authUser.id, this.state.searchString, this.state.GroupData.currentPage + 1, this.state.GroupData.pageSize).then(
             (groupData) => {
                 this.setState({
                     GroupData: groupData
@@ -68,7 +69,7 @@ export class AllGroupsList extends BaseComponent {
     }
 
     previousPage() {
-        GroupService.getAllGroupsPage(JSON.parse(AuthService.getUserData()).id, this.state.searchString, this.state.GroupData.currentPage - 1, this.state.GroupData.pageSize).then(
+        GroupService.getAllGroupsPage(this.state.authUser.id, this.state.searchString, this.state.GroupData.currentPage - 1, this.state.GroupData.pageSize).then(
             (groupData) => {
                 this.setState({
                     GroupData: groupData
@@ -93,10 +94,11 @@ export class AllGroupsList extends BaseComponent {
     search(event: any) {
         event.preventDefault();
         const q = event.target.value;
-        this.setState({
-            searchString: q
-        });
-        GroupService.getAllGroupsPage(JSON.parse(AuthService.getUserData()).id, this.state.searchString, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
+        if(!!q)
+            this.setState({
+                searchString: q
+            });
+        GroupService.getAllGroupsPage(this.state.authUser.id, this.state.searchString, 1, this.state.GroupData.pageSize).then(
             (groupData) => {
                 this.setState({
                     GroupData: groupData,
@@ -114,9 +116,9 @@ export class AllGroupsList extends BaseComponent {
     }
 
     sendRequest(groupId: number){
-        GroupService.addUserToGroup(JSON.parse(AuthService.getUserData()).id, groupId, "sent").then(
+        GroupService.addUserToGroup(this.state.authUser.id, groupId, "sent").then(
             () => {
-                GroupService.getAllGroupsPage(JSON.parse(AuthService.getUserData()).id, this.state.searchString, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
+                GroupService.getAllGroupsPage(this.state.authUser.id, this.state.searchString, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
                     (groupData) => {
                         this.setState({
                             GroupData: groupData,
@@ -143,9 +145,9 @@ export class AllGroupsList extends BaseComponent {
     }
 
     acceptRequest(groupId: number){
-        GroupService.updateUserGroup(JSON.parse(AuthService.getUserData()).id, groupId, "member").then(
+        GroupService.updateUserGroup(this.state.authUser.id, groupId, "member").then(
             () => {
-                GroupService.getAllGroupsPage(JSON.parse(AuthService.getUserData()).id, this.state.searchString, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
+                GroupService.getAllGroupsPage(this.state.authUser.id, this.state.searchString, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
                     (groupData) => {
                         this.setState({
                             GroupData: groupData,
@@ -172,9 +174,9 @@ export class AllGroupsList extends BaseComponent {
     }
 
     deleteRequest(groupId: number){
-        GroupService.deleteUserGroup(JSON.parse(AuthService.getUserData()).id, groupId).then(
+        GroupService.deleteUserGroup(this.state.authUser.id, groupId).then(
             () => {
-                GroupService.getAllGroupsPage(JSON.parse(AuthService.getUserData()).id, this.state.searchString, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
+                GroupService.getAllGroupsPage(this.state.authUser.id, this.state.searchString, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
                     (groupData) => {
                         this.setState({
                             GroupData: groupData,
@@ -203,7 +205,7 @@ export class AllGroupsList extends BaseComponent {
     deleteGroup(groupId: number){
         GroupService.deleteGroup(groupId).then(
             () => {
-                GroupService.getAllGroupsPage(JSON.parse(AuthService.getUserData()).id, this.state.searchString, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
+                GroupService.getAllGroupsPage(this.state.authUser.id, this.state.searchString, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
                     (groupData) => {
                         this.setState({
                             GroupData: groupData,
