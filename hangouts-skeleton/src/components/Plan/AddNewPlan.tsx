@@ -40,7 +40,6 @@ export default class AddNewPlan extends BaseComponent {
     }
 
     setSimilarPlans() {
-        // PlanService.GetSimilarPlansPage(1, 6, this.state.startTime, this.state.endTime, JSON.parse(AuthService.getUserData()).id, 1, this.state.)
         let userId = JSON.parse(AuthService.getUserData()).id;
         let groupId = JSON.parse(this.props.match.params.id);
         let pageSize = 1;
@@ -152,7 +151,6 @@ export default class AddNewPlan extends BaseComponent {
                             ?
                             <div>
                                  <h3> There are some similar plans to yours. You can join them or you can create a new plan </h3>
-                                    {/* // PlanService.GetSimilarPlansPage(1, 6, this.props.startTime, this.props.endTime, this.props.userId, this.props.groupId, this.props.activity).then( */}
 
                             <SimilarPlansList 
                                 startTime={this.state.startTime} 
@@ -176,7 +174,6 @@ export default class AddNewPlan extends BaseComponent {
                                     address = {this.state.address}
                                 />
                                 <button type="button" className="btn btn-danger" onClick={this.homeRedirect}> Ok </button>                                                        
-                                {/* <Link className="btn btn-warning" to={'/group/' + this.props.match.params.id}/> */}
                             </div>
                         }
                     </div>

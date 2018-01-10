@@ -22,12 +22,13 @@ export default class AllPlansOfGroupList extends BaseComponent {
                 previousPage: "No",
                 nextPage: "No",
                 plans: []
-            }
+            },
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
     componentDidMount() {
-        PlanService.GetMyPlansPage(JSON.parse(AuthService.getUserData()).id, 1, 6).then(
+        PlanService.GetMyPlansPage(this.state.authUser.id, 1, 6).then(
             (plansData) => {
                 this.setState({
                     plansData: plansData,
@@ -44,7 +45,7 @@ export default class AllPlansOfGroupList extends BaseComponent {
     }
 
     refresh(id: number) {
-        PlanService.GetMyPlansPage(JSON.parse(AuthService.getUserData()).id, this.state.plansData.currentPage, this.state.plansData.pageSize).then(
+        PlanService.GetMyPlansPage(this.state.authUser.id, this.state.plansData.currentPage, this.state.plansData.pageSize).then(
             (plansData) => {
                 this.setState({
                     plansData: plansData,
@@ -64,7 +65,7 @@ export default class AllPlansOfGroupList extends BaseComponent {
     }
 
     previousPage() {
-        PlanService.GetMyPlansPage(JSON.parse(AuthService.getUserData()).id, this.state.plansData.currentPage - 1, this.state.plansData.pageSize).then(
+        PlanService.GetMyPlansPage(this.state.authUser.id, this.state.plansData.currentPage - 1, this.state.plansData.pageSize).then(
             (plansData) => {
                 this.setState({
                     plansData: plansData,
@@ -84,7 +85,7 @@ export default class AllPlansOfGroupList extends BaseComponent {
     }
 
     nextPage() {
-        PlanService.GetMyPlansPage(JSON.parse(AuthService.getUserData()).id, this.state.plansData.currentPage + 1, this.state.plansData.pageSize).then(
+        PlanService.GetMyPlansPage(this.state.authUser.id, this.state.plansData.currentPage + 1, this.state.plansData.pageSize).then(
             (plansData) => {
                 this.setState({
                     plansData: plansData,

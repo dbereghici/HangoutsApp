@@ -23,7 +23,8 @@ export default class PlanPanel extends BaseComponent {
                 lastName: '',
                 relationshipStatus: null,
                 username: ''
-            }]
+            }],
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
@@ -41,7 +42,7 @@ export default class PlanPanel extends BaseComponent {
 
     leave() {
         debugger;
-        PlanService.DeleteUserFromPlan(this.state.plan.id, JSON.parse(AuthService.getUserData()).id).then(
+        PlanService.DeleteUserFromPlan(this.state.plan.id, this.state.authUser.id).then(
             () => {
                 PlanService.GetUsersFromPlan(this.state.plan.id).then(
                     (users) => {
@@ -67,7 +68,7 @@ export default class PlanPanel extends BaseComponent {
     }
 
     join() {
-        PlanService.AddUserToPlan(this.state.plan.id, JSON.parse(AuthService.getUserData()).id).then(
+        PlanService.AddUserToPlan(this.state.plan.id, this.state.authUser.id).then(
             () => {
                 PlanService.GetUsersFromPlan(this.state.plan.id).then(
                     (users) => {

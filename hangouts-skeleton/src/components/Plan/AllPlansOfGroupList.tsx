@@ -22,12 +22,13 @@ export default class AllPlansOfGroupList extends BaseComponent {
                 previousPage: "No",
                 nextPage: "No",
                 plans: []
-            }
+            },
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
     componentDidMount() {
-        PlanService.GetAllPlansPage(JSON.parse(AuthService.getUserData()).id, this.props.groupId, 1, 6).then(
+        PlanService.GetAllPlansPage(this.state.authUser.id, this.props.groupId, 1, 6).then(
             (plansData) => {
                 this.setState({
                     plansData: plansData,
@@ -44,7 +45,7 @@ export default class AllPlansOfGroupList extends BaseComponent {
     }
 
     refresh(id: number) {
-        PlanService.GetAllPlansPage(JSON.parse(AuthService.getUserData()).id, this.props.groupId, this.state.plansData.currentPage, this.state.plansData.pageSize).then(
+        PlanService.GetAllPlansPage(this.state.authUser.id, this.props.groupId, this.state.plansData.currentPage, this.state.plansData.pageSize).then(
             (plansData) => {
                 this.setState({
                     plansData: plansData,
@@ -64,7 +65,7 @@ export default class AllPlansOfGroupList extends BaseComponent {
     }
 
     previousPage(){
-        PlanService.GetAllPlansPage(JSON.parse(AuthService.getUserData()).id, this.props.groupId, this.state.plansData.currentPage - 1, this.state.plansData.pageSize).then(
+        PlanService.GetAllPlansPage(this.state.authUser.id, this.props.groupId, this.state.plansData.currentPage - 1, this.state.plansData.pageSize).then(
             (plansData) => {
                 this.setState({
                     plansData: plansData,
@@ -84,7 +85,7 @@ export default class AllPlansOfGroupList extends BaseComponent {
     }
 
     nextPage(){
-        PlanService.GetAllPlansPage(JSON.parse(AuthService.getUserData()).id, this.props.groupId, this.state.plansData.currentPage + 1, this.state.plansData.pageSize).then(
+        PlanService.GetAllPlansPage(this.state.authUser.id, this.props.groupId, this.state.plansData.currentPage + 1, this.state.plansData.pageSize).then(
             (plansData) => {
                 this.setState({
                     plansData: plansData,

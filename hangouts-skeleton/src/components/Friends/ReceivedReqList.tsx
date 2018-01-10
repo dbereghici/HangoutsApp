@@ -26,12 +26,13 @@ export class ReceivedReqList extends BaseComponent {
                 previousPage: "No",
                 nextPage: "No",
                 users: []
-            }
+            },
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
     componentDidMount() {
-        FriendService.getFriendRequestReceivedPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+        FriendService.getFriendRequestReceivedPage(this.state.authUser.id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -47,7 +48,7 @@ export class ReceivedReqList extends BaseComponent {
     }
 
     nextPage() {
-        FriendService.getFriendRequestReceivedPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
+        FriendService.getFriendRequestReceivedPage(this.state.authUser.id, this.state.UsersData.currentPage + 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -63,7 +64,7 @@ export class ReceivedReqList extends BaseComponent {
     }
 
     previousPage() {
-        FriendService.getFriendRequestReceivedPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
+        FriendService.getFriendRequestReceivedPage(this.state.authUser.id, this.state.UsersData.currentPage - 1, this.state.UsersData.pageSize).then(
             (friends) => {
                 this.setState({
                     UsersData: friends
@@ -83,7 +84,7 @@ export class ReceivedReqList extends BaseComponent {
             () =>
             {
                 alert("Request accepted");
-                FriendService.getFriendRequestReceivedPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+                FriendService.getFriendRequestReceivedPage(this.state.authUser.id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
                     (friends) => {
                         this.setState({
                             UsersData: friends
@@ -117,7 +118,7 @@ export class ReceivedReqList extends BaseComponent {
             () =>
             {
                 alert("Request declined");
-                FriendService.getFriendRequestReceivedPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+                FriendService.getFriendRequestReceivedPage(this.state.authUser.id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
                     (friends) => {
 
                     },
@@ -136,7 +137,7 @@ export class ReceivedReqList extends BaseComponent {
                     }
             )},
             (error) =>               
-            FriendService.getFriendRequestReceivedPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
+            FriendService.getFriendRequestReceivedPage(this.state.authUser.id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
                 (friends) => {
 
                 },

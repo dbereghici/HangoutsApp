@@ -10,10 +10,12 @@ import { IUser } from '../../models/IUser';
 import MessageService from '../../services/MessageService';
 
 export default class Chat extends BaseComponent {
+    messagesEnd: any;
     constructor(props: any) {
         super(props);
 
         this.sendMessage = this.sendMessage.bind(this);
+        this.scrollToBottom = this.scrollToBottom.bind(this);
 
         this.state = {
             errorMessage: '',
@@ -27,18 +29,20 @@ export default class Chat extends BaseComponent {
                 users: [
 
                 ]
-            }
+            },
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
     componentDidMount() {
         this.props.match.params.type === "user" ?
             //"user"            
-            ChatService.getChatOfFriendship(this.props.match.params.id, JSON.parse(AuthService.getUserData()).id).then(
+            ChatService.getChatOfFriendship(this.props.match.params.id, this.state.authUser.id).then(
                 (Chat) => {
                     this.setState({
                         Chat: Chat
-                    })
+                    });
+                    this.scrollToBottom();
                 },
                 (error) => {
                     if (error && error.response && error.response.data)
@@ -53,7 +57,8 @@ export default class Chat extends BaseComponent {
                 (Chat) => {
                     this.setState({
                         Chat: Chat
-                    })
+                    });
+                    this.scrollToBottom();
                 },
                 (error) => {
                     if (error && error.response && error.response.data)
@@ -93,16 +98,17 @@ export default class Chat extends BaseComponent {
             chatid: this.state.Chat.id,
             content: this.state.newMessage,
             createdAt: Date,
-            userID: JSON.parse(AuthService.getUserData()).id,
+            userID: this.state.authUser.id,
         }
         MessageService.addMessage(message).then(
             () =>
                 this.props.match.params.type === "user" ?
                     //"user"            
-                    ChatService.getChatOfFriendship(this.props.match.params.id, JSON.parse(AuthService.getUserData()).id).then(
+                    ChatService.getChatOfFriendship(this.props.match.params.id, this.state.authUser.id).then(
                         (Chat) => {
                             this.setState({
-                                Chat: Chat
+                                Chat: Chat,
+                                newMessage: ''
                             });
                         },
                         (error) => {
@@ -117,7 +123,8 @@ export default class Chat extends BaseComponent {
                     ChatService.getChatOfPlan(this.props.match.params.id).then(
                         (Chat) => {
                             this.setState({
-                                Chat: Chat
+                                Chat: Chat,
+                                newMessage: ''
                             })
                         },
                         (error) => {
@@ -130,6 +137,13 @@ export default class Chat extends BaseComponent {
         )
     }
 
+    componentDidUpdate() {
+        this.scrollToBottom();
+      }
+
+    scrollToBottom() {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    }
 
     render() {
         return (
@@ -138,18 +152,24 @@ export default class Chat extends BaseComponent {
                 <div className="row">
                     <div className="col-sm-3">
                         <p> {this.state.errorMessage} </p>
-                        <b> Participants: </b>
+                        <h2> Participants: </h2>
                         {typeof this.state.Chat.users === "undefined" ? <b>"There are no users in this chat"</b> : this.state.Chat.users.map(this.renderMembers)}
                         <br />
                     </div>
                     <div className="col-sm-9">
                         <div className="scroll">
                             {typeof this.state.Chat.users === "undefined" ? "There are no messages in this chat" : this.state.Chat.messages.map(this.renderMessage)}
+                            {/*  */}
+                            <div style={{ float: "left", clear: "both" }}
+                                ref={(el) => { this.messagesEnd = el; }}>
+
+                            </div>
+                            {/*  */}
                         </div>
                         <form className="demoForm" onSubmit={this.sendMessage}>
                             <div className="form-group">
                                 <input type="text" className="form-control"
-                                    name="text" onChange={(event) => this.handleUserInput(event)}
+                                    name="text" value={this.state.newMessage} onChange={(event) => this.handleUserInput(event)}
                                 />
                             </div >
                             <button type="submit" className="btn btn-primary"

@@ -14,17 +14,18 @@ export class EditDataForm extends BaseComponent {
         super(props);
         this.updateUserData = this.updateUserData.bind(this);
         this.getDataFromMap = this.getDataFromMap.bind(this);
+        let authUser = JSON.parse(AuthService.getUserData());
         this.state = {
             ...this.state,
-            email: JSON.parse(AuthService.getUserData()).email,
-            username: JSON.parse(AuthService.getUserData()).username,
-            firstname: JSON.parse(AuthService.getUserData()).firstName,
-            lastname: JSON.parse(AuthService.getUserData()).lastName,
-            birthdate: JSON.parse(AuthService.getUserData()).birthDate,
+            email: authUser.email,
+            username: authUser.username,
+            firstname: authUser.firstName,
+            lastname: authUser.lastName,
+            birthdate: authUser.birthDate,
             address: {
-                location: JSON.parse(AuthService.getUserData()).address.location,
-                latitude: JSON.parse(AuthService.getUserData()).address.latitude,
-                longitude: JSON.parse(AuthService.getUserData()).address.longitude
+                location: authUser.address.location,
+                latitude: authUser.address.latitude,
+                longitude: authUser.address.longitude
             },
             formErrors: {
                 email: '',
@@ -44,7 +45,8 @@ export class EditDataForm extends BaseComponent {
             addressValid: true,
             formValid: true,
             error: '',
-            redirectToReferrer: false
+            redirectToReferrer: false,
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
@@ -105,7 +107,7 @@ export class EditDataForm extends BaseComponent {
 
     updateUserData(event: any) {
         event.preventDefault();
-        let user = JSON.parse(AuthService.getUserData());
+        let user = this.state.authUser;
         let userToUpdate = { ...user, username: '' };
         userToUpdate.username = this.state.username;
         userToUpdate.email = this.state.email;
@@ -117,46 +119,24 @@ export class EditDataForm extends BaseComponent {
         AuthService.updateUserData(userToUpdate, user.id).then(
             (user) => {
                 this.setState({
-                    email: JSON.parse(AuthService.getUserData()).email,
-                    firstname: JSON.parse(AuthService.getUserData()).firstName,
-                    lastname: JSON.parse(AuthService.getUserData()).lastName,
-                    birthdate: JSON.parse(AuthService.getUserData()).birthDate,
+                    email: this.state.authUser.email,
+                    firstname: this.state.authUser.firstName,
+                    lastname: this.state.authUser.lastName,
+                    birthdate: this.state.authUser.birthDate,
                     address: {
-                        location: JSON.parse(AuthService.getUserData()).address.location,
-                        latitude: JSON.parse(AuthService.getUserData()).address.latitude,
-                        longitude: JSON.parse(AuthService.getUserData()).address.longitude
+                        location: this.state.authUser.address.location,
+                        latitude: this.state.authUser.address.latitude,
+                        longitude: this.state.authUser.address.longitude
                     },
                 });
                 alert("Operation successfull");
-                // this.setState({ error: "Operation successfull" });
             },
             (error) => {
                 if (error && error.response && error.response.data)
                     alert(error.response.data);    
-                // this.setState({ error: error.response.data });
 
             }
         );
-        // console.log(JSON.parse(user));
-
-        // let user = {
-        //     username : this.state.email,
-        //     email: this.state.email,
-        //     password: this.state.password,
-        //     firstname: this.state.firstname,
-        //     lastname: this.state.lastname,
-        //     address: this.state.address,
-        //     birthdate: this.state.birthdate + "T00:00:00"
-        // }
-        // AuthService.register(user).then(
-        //     (user) => {
-        //         this.setState({ redirectToReferrer: true, isAuth: true });
-        //     }, 
-        //     (error) => {
-        //         if(error && error.response && error.response.data)
-        //             this.setState({ error: error.response.data });
-        //     }
-        // )
     }
 
     getDataFromMap(address: any) {
@@ -167,9 +147,6 @@ export class EditDataForm extends BaseComponent {
         if (!this.state.isAuth) {
             return <Redirect to='/authentication' />;
         }
-        // if (this.state.redirectToReferrer) {
-        //     return <Redirect to='/home' />;
-        // }
         return (
             <div>
                 <div>

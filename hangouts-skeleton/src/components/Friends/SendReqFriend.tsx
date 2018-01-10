@@ -15,7 +15,8 @@ export class SendReqFriend extends BaseComponent {
         this.cancel = this.cancel.bind(this);
 
         this.state = {
-            UserData: this.props.UserData
+            UserData: this.props.UserData,
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
@@ -23,12 +24,12 @@ export class SendReqFriend extends BaseComponent {
         this.state.UserData;
         this.props.UserData;
         let id1 = this.state.UserData.id;
-        let id2 = JSON.parse(AuthService.getUserData()).id;
+        let id2 = this.state.authUser.id;
         this.props.cancel(id1, id2);
     }
 
     render() {
-        let buttonDisplay = JSON.parse(AuthService.getUserData()).id === this.state.UserData.id;
+        let buttonDisplay = this.state.authUser.id === this.state.UserData.id;
         return (
             <div className="panel panel-primary">
                 <div className="panel-heading">

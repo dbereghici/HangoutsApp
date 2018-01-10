@@ -46,9 +46,6 @@ export class EditPswForm extends BaseComponent {
                 confirmpasswordValid = this.state.password === this.state.confirmpassword;
                 fieldValidationErrors.confirmpassword = confirmpasswordValid ? '' : " doesn't match with password";
                 break;
-            // case 'oldpassword':
-            //     oldpasswordValid = this.state.oldpassword === JSON.parse(AuthService.getUserData()).password;
-            //     fieldValidationErrors.oldpassword = oldpasswordValid ? '' : " is wrong";
             default:
                 break;
         }

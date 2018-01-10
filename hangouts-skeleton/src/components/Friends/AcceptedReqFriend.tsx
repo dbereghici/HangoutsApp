@@ -21,13 +21,14 @@ export class AcceptedReqFriend extends BaseComponent {
         this.state = {
             UserData: this.props.UserData,
             redirectToChat: false,
-            changeColor: false
+            changeColor: false,
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
     unfriend() {
         let id1 = this.state.UserData.id;
-        let id2 = JSON.parse(AuthService.getUserData()).id;
+        let id2 = this.state.authUser.id;
         this.props.unfriend(id1, id2);
     }
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
-import './Form.css';
-import FormErrors from './FormErrors'
+import '../Form.css';
+import FormErrors from '../FormErrors'
 import AuthService from '../../../services/AuthService'
 import { Redirect } from 'react-router';
 import BaseComponent from '../../BaseComponent/BaseComponent';

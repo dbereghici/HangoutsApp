@@ -44,7 +44,8 @@ export class Group extends BaseComponent {
                 adminId: 0,
                 Name: '',
                 nrOfMembers: 0
-            }
+            },
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
@@ -60,7 +61,7 @@ export class Group extends BaseComponent {
                         this.setState({
                             admin: user
                         });
-                        UsersService.GetFriendshipStatus(JSON.parse(AuthService.getUserData()).id, this.state.admin.id).then(
+                        UsersService.GetFriendshipStatus(this.state.authUser.id, this.state.admin.id).then(
                             (status) => {
                                 this.setState({
                                     admin: { ...this.state.admin, relationshipStatus: status }
@@ -104,7 +105,7 @@ export class Group extends BaseComponent {
     }
 
     acceptRequest() {
-        GroupService.updateUserGroup(JSON.parse(AuthService.getUserData()).id, this.state.group.id, "member").then(
+        GroupService.updateUserGroup(this.state.authUser.id, this.state.group.id, "member").then(
             () => {
                 this.setState({
                     group: { ...this.state.group, status: "member" }
@@ -121,7 +122,7 @@ export class Group extends BaseComponent {
     }
 
     deleteRequest() {
-        GroupService.deleteUserGroup(JSON.parse(AuthService.getUserData()).id, this.state.group.id).then(
+        GroupService.deleteUserGroup(this.state.authUser.id, this.state.group.id).then(
             () => {
                 this.setState({
                     group: { ...this.state.group, status: "" }
@@ -138,7 +139,7 @@ export class Group extends BaseComponent {
     }
 
     sendRequest() {
-        GroupService.addUserToGroup(JSON.parse(AuthService.getUserData()).id, this.state.group.id, "sent").then(
+        GroupService.addUserToGroup(this.state.authUser.id, this.state.group.id, "sent").then(
             () => {
                 this.setState({
                     group: { ...this.state.group, status: "sent" }
@@ -155,13 +156,12 @@ export class Group extends BaseComponent {
     }
 
     refresh() {
-        // UsersService.GetAllUsersWithRelationStatusPage(JSON.parse(AuthService.getUserData()).id, this.state.UsersData.currentPage, this.state.UsersData.pageSize).then(
-        UsersService.getUser(this.state.group.adminID).then(
+       UsersService.getUser(this.state.group.adminID).then(
             (user) => {
                 this.setState({
                     admin: user
                 });
-                UsersService.GetFriendshipStatus(JSON.parse(AuthService.getUserData()).id, this.state.admin.id).then(
+                UsersService.GetFriendshipStatus(this.state.authUser.id, this.state.admin.id).then(
                     (status) => {
                         this.setState({
                             admin: { ...this.state.admin, relationshipStatus: status }
@@ -226,12 +226,10 @@ export class Group extends BaseComponent {
                             <h2> {this.state.group.name} </h2>
                             <p> <b>  {this.state.group.nrOfMembers} members</b> </p>
                             <hr />
-                            {/* <h3>Test</h3> */}
-                            {/* <UsersList groupId={this.state.group.id}/> */}
 
                             {this.state.group.status === "member" || this.state.group.status==="admin" ?
                                 <div>
-                                    <h3> What are you up for today, {JSON.parse(AuthService.getUserData()).firstName} ? </h3>
+                                    <h3> What are you up for today, {this.state.authUser.firstName} ? </h3>
                                     <button
                                         className="btn-lg btn-info"
                                         onClick={this.redirectToPlan}

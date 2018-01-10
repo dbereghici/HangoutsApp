@@ -32,13 +32,14 @@ export class MyGroupsList extends BaseComponent {
                 previousPage: "No",
                 nextPage: "No",
                 groups: []
-            }
+            },
+            authUser: JSON.parse(AuthService.getUserData())
         }
     }
 
     componentWillReceiveProps(nextProps: any) {
         this.setState({ status: nextProps.status })
-        GroupService.getMyGroupsPage("", nextProps.status, JSON.parse(AuthService.getUserData()).id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
+        GroupService.getMyGroupsPage("", nextProps.status, this.state.authUser.id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
             (groupData) => {
                 this.setState({
                     GroupData: groupData
@@ -56,7 +57,7 @@ export class MyGroupsList extends BaseComponent {
 
 
     componentDidMount() {
-        GroupService.getMyGroupsPage("", this.props.status, JSON.parse(AuthService.getUserData()).id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
+        GroupService.getMyGroupsPage("", this.props.status, this.state.authUser.id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
             (groupData) => {
                 this.setState({
                     GroupData: groupData
@@ -72,7 +73,7 @@ export class MyGroupsList extends BaseComponent {
     }
 
     nextPage() {
-        GroupService.getMyGroupsPage("", this.props.status, JSON.parse(AuthService.getUserData()).id, this.state.GroupData.currentPage + 1, this.state.GroupData.pageSize).then(
+        GroupService.getMyGroupsPage(this.state.searchString, this.props.status, this.state.authUser.id, this.state.GroupData.currentPage + 1, this.state.GroupData.pageSize).then(
             (groupData) => {
                 this.setState({
                     GroupData: groupData
@@ -88,7 +89,7 @@ export class MyGroupsList extends BaseComponent {
     }
 
     previousPage() {
-        GroupService.getMyGroupsPage("", this.props.status, JSON.parse(AuthService.getUserData()).id, this.state.GroupData.currentPage - 1, this.state.GroupData.pageSize).then(
+        GroupService.getMyGroupsPage(this.state.searchString, this.props.status, this.state.authUser.id, this.state.GroupData.currentPage - 1, this.state.GroupData.pageSize).then(
             (groupData) => {
                 this.setState({
                     GroupData: groupData
@@ -110,33 +111,10 @@ export class MyGroupsList extends BaseComponent {
         });
     }
 
-    // search(event: any) {
-    //     event.preventDefault();
-    //     const q = event.target.value;
-    //     this.setState({
-    //         searchString: q
-    //     });
-    //     GroupService.getMyGroupsPage("", this.state.status, JSON.parse(AuthService.getUserData()).id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
-    //         (groupData) => {
-    //             this.setState({
-    //                 GroupData: groupData,
-    //                 errorMessage: ''
-    //             })
-    //         },
-    //         (error) => {
-    //             if (error && error.response && error.response.data)
-    //                 this.setState({ errorMessage: error.response.data, GroupData: { ...this.state.GroupData, groups: [] } })
-    //             else if (error.message) {
-    //                 this.setState({ errorMessage: error.message, GroupData: { ...this.state.GroupData, groups: [] } })
-    //             }
-    //         }
-    //     )
-    // }
-
     sendRequest(groupId: number) {
-        GroupService.addUserToGroup(JSON.parse(AuthService.getUserData()).id, groupId, "sent").then(
+        GroupService.addUserToGroup(this.state.authUser.id, groupId, "sent").then(
             () => {
-                GroupService.getMyGroupsPage("", this.state.status, JSON.parse(AuthService.getUserData()).id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
+                GroupService.getMyGroupsPage("", this.state.status, this.state.authUser.id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
                     (groupData) => {
                         this.setState({
                             GroupData: groupData,
@@ -163,9 +141,9 @@ export class MyGroupsList extends BaseComponent {
     }
 
     acceptRequest(groupId: number) {
-        GroupService.updateUserGroup(JSON.parse(AuthService.getUserData()).id, groupId, "member").then(
+        GroupService.updateUserGroup(this.state.authUser.id, groupId, "member").then(
             () => {
-                GroupService.getMyGroupsPage("", this.state.status, JSON.parse(AuthService.getUserData()).id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
+                GroupService.getMyGroupsPage("", this.state.status, this.state.authUser.id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
                     (groupData) => {
                         this.setState({
                             GroupData: groupData,
@@ -192,9 +170,9 @@ export class MyGroupsList extends BaseComponent {
     }
 
     deleteRequest(groupId: number) {
-        GroupService.deleteUserGroup(JSON.parse(AuthService.getUserData()).id, groupId).then(
+        GroupService.deleteUserGroup(this.state.authUser.id, groupId).then(
             () => {
-                GroupService.getMyGroupsPage("", this.state.status, JSON.parse(AuthService.getUserData()).id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
+                GroupService.getMyGroupsPage("", this.state.status, this.state.authUser.id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
                     (groupData) => {
                         this.setState({
                             GroupData: groupData,
@@ -223,7 +201,7 @@ export class MyGroupsList extends BaseComponent {
     deleteGroup(groupId: number) {
         GroupService.deleteGroup(groupId).then(
             () => {
-                GroupService.getMyGroupsPage("", this.state.status, JSON.parse(AuthService.getUserData()).id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
+                GroupService.getMyGroupsPage("", this.state.status, this.state.authUser.id, this.state.GroupData.currentPage, this.state.GroupData.pageSize).then(
                     (groupData) => {
                         this.setState({
                             GroupData: groupData,
@@ -252,10 +230,11 @@ export class MyGroupsList extends BaseComponent {
     search(event: any) {
         event.preventDefault();
         const q = event.target.value;
-        this.setState({
-            searchString: q
-        });
-        GroupService.getMyGroupsPage("", this.props.status, JSON.parse(AuthService.getUserData()).id, this.state.GroupData.currentPage - 1, this.state.GroupData.pageSize).then(
+        if(!!q)
+            this.setState({
+                searchString: q
+            });
+        GroupService.getMyGroupsPage(this.state.searchString, this.props.status, this.state.authUser.id, 1, this.state.GroupData.pageSize).then(
             (groupData) => {
                 this.setState({
                     GroupData: groupData,
@@ -312,7 +291,8 @@ export class MyGroupsList extends BaseComponent {
                     <div>
                         <label htmlFor="text">Search</label>
                         <input type="text" className="form-control"
-                            name="lastname" //value={this.state.lastname} //onChange={(event) => this.handleUserInput(event)} onLoad={(event) => this.handleUserInput(event)}
+                            name="searchString" 
+                            // value={this.state.searchString}
                             onChange={(event) => this.handleSearchInput(event)}
                         />
                     </div>
